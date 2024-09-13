@@ -55,6 +55,7 @@ yarn add @haixing_hu/type-detect
 - `isEvent(value): boolean`：指定值是否为 JavaScript 内建的事件对象，即 JavaScript 内建的 `Event` 类或其子类的实例。
 - `isFile(value): boolean`：指定值是否为 JavaScript 文件 API 对象，即 `File`、`Blob`、`FileList`、
   `FileReader` 或 `FileReaderSync` 类的实例。
+- `isGlobalObject(value): boolean`: 指定值是否为[全局对象].
 - `isIntl(value): boolean`：指定值是否为 JavaScript `Intl` 命名空间下的内建对象。
 - `isIterator(value): boolean`：指定值是否为迭代器对象，即具有 `next()` 方法的对象。
 - `isNumber(value): boolean`：指定值是否为 JavaScript 内建的 `number` 基本类型或 `Number` 对象。

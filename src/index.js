@@ -7,6 +7,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import getTypeName from './get-type-name';
+import GLOBAL_OBJECT from './global-object';
 import isArguments from './is-arguments';
 import isBigInt from './is-bigint';
 import isBoolean from './is-boolean';
@@ -22,6 +23,7 @@ import isEvent from './is-event';
 import isFile from './is-file';
 import isFunction from './is-function';
 import isGenerator from './is-generator';
+import isGlobalObject from './is-global-object';
 import isIntl from './is-intl';
 import isIterator from './is-iterator';
 import isNumber from './is-number';
@@ -168,6 +170,7 @@ import {
 
 export {
   getTypeName,
+  GLOBAL_OBJECT,
   isArguments,
   isBigInt,
   isBoolean,
@@ -183,6 +186,7 @@ export {
   isFile,
   isFunction,
   isGenerator,
+  isGlobalObject,
   isIntl,
   isIterator,
   isNumber,

@@ -6,18 +6,19 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import GLOBAL_OBJECT from './global-object';
 
 /**
- * Tests whether the specified value is a primitive `bigint`.
+ * Tests whether the specified value is the global object.
  *
  * @param {any} value
  *     the specified value.
  * @returns {boolean}
- *     `true` if the specified value is a primitive `bigint`; `false` otherwise.
+ *     `true` if the specified value is the global object; `false` otherwise.
  * @author Haixing Hu
  */
-function isBigInt(value) {
-  return (typeof value === 'bigint');
+function isGlobalObject(value) {
+  return (value === GLOBAL_OBJECT);
 }
 
-export default isBigInt;
+export default isGlobalObject;

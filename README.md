@@ -72,6 +72,7 @@ The library provides the following functions for type detection:
 - `isFile(value): boolean`: whether the specified value is a JavaScript File API 
   object, i.e., an instance of the `File`, `Blob`, `FileList`, `FileReader`, 
   or `FileReaderSync` class.
+- `isGlobalObject(value): boolean`: whether the specified value is the [global object].
 - `isIntl(value): boolean`: whether the specified value is a JavaScript
   built-in object under the `Intl` namespace.
 - `isIterator(value): boolean`: whether the specified value is an iterator
