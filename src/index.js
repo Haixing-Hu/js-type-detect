@@ -15,6 +15,7 @@ import isBuiltInClass from './is-built-in-class';
 import isCollection from './is-collection';
 import isConsole from './is-console';
 import isCssom from './is-cssom';
+import isDataView from './is-data-view';
 import isDom from './is-dom';
 import isError from './is-error';
 import isEvent from './is-event';
@@ -29,6 +30,7 @@ import isString from './is-string';
 import isSymbol from './is-symbol';
 import isTypedArray from './is-typed-array';
 import isWeak from './is-weak';
+import isWeakCollection from './is-weak-collection';
 import {
   AGGREGATEERROR_EXISTS,
   ARRAYBUFFER_EXISTS,
@@ -119,7 +121,6 @@ import {
   FILE_READER_EXISTS,
   FILE_READER_SYNC_EXISTS,
 } from './feature-detect';
-
 import {
   AggregateErrorPrototype,
   ArrayBufferPrototype,
@@ -175,6 +176,7 @@ export {
   isCollection,
   isConsole,
   isCssom,
+  isDataView,
   isDom,
   isError,
   isEvent,
@@ -189,6 +191,7 @@ export {
   isSymbol,
   isTypedArray,
   isWeak,
+  isWeakCollection,
   AGGREGATEERROR_EXISTS,
   ARRAYBUFFER_EXISTS,
   ARRAY_ISARRAY_EXISTS,

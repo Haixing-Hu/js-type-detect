@@ -17,15 +17,11 @@ If you want to get more detailed type information of a variable, you can use the
 ## Table of Contents
 
 - [Installation](#installation)
-- [Example](#example)
 - [Usage](#usage)
-    - [Type](#type)
-    - [Subtype](#subtype)
-    - [Category](#category)
+    - [Type Detection Functions](#type-detection)
     - [Feature Detection Constants](#feature-detection)
     - [Type Prototype Constants](#type-prototype)
-    - [Type Detection Functions](#type-detection)
-- [Why `Proxy` Type Information is Unavailable](#why-no-proxy)
+- [Why `Proxy` Type Cannot be Detected](#why-no-proxy)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -46,7 +42,8 @@ yarn add @haixing_hu/type-detect
 The library provides the following functions for type detection:
 
 - `isArguments(value): boolean`: whether the specified value is the JavaScript
-  built-in `arguments` object.
+  built-in `arguments` object, i.e., an array-like object representing the
+  arguments passed to a function.
 - `isBigInt(value): boolean`: whether the specified value is a JavaScript
   built-in `bigint` primitive.
 - `isBoolean(value): boolean`: whether the specified value is a JavaScript
@@ -57,11 +54,14 @@ The library provides the following functions for type detection:
   built-in class.
 - `isCollection(value): boolean`: whether the specified value is a JavaScript
   built-in collection object, i.e., a `Map` or `Set` object. Note that the
-  `WeakMap` and `WeakSet` objects are not considered normal collection objects.
+  `WeakMap` and `WeakSet` objects are not considered normal collection objects,
+  and they can be detected by the `isWeakCollection(value)` function.
 - `isConsole(value): boolean`: whether the specified value is a JavaScript
   built-in `console` object.
 - `isCssom(value): boolean`: whether the specified value is a JavaScript
   built-in `CSSOM` object.
+- `isDataView(value): boolean`: whether the specified value is a JavaScript
+  built-in `DataView` object.
 - `isDom(value): boolean`: whether the specified value is a JavaScript
   built-in DOM object.
 - `isError(value): boolean`: whether the specified value is an instance of the
@@ -89,6 +89,8 @@ The library provides the following functions for type detection:
 - `isWeak(value): boolean`: whether the specified value is a JavaScript
   built-in weak referenced object, i.e., a `WeakMap`, `WeakSet`, or `WeakRef`
   object.
+- `isWeakCollection(value): boolean`: whether the specified value is a JavaScript
+  built-in weak reference collection object, i.e., a `WeakMap`, or `WeakSet` object.
 
 The following code shows how to use these functions:
 ```js
