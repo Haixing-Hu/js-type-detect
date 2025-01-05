@@ -1,6 +1,6 @@
 # type-detect
 
-[![npm package](https://img.shields.io/npm/v/@haixing_hu/type-detect.svg)](https://npmjs.com/package/@haixing_hu/type-detect)
+[![npm package](https://img.shields.io/npm/v/@qubit-ltd/type-detect.svg)](https://npmjs.com/package/@qubit-ltd/type-detect)
 [![License](https://img.shields.io/badge/License-Apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![English Document](https://img.shields.io/badge/文档-中文版-blue.svg)](README.md)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/Haixing-Hu/js-type-detect/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/Haixing-Hu/js-type-detect/tree/master)
@@ -26,11 +26,11 @@
 
 您可以通过 `npm` 安装 [type-detect]:
 ```sh
-npm install @haixing_hu/type-detect
+npm install @qubit-ltd/type-detect
 ```
 或者通过 `yarn` 安装:
 ```bash
-yarn add @haixing_hu/type-detect
+yarn add @qubit-ltd/type-detect
 ```
 
 ## <span id="usage">使用</span>
@@ -68,7 +68,7 @@ yarn add @haixing_hu/type-detect
 
 以下代码展示了如何使用这些函数：
 ```js
-import { isTypedArray } from '@haixing_hu/type-detect';
+import { isTypedArray } from '@qubit-ltd/type-detect';
 
 function foo(value) {
   if (isTypedArray(value)) {
@@ -139,7 +139,7 @@ function foo(value) {
 
 以下代码展示如何使用这些常量：
 ```js
-import { WEAKMAP_EXISTS } from '@haixing_hu/type-detect';
+import { WEAKMAP_EXISTS } from '@qubit-ltd/type-detect';
 
 function foo(value) {
   if (WEAKMAP_EXISTS) {
@@ -206,8 +206,8 @@ function foo(value) {
 [type-detect] 在 Apache 2.0 许可下分发。有关更多详情，请参阅[LICENSE](LICENSE)文件。
 
 
-[type-detect]: https://npmjs.com/package/@haixing_hu/type-detect
-[typeinfo]: https://npmjs.com/package/@haixing_hu/typeinfo
+[type-detect]: https://npmjs.com/package/@qubit-ltd/type-detect
+[typeinfo]: https://npmjs.com/package/@qubit-ltd/typeinfo
 [全局对象]: https://developer.mozilla.org/en-US/docs/Glossary/Global_object
 [Standard built-in objects]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 [GitHub repository]: https://github.com/Haixing-Hu/js-type-detect
