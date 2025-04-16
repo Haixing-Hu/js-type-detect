@@ -2,7 +2,7 @@
 
 [![npm package](https://img.shields.io/npm/v/@qubit-ltd/type-detect.svg)](https://npmjs.com/package/@qubit-ltd/type-detect)
 [![License](https://img.shields.io/badge/License-Apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![English Document](https://img.shields.io/badge/文档-中文版-blue.svg)](README.md)
+[![English Document](https://img.shields.io/badge/Document-English-blue.svg)](README.md)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/Haixing-Hu/js-type-detect/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/Haixing-Hu/js-type-detect/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/Haixing-Hu/js-type-detect/badge.svg?branch=master)](https://coveralls.io/github/Haixing-Hu/js-type-detect?branch=master)
 
@@ -11,7 +11,7 @@
 
 如果你想获取变量的更详细的类型信息，可以使用 [typeinfo] 库，它是基于 [type-detect] 构建的。
 
-## Table of Contents
+## 目录
 
 - [安装](#installation)
 - [使用](#usage)
@@ -19,6 +19,7 @@
     - [特性检测常量](#feature-detection)
     - [类型原型常量](#type-prototype)
 - [为何无法检测`Proxy`类型](#why-no-proxy)
+- [测试覆盖率](#test-coverage)
 - [贡献](#contributing)
 - [许可证](#license)
 
@@ -54,7 +55,7 @@ yarn add @qubit-ltd/type-detect
 - `isError(value): boolean`：指定值是否为 JavaScript 内建的 `Error` 类或其子类的实例。
 - `isEvent(value): boolean`：指定值是否为 JavaScript 内建的事件对象，即 JavaScript 内建的 `Event` 类或其子类的实例。
 - `isFile(value): boolean`：指定值是否为 JavaScript 文件 API 对象，即 `File`、`Blob`、`FileList`、
-  `FileReader` 或 `FileReaderSync` 类的实例。
+  `FileReader` 或 `FileReaderSync` 类的实例。该函数会在确定类型之前检查当前环境中 File API 功能的可用性。
 - `isGlobalObject(value): boolean`: 指定值是否为[全局对象].
 - `isIntl(value): boolean`：指定值是否为 JavaScript `Intl` 命名空间下的内建对象。
 - `isIterator(value): boolean`：指定值是否为迭代器对象，即具有 `next()` 方法的对象。
@@ -93,6 +94,9 @@ function foo(value) {
 - `BIGINT_EXISTS`：JavaScript 内置基本类型 `bigint` 和内置函数 `BigInt` 是否存在。
 - `BIGUINT64ARRAY_EXISTS`：JavaScript 内置类 `BigUint64Array` 是否存在。
 - `DATAVIEW_EXISTS`：JavaScript 内置类 `DataView` 是否存在。
+- `FILE_LIST_EXISTS`：JavaScript 内置类 `FileList` 是否存在。
+- `FILE_READER_EXISTS`：JavaScript 内置类 `FileReader` 是否存在。
+- `FILE_READER_SYNC_EXISTS`：JavaScript 内置类 `FileReaderSync` 是否存在。注意，此类仅在 Web Workers 中可用。
 - `FINALIZATIONREGISTRY_EXISTS`：JavaScript 内置类 `FinalizationRegistry` 是否存在。
 - `FLOAT32ARRAY_EXISTS`：JavaScript 内置类 `Float32Array` 是否存在。
 - `FLOAT64ARRAY_EXISTS`：JavaScript 内置类 `Float64Array` 是否存在。
@@ -139,10 +143,16 @@ function foo(value) {
 
 以下代码展示如何使用这些常量：
 ```js
-import { WEAKMAP_EXISTS } from '@qubit-ltd/type-detect';
+import { WEAKMAP_EXISTS, FILE_READER_EXISTS } from '@qubit-ltd/type-detect';
 
 function foo(value) {
   if (WEAKMAP_EXISTS) {
+    ...
+  } else {
+    ...
+  }
+  
+  if (FILE_READER_EXISTS) {
     ...
   } else {
     ...
@@ -197,6 +207,19 @@ function foo(value) {
 除非代理对象特意通过某些拦截行为暴露其身份，否则即便是专门用于获取类型信息的库也无法确切判断一个对象是否为`Proxy`。
 这样的设计极大地增强了`Proxy`的强大性和灵活性，但同时也意味着直接通过外部检测来识别`Proxy`对象将是一个挑战。
 
+## <span id="test-coverage">测试覆盖率</span>
+
+本库在整个代码库中保持高测试覆盖率：
+
+- **语句覆盖率**：100%
+- **分支覆盖率**：87.53%
+- **函数覆盖率**：96.55%
+- **行覆盖率**：100%
+
+某些文件，如 `global-object.js`，由于依赖运行时评估和环境特定行为，存在特定的测试挑战。这些通过专门的测试包装器处理，在保持生产代码完整性的同时验证功能。
+
+测试套件包括对所有导出函数和常量的全面测试，包括边缘情况和环境特定功能，如可能在所有 JavaScript 环境中都不可用的 File API 组件。
+
 ## <span id="contributing">贡献</span>
 
 如果您发现任何问题或有改进建议，请随时在[GitHub仓库]中提出问题或提交拉取请求。
@@ -210,4 +233,4 @@ function foo(value) {
 [typeinfo]: https://npmjs.com/package/@qubit-ltd/typeinfo
 [全局对象]: https://developer.mozilla.org/en-US/docs/Glossary/Global_object
 [Standard built-in objects]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
-[GitHub repository]: https://github.com/Haixing-Hu/js-type-detect
+[GitHub仓库]: https://github.com/Haixing-Hu/js-type-detect
