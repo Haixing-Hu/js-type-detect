@@ -48,7 +48,7 @@ describe('Test the builtin-prototype.js', () => {
     Object.entries(prototypeMap).forEach(([featureFlag, prototypeVar]) => {
       const featureExists = FeatureDetect[featureFlag];
       let expectedValue;
-      
+
       if (featureExists) {
         try {
           // 根据特征标志名称获取相应的全局构造函数
@@ -148,9 +148,9 @@ describe('Test the builtin-prototype.js', () => {
       } else {
         expectedValue = undefined;
       }
-      
+
       expect(BuiltinPrototype[prototypeVar]).toBe(expectedValue);
-      
+
       // 确保代码覆盖分支
       if (featureExists && expectedValue !== undefined) {
         expect(BuiltinPrototype[prototypeVar]).not.toBeUndefined();
@@ -251,7 +251,7 @@ describe('Test the builtin-prototype.js', () => {
           else if (global === 'Intl.PluralRules') expectedValue = Intl.PluralRules.prototype;
           else if (global === 'Intl.RelativeTimeFormat') expectedValue = Intl.RelativeTimeFormat.prototype;
           else if (global === 'Intl.Segmenter') expectedValue = Intl.Segmenter.prototype;
-          
+
           expect(BuiltinPrototype[proto]).toBe(expectedValue);
         } catch (e) {
           console.warn(`无法获取 ${proto}，可能是环境不完全支持`);
@@ -276,4 +276,4 @@ describe('Test the builtin-prototype.js', () => {
       expect(BuiltinPrototype.IntelSegmentIteratorPrototype).toBeUndefined();
     }
   });
-}); 
+});
