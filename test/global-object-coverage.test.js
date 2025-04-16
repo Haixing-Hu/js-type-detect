@@ -12,17 +12,17 @@ describe('Test global-object.js global object retrieval', () => {
   test('should retrieve globalThis if available', () => {
     // 保存原始的globalThis
     const originalGlobalThis = global.globalThis;
-    
+
     // 确保globalThis存在
     if (typeof globalThis === 'undefined') {
       // 在测试环境中模拟globalThis
       global.globalThis = global;
     }
-    
+
     // 重新执行global-object.js中的逻辑
     const getGlobalObjectFn = (obj) => {
-      if (typeof globalThis === 'object') {
-        return globalThis;
+      if (typeof global.globalThis === 'object') {
+        return global.globalThis;
       }
       Object.defineProperty(obj, 'typeDetectGlobalObject', {
         get() {
@@ -34,12 +34,12 @@ describe('Test global-object.js global object retrieval', () => {
       delete obj.typeDetectGlobalObject;
       return result;
     };
-    
+
     // 测试函数应该返回globalThis
     const testObj = {};
     const result = getGlobalObjectFn(testObj);
-    expect(result).toBe(globalThis);
-    
+    expect(result).toBe(global.globalThis);
+
     // 恢复原始状态
     if (originalGlobalThis === undefined) {
       delete global.globalThis;
@@ -47,4 +47,4 @@ describe('Test global-object.js global object retrieval', () => {
       global.globalThis = originalGlobalThis;
     }
   });
-}); 
+});

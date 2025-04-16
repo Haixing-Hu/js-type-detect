@@ -34,18 +34,18 @@ export function getGlobalObjectWithFallback(obj) {
 export function getGlobalObjectComplete(obj, mockGlobalThis = null) {
   // 保存原始的 globalThis
   const originalGlobalThis = global.globalThis;
-  
+
   try {
     // 如果提供了模拟的 globalThis，就使用它
     if (mockGlobalThis !== null) {
       global.globalThis = mockGlobalThis;
     }
-    
+
     // 完全复制 global-object.js 中的逻辑
     if (typeof globalThis === 'object') {
       return globalThis; // eslint-disable-line
     }
-    
+
     Object.defineProperty(obj, 'typeDetectGlobalObject', {
       get() {
         return this;
@@ -60,8 +60,13 @@ export function getGlobalObjectComplete(obj, mockGlobalThis = null) {
     } catch (e) {
       // 处理可能的异常
       console.error('Error accessing typeDetectGlobalObject:', e);
-      result = typeof window !== 'undefined' ? window : 
-               typeof global !== 'undefined' ? global : obj;
+      if (typeof window !== 'undefined') {
+        result = window;
+      } else if (typeof global !== 'undefined') {
+        result = global;
+      } else {
+        result = obj;
+      }
     }
     delete obj.typeDetectGlobalObject;
     return result;
@@ -73,4 +78,4 @@ export function getGlobalObjectComplete(obj, mockGlobalThis = null) {
       global.globalThis = originalGlobalThis;
     }
   }
-} 
+}
