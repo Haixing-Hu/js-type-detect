@@ -25,21 +25,16 @@ function isArguments(value) {
   const stringTag = Object.prototype.toString.call(value);
   if (stringTag === '[object Arguments]') {
     // 需要进一步检查，因为对象可以使用Symbol.toStringTag伪装成Arguments对象
-    try {
-      // 检查是否是通过Symbol.toStringTag伪装的
-      if (Object.prototype.hasOwnProperty.call(value, Symbol.toStringTag)
-          && value[Symbol.toStringTag] === 'Arguments') {
-        // 如果是通过Symbol.toStringTag明确设置的，需要进一步检查其他属性
-        return typeof value.callee === 'function'
-          && typeof value.length === 'number'
-          && Array.isArray(Object.keys(value).filter((k) => /^\d+$/.test(k)));
-      }
-      // 否则认为是真正的arguments对象
-      return true;
-    } catch (err) {
-      // 这可能是一个严格模式下的arguments对象，访问callee会抛出TypeError
-      return err.message.indexOf('callee') !== -1;
+    // check if it is disguised as an Arguments object by Symbol.toStringTag
+    if (Object.prototype.hasOwnProperty.call(value, Symbol.toStringTag)
+        && value[Symbol.toStringTag] === 'Arguments') {
+      // if it is explicitly set by Symbol.toStringTag, need to check other properties
+      return typeof value.callee === 'function'
+        && typeof value.length === 'number'
+        && Array.isArray(Object.keys(value).filter((k) => /^\d+$/.test(k)));
     }
+    // 否则认为是真正的arguments对象
+    return true;
   }
   return false;
 }

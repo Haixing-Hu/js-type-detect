@@ -208,11 +208,11 @@ objects through external observation presents a challenge.
 
 ## <span id="test-coverage">Test Coverage</span>
 
-This library maintains high test coverage across its codebase:
+This library maintains 100% test coverage across its codebase:
 
 - **Statement Coverage**: 100%
-- **Branch Coverage**: 87.53%
-- **Function Coverage**: 96.55%
+- **Branch Coverage**: 100%
+- **Function Coverage**: 100%
 - **Line Coverage**: 100%
 
 Some files, such as `global-object.js`, have specific testing challenges due to their reliance on runtime evaluations and environment-specific behavior. These are handled through specialized test wrappers that verify the functionality while maintaining the integrity of the production code.

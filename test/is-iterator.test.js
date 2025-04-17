@@ -6,10 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-/**
- * @jest-environment jsdom
- */
-import ITERATOR_TO_STRING_VALUES from '../src/impl/iterator-to-string-values';
+import ITERATOR_TYPE_NAMES from '../src/impl/iterator-type-names';
 import isIterator from '../src/is-iterator';
 
 describe('Test the `isIterator()` function', () => {
@@ -130,12 +127,12 @@ describe('Test the `isIterator()` function', () => {
     const originalToString = Object.prototype.toString;
 
     // Test each known toString value
-    ITERATOR_TO_STRING_VALUES.forEach((stringValue) => {
+    ITERATOR_TYPE_NAMES.forEach((typeName) => {
       // Mock toString to return the iterator string value
       // eslint-disable-next-line no-extend-native
       Object.prototype.toString = function mockToString() {
         if (this === mockIterator) {
-          return stringValue;
+          return `[object ${typeName}]`;
         }
         return originalToString.call(this);
       };

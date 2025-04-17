@@ -6,11 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-/**
- * @jest-environment jsdom
- */
-
-import EVENT_TO_STRING_VALUES from '../src/impl/event-to-string-values';
+import EVENT_TYPE_NAMES from '../src/impl/event-type-names';
 import isEvent from '../src/is-event';
 
 describe('Test the `isEvent()` function', () => {
@@ -118,11 +114,11 @@ describe('Test the `isEvent()` function', () => {
     const mockEvent = {};
     const originalToString = Object.prototype.toString;
 
-    EVENT_TO_STRING_VALUES.forEach((stringValue) => {
+    EVENT_TYPE_NAMES.forEach((typeName) => {
       // eslint-disable-next-line no-extend-native
       Object.prototype.toString = function mockToString() {
         if (this === mockEvent) {
-          return stringValue;
+          return `[object ${typeName}]`;
         }
         return originalToString.call(this);
       };

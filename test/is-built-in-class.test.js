@@ -42,8 +42,7 @@ import {
   WEAKSET_EXISTS,
 } from '../src/feature-detect';
 import BUILT_IN_TYPE_NAMES from '../src/impl/built-in-type-names';
-import GLOBAL_OBJECT_TO_STRING_VALUES
-  from '../src/impl/global-object-to-string-values';
+import GLOBAL_OBJECT_NAMES from '../src/impl/global-object-names';
 
 /* eslint-disable no-undef, max-classes-per-file */
 
@@ -123,12 +122,12 @@ describe('Test the `isBuiltInClass()` function', () => {
     const originalToString = Object.prototype.toString;
 
     // Test each known toString value
-    GLOBAL_OBJECT_TO_STRING_VALUES.forEach((stringValue) => {
+    GLOBAL_OBJECT_NAMES.forEach((name) => {
       // Mock toString to return a global object string value
       // eslint-disable-next-line no-extend-native
       Object.prototype.toString = function mockToString() {
         if (this === mockGlobalObject) {
-          return stringValue;
+          return `[object ${name}]`;
         }
         return originalToString.call(this);
       };

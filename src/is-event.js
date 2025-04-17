@@ -6,7 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import EVENT_TO_STRING_VALUES from './impl/event-to-string-values';
+import EVENT_TYPE_NAMES from './impl/event-type-names';
+import hasToStringValueOf from './impl/has-to-string-value-of';
 
 /**
  * Determines whether the specified object is an event object.
@@ -21,8 +22,7 @@ function isEvent(obj) {
     return false;
   }
   // 使用 Object.prototype.toString.call() 进行跨realm检测
-  const type = Object.prototype.toString.call(obj);
-  if (EVENT_TO_STRING_VALUES.includes(type)) {
+  if (hasToStringValueOf(obj, EVENT_TYPE_NAMES)) {
     return true;
   }
   // 特性检测，Event对象通常有这些属性
