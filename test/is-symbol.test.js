@@ -7,7 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import { isSymbol, SYMBOL_EXISTS } from '../src';
+import { isSymbol } from '../src';
+import { SYMBOL_EXISTS } from '../src/feature-detect';
 
 /**
  * Unit test of the `isSymbol()` function.

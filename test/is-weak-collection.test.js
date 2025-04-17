@@ -7,11 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import {
-  isWeakCollection,
-  WEAKMAP_EXISTS,
-  WEAKSET_EXISTS,
-} from '../src';
+import { isWeakCollection } from '../src';
+import { WEAKMAP_EXISTS, WEAKSET_EXISTS } from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

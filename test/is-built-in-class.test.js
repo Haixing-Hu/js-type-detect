@@ -7,6 +7,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isBuiltInClass } from '../src';
 import {
   AGGREGATEERROR_EXISTS,
   ARRAYBUFFER_EXISTS,
@@ -29,7 +30,6 @@ import {
   INTL_PLURALRULES_EXISTS,
   INTL_RELATIVETIMEFORMAT_EXISTS,
   INTL_SEGMENTER_EXISTS,
-  isBuiltInClass,
   MAP_EXISTS,
   SET_EXISTS,
   SHAREDARRAYBUFFER_EXISTS,
@@ -40,7 +40,7 @@ import {
   WEAKMAP_EXISTS,
   WEAKREF_EXISTS,
   WEAKSET_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 import BUILT_IN_TYPE_NAMES from '../src/impl/built-in-type-names';
 import GLOBAL_OBJECT_TO_STRING_VALUES
   from '../src/impl/global-object-to-string-values';
@@ -71,8 +71,13 @@ describe('Test the `isBuiltInClass()` function', () => {
   it('identifies special built-in functions', () => {
     expect(isBuiltInClass(BigInt)).toBe(true);
     expect(isBuiltInClass(Symbol)).toBe(true);
-    expect(isBuiltInClass(Proxy)).toBe(true);
   });
+
+  if (typeof Proxy === 'function') {
+    it('identifies Proxy functions', () => {
+      expect(isBuiltInClass(Proxy)).toBe(true);
+    });
+  }
 
   it('identifies special global objects', () => {
     expect(isBuiltInClass(Math)).toBe(true);

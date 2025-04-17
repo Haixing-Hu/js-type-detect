@@ -13,8 +13,8 @@
  * @author Haixing Hu
  */
 const GLOBAL_OBJECT_NAMES = [
-  'global',
-  'globalThis',
+  // 'global',
+  // 'globalThis',
   'Window',
   'Math',
   'JSON',

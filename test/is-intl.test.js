@@ -7,8 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isIntl } from '../src';
 import {
-  isIntl,
   INTL_COLLATOR_EXISTS,
   INTL_DATETIMEFORMAT_EXISTS,
   INTL_DISPLAYNAMES_EXISTS,
@@ -19,7 +19,7 @@ import {
   INTL_PLURALRULES_EXISTS,
   INTL_RELATIVETIMEFORMAT_EXISTS,
   INTL_SEGMENTER_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

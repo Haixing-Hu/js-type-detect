@@ -7,7 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import { ASYNC_FUNCTION_EXISTS, isFunction, SYMBOL_EXISTS } from '../src';
+import { isFunction } from '../src';
+import { ASYNC_FUNCTION_EXISTS, SYMBOL_EXISTS } from '../src/feature-detect';
 
 /**
  * Unit test of the `isFunction()` function.

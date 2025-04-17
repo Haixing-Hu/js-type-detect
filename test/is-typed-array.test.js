@@ -7,8 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isTypedArray } from '../src';
 import {
-  isTypedArray,
   BIGINT64ARRAY_EXISTS,
   BIGUINT64ARRAY_EXISTS,
   FLOAT32ARRAY_EXISTS,
@@ -20,7 +20,7 @@ import {
   UINT32ARRAY_EXISTS,
   UINT8ARRAY_EXISTS,
   UINT8CLAMPEDARRAY_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

@@ -6,8 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { SYMBOL_TO_STRING_TAG_EXISTS } from './feature-detect';
-
 /**
  * Tests whether an object has `Symbol.toStringTag` property.
  *
@@ -19,10 +17,13 @@ import { SYMBOL_TO_STRING_TAG_EXISTS } from './feature-detect';
  * @author Haixing Hu
  */
 function hasToStringTag(obj) {
-  return (SYMBOL_TO_STRING_TAG_EXISTS)
-    && (obj !== null)
+  return (obj !== null)
     && (typeof obj === 'object')
-    && (Symbol.toStringTag in obj);
+    && (typeof Symbol !== 'undefined')
+    && (typeof Symbol.toStringTag !== 'undefined')
+    && (Symbol.toStringTag in obj)
+    && (obj[Symbol.toStringTag] !== undefined)
+    && (obj[Symbol.toStringTag] !== null);
 }
 
 export default hasToStringTag;

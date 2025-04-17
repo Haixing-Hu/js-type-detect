@@ -6,8 +6,9 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { FONT_FACE_EXISTS } from '@qubit-ltd/type-detect';
 import { runInNewContext } from 'node:vm';
-import { FONT_FACE_EXISTS, isCssom } from '../src';
+import { isCssom } from '../src';
 
 /* eslint-disable no-undef */
 
@@ -26,15 +27,15 @@ describe('Test the `isCssom()` function', () => {
     document.head.removeChild(styleElement);
   });
 
-  // it('CSSRuleList', () => {
-  //   const styleElement = document.createElement('style');
-  //   document.head.appendChild(styleElement);
-  //   styleElement.sheet.insertRule('body {background: black;}', 0);
-  //   const cssRuleList = styleElement.sheet.cssRules;
-  //   console.log('cssRuleList:', cssRuleList);
-  //   expect(isCssom(cssRuleList)).toBe(true);
-  //   document.head.removeChild(styleElement);
-  // });
+  it.skip('CSSRuleList', () => {
+    const styleElement = document.createElement('style');
+    document.head.appendChild(styleElement);
+    styleElement.sheet.insertRule('body {background: black;}', 0);
+    const cssRuleList = styleElement.sheet.cssRules;
+    console.log('cssRuleList:', cssRuleList);
+    expect(isCssom(cssRuleList)).toBe(true);
+    document.head.removeChild(styleElement);
+  });
 
   it('CSSStyleSheet', () => {
     const styleElement = document.createElement('style');

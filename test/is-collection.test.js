@@ -7,13 +7,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isCollection } from '../src';
 import {
-  isCollection,
   MAP_EXISTS,
   SET_EXISTS,
   WEAKMAP_EXISTS,
   WEAKSET_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

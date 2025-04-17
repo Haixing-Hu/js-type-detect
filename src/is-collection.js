@@ -6,7 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import COLLECTION_TO_STRING_VALUES from './impl/collection-to-string-values';
+import COLLECTION_TYPE_NAMES from './impl/collection-type-names';
+import hasToStringValueOf from './impl/has-to-string-value-of';
 
 /**
  * Tests whether the specified value is a built-in collection object, i.e., a
@@ -21,8 +22,7 @@ import COLLECTION_TO_STRING_VALUES from './impl/collection-to-string-values';
  * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isCollection(value) {
-  const str = Object.prototype.toString.call(value);
-  return COLLECTION_TO_STRING_VALUES.includes(str);
+  return hasToStringValueOf(value, COLLECTION_TYPE_NAMES);
 }
 
 export default isCollection;

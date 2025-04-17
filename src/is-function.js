@@ -6,7 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import FUNCTION_TO_STRING_VALUES from './impl/function-to-string-values';
+import FUNCTION_TYPE_NAMES from './impl/function-type-names';
+import hasToStringValueOf from './impl/has-to-string-value-of';
 
 /**
  * Tests whether the specified value is a function object.
@@ -22,8 +23,7 @@ import FUNCTION_TO_STRING_VALUES from './impl/function-to-string-values';
  * @see isGenerator
  */
 function isFunction(value) {
-  const str = Object.prototype.toString.call(value);
-  return FUNCTION_TO_STRING_VALUES.includes(str);
+  return hasToStringValueOf(value, FUNCTION_TYPE_NAMES);
 }
 
 export default isFunction;

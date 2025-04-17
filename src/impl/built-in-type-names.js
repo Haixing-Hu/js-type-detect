@@ -39,6 +39,7 @@ const BUILT_IN_TYPE_NAMES = [
   'RegExp',
   'DataView',
   'Promise',
+  'Proxy',
   ...ERROR_TYPE_NAMES,
   ...COLLECTION_TYPE_NAMES,
   ...TYPED_ARRAY_TYPE_NAMES,

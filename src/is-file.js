@@ -6,7 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import FILE_TO_STRING_VALUES from './impl/file-to-string-values';
+import FILE_TYPE_NAMES from './impl/file-type-names';
+import hasToStringValueOf from './impl/has-to-string-value-of';
 
 /**
  * Tests whether the specified value is a JavaScript File API object.
@@ -23,8 +24,7 @@ import FILE_TO_STRING_VALUES from './impl/file-to-string-values';
  * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isFile(value) {
-  const str = Object.prototype.toString.call(value);
-  return FILE_TO_STRING_VALUES.includes(str);
+  return hasToStringValueOf(value, FILE_TYPE_NAMES);
 }
 
 export default isFile;

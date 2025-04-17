@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
 import hasToStringTag from '../src/has-to-string-tag';
-import { SYMBOL_TO_STRING_TAG_EXISTS } from '../src/feature-detect';
 
 /**
  * Unit test of the `hasToStringTag()` function.
@@ -42,7 +41,7 @@ describe('Test the `hasToStringTag()` function', () => {
 
   // 测试具有 Symbol.toStringTag 属性的对象
   test('objects with toStringTag as own property', () => {
-    if (SYMBOL_TO_STRING_TAG_EXISTS) {
+    if ((typeof Symbol !== 'undefined') && (typeof Symbol.toStringTag !== 'undefined')) {
       const obj = {};
       obj[Symbol.toStringTag] = 'Test';
       expect(hasToStringTag(obj)).toBe(true);
@@ -56,40 +55,41 @@ describe('Test the `hasToStringTag()` function', () => {
   // 根据 hasToStringTag 的实现，它检查的是对象是否有 Symbol.toStringTag in obj
   // 内置对象的行为需要具体测试
   test('built-in objects with toStringTag', () => {
-    if (SYMBOL_TO_STRING_TAG_EXISTS) {
+    if ((typeof Symbol !== 'undefined') && (typeof Symbol.toStringTag !== 'undefined')) {
       // 创建一个具有直接 Symbol.toStringTag 属性的对象
       const objWithTag = { [Symbol.toStringTag]: 'CustomObject' };
       expect(hasToStringTag(objWithTag)).toBe(true);
-      
+
       // 对于内置对象，根据实际情况验证
       // 根据 hasToStringTag 的实现，如果 Symbol.toStringTag in obj 为 true，那么结果为 true
       // 我们需要具体测试每个内置对象
-      
+
       // 对于 Date 对象
       const dateObj = new Date();
       const dateHasTag = Symbol.toStringTag in dateObj;
       expect(hasToStringTag(dateObj)).toBe(dateHasTag);
-      
+
       // 对于 Map 对象
       const mapObj = new Map();
       const mapHasTag = Symbol.toStringTag in mapObj;
       expect(hasToStringTag(mapObj)).toBe(mapHasTag);
-      
+
       // 对于 Set 对象
       const setObj = new Set();
       const setHasTag = Symbol.toStringTag in setObj;
       expect(hasToStringTag(setObj)).toBe(setHasTag);
-      
+
       // 对于 RegExp 对象
+      // eslint-disable-next-line prefer-regex-literals
       const regexObj = new RegExp('abc');
       const regexHasTag = Symbol.toStringTag in regexObj;
       expect(hasToStringTag(regexObj)).toBe(regexHasTag);
-      
+
       // 对于 ArrayBuffer 对象
       const bufferObj = new ArrayBuffer(10);
       const bufferHasTag = Symbol.toStringTag in bufferObj;
       expect(hasToStringTag(bufferObj)).toBe(bufferHasTag);
-      
+
       // 对于 Promise 对象
       const promiseObj = Promise.resolve();
       const promiseHasTag = Symbol.toStringTag in promiseObj;
@@ -102,20 +102,20 @@ describe('Test the `hasToStringTag()` function', () => {
 
   // 测试跨 realm 行为
   test('should work across realms', () => {
-    if (SYMBOL_TO_STRING_TAG_EXISTS) {
+    if ((typeof Symbol !== 'undefined') && (typeof Symbol.toStringTag !== 'undefined')) {
       // 创建一个带有 Symbol.toStringTag 的对象
       const objWithTagAcrossRealm = runInNewContext('({ [Symbol.toStringTag]: "Test" })');
       expect(hasToStringTag(objWithTagAcrossRealm)).toBe(true);
-      
+
       // 内置对象，根据实际情况验证
       const dateAcrossRealm = runInNewContext('new Date()');
       const dateHasTag = Symbol.toStringTag in dateAcrossRealm;
       expect(hasToStringTag(dateAcrossRealm)).toBe(dateHasTag);
-      
+
       const mapAcrossRealm = runInNewContext('new Map()');
       const mapHasTag = Symbol.toStringTag in mapAcrossRealm;
       expect(hasToStringTag(mapAcrossRealm)).toBe(mapHasTag);
-      
+
       // 普通对象
       expect(hasToStringTag(runInNewContext('{}'))).toBe(false);
     } else {
@@ -123,4 +123,4 @@ describe('Test the `hasToStringTag()` function', () => {
       console.log('Environment does not support Symbol.toStringTag, skipping test');
     }
   });
-}); 
+});

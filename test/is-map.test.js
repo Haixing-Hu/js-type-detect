@@ -7,7 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import { isMap, MAP_EXISTS } from '../src';
+import { isMap } from '../src';
+import { MAP_EXISTS } from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

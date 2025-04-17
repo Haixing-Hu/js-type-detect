@@ -7,7 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import { isNumber, BIGINT_EXISTS } from '../src';
+import { isNumber } from '../src';
+import { BIGINT_EXISTS } from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

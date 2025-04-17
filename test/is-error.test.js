@@ -7,11 +7,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isError } from '../src';
 import {
-  isError,
   AGGREGATEERROR_EXISTS,
   INTERNALERROR_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

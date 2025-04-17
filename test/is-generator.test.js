@@ -7,11 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import {
-  isGenerator,
-  ASYNC_FUNCTION_EXISTS,
-  SYMBOL_EXISTS,
-} from '../src';
+import { isGenerator } from '../src';
+import { ASYNC_FUNCTION_EXISTS, SYMBOL_EXISTS } from '../src/feature-detect';
 
 /**
  * Unit test of the `isGenerator()` function.

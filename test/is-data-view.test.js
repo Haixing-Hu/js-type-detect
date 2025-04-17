@@ -7,11 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import {
-  isDataView,
-  ARRAYBUFFER_EXISTS,
-  DATAVIEW_EXISTS,
-} from '../src';
+import { isDataView } from '../src';
+import { ARRAYBUFFER_EXISTS, DATAVIEW_EXISTS } from '../src/feature-detect';
 
 describe('isDataView', () => {
   if (ARRAYBUFFER_EXISTS && DATAVIEW_EXISTS) {

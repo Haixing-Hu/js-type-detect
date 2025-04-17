@@ -7,12 +7,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isWeak } from '../src';
 import {
-  isWeak,
   WEAKMAP_EXISTS,
   WEAKREF_EXISTS,
   WEAKSET_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

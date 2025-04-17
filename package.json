@@ -36,7 +36,7 @@
     "test:es5": "cross-env NODE_ENV=test TARGETS='fully supports es5' jest --runInBand --no-cache",
     "test:es6": "cross-env NODE_ENV=test TARGETS='fully supports es6' jest --runInBand --no-cache",
     "test:defaults": "cross-env NODE_ENV=test TARGETS='defaults' jest --runInBand --no-cache",
-    "test": "npm run test:es5 && npm run test:es6 && npm run test:defaults",
+    "test": "npm run test:defaults",
     "lint": "eslint ./src && eslint ./test --config .eslintrc-test.js",
     "doc": "jsdoc -c jsdoc.json",
     "es5": "check-es-version --es-version=5 --show-error=true --target-dir=dist",

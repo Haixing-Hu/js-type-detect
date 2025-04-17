@@ -6,7 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import DOM_TO_STRING_VALUES from './impl/dom-to-string-values';
+import DOM_TYPE_NAMES from './impl/dom-type-names';
+import hasToStringValueOf from './impl/has-to-string-value-of';
 
 /**
  * Determines whether the specified object is a DOM object.
@@ -19,8 +20,7 @@ import DOM_TO_STRING_VALUES from './impl/dom-to-string-values';
  * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isDom(obj) {
-  const str = Object.prototype.toString.call(obj);
-  return DOM_TO_STRING_VALUES.includes(str);
+  return hasToStringValueOf(obj, DOM_TYPE_NAMES);
 }
 
 export default isDom;

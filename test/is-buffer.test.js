@@ -7,11 +7,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isBuffer } from '../src';
 import {
   ARRAYBUFFER_EXISTS,
-  isBuffer,
   SHAREDARRAYBUFFER_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

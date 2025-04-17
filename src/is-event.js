@@ -6,7 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { EVENT_EXISTS } from './feature-detect';
 import EVENT_TO_STRING_VALUES from './impl/event-to-string-values';
 
 /**
@@ -36,7 +35,7 @@ function isEvent(obj) {
     return true;
   }
   // 保留原有的 instanceof 检查作为备用
-  return EVENT_EXISTS && (obj instanceof Event);
+  return (typeof Event === 'function') && (obj instanceof Event);
 }
 
 export default isEvent;

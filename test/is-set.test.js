@@ -7,7 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import { isSet, SET_EXISTS } from '../src';
+import { isSet } from '../src';
+import { SET_EXISTS } from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

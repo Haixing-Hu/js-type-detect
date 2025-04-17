@@ -7,14 +7,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isFile } from '../src';
 import {
-  isFile,
   BLOB_EXISTS,
   FILE_EXISTS,
   FILE_LIST_EXISTS,
   FILE_READER_EXISTS,
   FILE_READER_SYNC_EXISTS,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

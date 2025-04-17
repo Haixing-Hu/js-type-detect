@@ -7,13 +7,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
+import { isDom } from '../src';
 import {
   DOM_NODE_EXISTS,
   DOM_PARSER_EXISTS,
   DOM_POINT_READONLY_EXISTS,
   DOM_RECT_EXISTS,
-  isDom,
-} from '../src';
+} from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 

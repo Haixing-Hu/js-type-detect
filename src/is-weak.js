@@ -6,7 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import WEAK_TO_STRING_VALUES from './impl/weak-to-string-values';
+import WEAK_TYPE_NAMES from './impl/weak-type-names';
+import hasToStringValueOf from './impl/has-to-string-value-of';
 
 /**
  * Tests whether the specified value is a weak reference object, i.e., a
@@ -21,8 +22,7 @@ import WEAK_TO_STRING_VALUES from './impl/weak-to-string-values';
  * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isWeak(value) {
-  const str = Object.prototype.toString.call(value);
-  return WEAK_TO_STRING_VALUES.includes(str);
+  return hasToStringValueOf(value, WEAK_TYPE_NAMES);
 }
 
 export default isWeak;

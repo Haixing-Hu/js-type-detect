@@ -19,9 +19,6 @@
 
 - [安装](#installation)
 - [使用](#usage)
-    - [类型检测函数](#type-detection)
-    - [特性检测常量](#feature-detection)
-    - [类型原型常量](#type-prototype)
 - [为何不使用`instanceof`](#why-not-instanceof)
 - [跨域类型检测](#cross-realm)
 - [为何无法检测`Proxy`类型](#why-no-proxy)
@@ -42,10 +39,11 @@ yarn add @qubit-ltd/type-detect
 
 ## <span id="usage">使用</span>
 
-### <span id="type-detection">类型检测函数</span>
-
 该库提供了以下用于类型检测的函数：
 
+- `getTypeName(value): string`：获取值的类型名称。这是一个实用函数，返回给定值的类型名称。
+  它可以处理特殊情况，如 null、undefined、HTML 元素，并能正确识别带有自定义 `Symbol.toStringTag` 
+  属性的对象。它是本库中许多类型检测函数使用的核心功能。
 - `isArguments(value): boolean`：指定值是否为 JavaScript 内建的 `arguments` 对象，
   即一个类似数组的对象，表示传递给函数的参数。
 - `isBigInt(value): boolean`：指定值是否为 JavaScript 内建的 `bigint` 基本类型。
@@ -62,11 +60,22 @@ yarn add @qubit-ltd/type-detect
 - `isEvent(value): boolean`：指定值是否为 JavaScript 内建的事件对象，即 JavaScript 内建的 `Event` 类或其子类的实例。
 - `isFile(value): boolean`：指定值是否为 JavaScript 文件 API 对象，即 `File`、`Blob`、`FileList`、
   `FileReader` 或 `FileReaderSync` 类的实例。该函数会在确定类型之前检查当前环境中 File API 功能的可用性。
-- `isGlobalObject(value): boolean`: 指定值是否为[全局对象].
+- `isFunction(value): boolean`：指定值是否为 JavaScript 函数对象。注意，异步函数也被视为函数对象，
+  但生成器函数不是。要检测生成器函数，请使用 `isGenerator(value)` 函数。
+- `isGenerator(value): boolean`：指定值是否为 JavaScript 生成器对象或生成器函数。
+- `isGlobalObject(value): boolean`: 指定值是否为[全局对象]。
+- `isHtmlElement(value): boolean`：指定值是否为 JavaScript DOM 元素。它会检查特定的 DOM 元素属性，
+  如 'innerHTML'、'ownerDocument'、'style'、'attributes' 和 'nodeValue'。
 - `isIntl(value): boolean`：指定值是否为 JavaScript `Intl` 命名空间下的内建对象。
 - `isIterator(value): boolean`：指定值是否为迭代器对象，即具有 `next()` 方法的对象。
+- `isMap(value): boolean`：指定值是否为 JavaScript 内建的 `Map` 对象。此函数可以正确地跨不同的 JavaScript 领域工作。
+- `isNonNullObject(value): boolean`：指定值是否为非空对象，即值类型为 'object' 且不为 null。
 - `isNumber(value): boolean`：指定值是否为 JavaScript 内建的 `number` 基本类型或 `Number` 对象。
 - `isNumeric(value): boolean`：指定值是否为 JavaScript 内建的 `number` 基本类型、`bigint` 基本类型或 `Number` 对象。
+- `isPlainObject(value): boolean`：指定值是否为纯 JavaScript 对象。如果对象是通过 `{}`、`new Object()`
+  或 `Object.create(null)` 创建的，并且没有自定义的 `Symbol.toStringTag` 或 `Symbol.iterator`，
+  则被认为是纯对象。
+- `isSet(value): boolean`：指定值是否为 JavaScript 内建的 `Set` 对象。此函数可以正确地跨不同的 JavaScript 领域工作。
 - `isString(value): boolean`：指定值是否为 JavaScript 内建的 `string` 基本类型或 `String` 对象。
 - `isSymbol(value): boolean`：指定值是否为 JavaScript 内建的 `Symbol` 基本类型。
 - `isTypedArray(value): boolean`：指定值是否为 JavaScript 内建的类型化数组对象。
@@ -85,120 +94,6 @@ function foo(value) {
   }
 }
 ```
-
-### <span id="feature-detection">特性检测常量</span>
-
-此库提供以下常量用于 JavaScript 引擎的特性检测：
-
-- `AGGREGATEERROR_EXISTS`：JavaScript 内置类 `AggregateError` 是否存在。
-- `ARRAYBUFFER_EXISTS`：JavaScript 内置类 `ArrayBuffer` 是否存在。
-- `ARRAY_ISARRAY_EXISTS`：JavaScript 内置函数 `Array.isArray()` 是否存在。
-- `ARRAY_ITERATOR_EXISTS`：JavaScript 内置函数 `Array.prototype[Symbol.iterator]` 是否存在。
-- `ASYNC_FUNCTION_EXISTS`: JavaScript 内置的异步函数是否存在。
-- `ATOMICS_EXISTS`：JavaScript 内置对象 `Atomics` 是否存在。
-- `BIGINT64ARRAY_EXISTS`：JavaScript 内置类 `BigInt64Array` 是否存在。
-- `BIGINT_EXISTS`：JavaScript 内置基本类型 `bigint` 和内置函数 `BigInt` 是否存在。
-- `BIGUINT64ARRAY_EXISTS`：JavaScript 内置类 `BigUint64Array` 是否存在。
-- `DATAVIEW_EXISTS`：JavaScript 内置类 `DataView` 是否存在。
-- `FILE_LIST_EXISTS`：JavaScript 内置类 `FileList` 是否存在。
-- `FILE_READER_EXISTS`：JavaScript 内置类 `FileReader` 是否存在。
-- `FILE_READER_SYNC_EXISTS`：JavaScript 内置类 `FileReaderSync` 是否存在。注意，此类仅在 Web Workers 中可用。
-- `FINALIZATIONREGISTRY_EXISTS`：JavaScript 内置类 `FinalizationRegistry` 是否存在。
-- `FLOAT32ARRAY_EXISTS`：JavaScript 内置类 `Float32Array` 是否存在。
-- `FLOAT64ARRAY_EXISTS`：JavaScript 内置类 `Float64Array` 是否存在。
-- `INT16ARRAY_EXISTS`：JavaScript 内置类 `Int16Array` 是否存在。
-- `INT32ARRAY_EXISTS`：JavaScript 内置类 `Int32Array` 是否存在。
-- `INT8ARRAY_EXISTS`：JavaScript 内置类 `Int8Array` 是否存在。
-- `INTERNALERROR_EXISTS`：JavaScript 内置类 `InternalError` 是否存在。
-- `INTL_COLLATOR_EXISTS`：JavaScript 内置类 `Intl.Collator` 是否存在。
-- `INTL_DATETIMEFORMAT_EXISTS`：JavaScript 内置类 `Intl.DateTimeFormat` 是否存在。
-- `INTL_DISPLAYNAMES_EXISTS`：JavaScript 内置类 `Intl.DisplayNames` 是否存在。
-- `INTL_DURATIONFORMAT_EXISTS`：JavaScript 内置类 `Intl.DurationFormat` 是否存在。
-- `INTL_EXISTS`：JavaScript 内置 `Intl` 命名空间是否存在。
-- `INTL_LISTFORMAT_EXISTS`：JavaScript 内置类 `Intl.ListFormat` 是否存在。
-- `INTL_LOCALE_EXISTS`：JavaScript 内置类 `Intl.Locale` 是否存在。
-- `INTL_NUMBERFORMAT_EXISTS`：JavaScript 内置类 `Intl.NumberFormat` 是否存在。
-- `INTL_PLURALRULES_EXISTS`：JavaScript 内置类 `Intl.PluralRules` 是否存在。
-- `INTL_RELATIVETIMEFORMAT_EXISTS`：JavaScript 内置类 `Intl.RelativeTimeFormat` 是否存在。
-- `INTL_SEGMENTER_EXISTS`：JavaScript 内置类 `Intl.Segmenter` 是否存在。
-- `INTL_SEGMENTER_ITERATOR_EXISTS`：JavaScript 内置函数 `Intl.Segmenter.prototype[Symbol.iterator]` 是否存在。
-- `MAP_ENTRIES_EXISTS`：JavaScript 内置函数 `Map.prototype.entries()` 是否存在。
-- `MAP_EXISTS`：JavaScript 内置类 `Map` 是否存在。
-- `MAP_ITERATOR_EXISTS`：JavaScript 内置函数 `Map.prototype[Symbol.iterator]` 是否存在。
-- `PROMISE_EXISTS`：JavaScript 内置类 `Promise` 是否存在。
-- `PROXY_EXISTS`：JavaScript 内置类 `Proxy` 是否存在。
-- `REFLECT_EXISTS`：JavaScript 内置命名空间 `Reflect` 是否存在。
-- `REGEXP_EXISTS`：JavaScript 内置类 `RegExp` 是否存在。
-- `REGEXP_ITERATOR_EXISTS`：JavaScript 内置函数 `RegExp.prototype[Symbol.matchAll]` 是否存在。
-- `SET_ENTRIES_EXISTS`：JavaScript 内置函数 `Set.prototype.entries()` 是否存在。
-- `SET_EXISTS`：JavaScript 内置类 `Set` 是否存在。
-- `SET_ITERATOR_EXISTS`：JavaScript 内置函数 `Set.prototype[Symbol.iterator]` 是否存在。
-- `SHAREDARRAYBUFFER_EXISTS`：JavaScript 内置类 `SharedArrayBuffer` 是否存在。
-- `STRING_ITERATOR_EXISTS`：JavaScript 内置函数 `String.prototype[Symbol.iterator]` 是否存在。
-- `SYMBOL_EXISTS`：JavaScript 内置 `Symbol` 是否存在。
-- `SYMBOL_ITERATOR_EXISTS`：JavaScript 内置函数 `Symbol.prototype[Symbol.iterator]` 是否存在。
-- `SYMBOL_MATCH_ALL_EXISTS`：JavaScript 内置函数 `Symbol.prototype[Symbol.matchAll]` 是否存在。
-- `SYMBOL_TO_STRING_TAG_EXISTS`：JavaScript 内置函数 `Symbol.prototype[Symbol.toStringTag]` 是否存在。
-- `UINT16ARRAY_EXISTS`：JavaScript 内置类 `Uint16Array` 是否存在。
-- `UINT32ARRAY_EXISTS`：JavaScript 内置类 `Uint32Array` 是否存在。
-- `UINT8ARRAY_EXISTS`：JavaScript 内置类 `Uint8Array` 是否存在。
-- `UINT8CLAMPEDARRAY_EXISTS`：JavaScript 内置类 `Uint8ClampedArray` 是否存在。
-- `WEAKMAP_EXISTS`：JavaScript 内置类 `WeakMap` 是否存在。
-- `WEAKREF_EXISTS`：JavaScript 内置类 `WeakRef` 是否存在。
-- `WEAKSET_EXISTS`：JavaScript 内置类 `WeakSet` 是否存在。
-
-以下代码展示如何使用这些常量：
-```js
-import { WEAKMAP_EXISTS, FILE_READER_EXISTS } from '@qubit-ltd/type-detect';
-
-function foo(value) {
-  if (WEAKMAP_EXISTS) {
-    ...
-  } else {
-    ...
-  }
-  
-  if (FILE_READER_EXISTS) {
-    ...
-  } else {
-    ...
-  }
-}
-```
-
-### <span id="type-prototype">类型原型常量</span>
-
-这个库为 JavaScript 内建对象的原型提供了以下常量：
-
-- `AggregateErrorPrototype`：JavaScript内建`AggregateError`对象的原型，如果`AggregateError`类不存在，则为`undefined`。
-- `ArrayBufferPrototype`：JavaScript内建`ArrayBuffer`对象的原型，如果`ArrayBuffer`类不存在，则为`undefined`。
-- `ArrayIteratorPrototype`：JavaScript内建数组迭代器对象的原型，如果数组迭代器不存在，则为`undefined`。
-- `BigInt64ArrayPrototype`：JavaScript内建`BigInt64Array`对象的原型，如果`BigInt64Array`类不存在，则为`undefined`。
-- `BigIntPrototype`：JavaScript内建`bigint`基本类型的原型，如果`bigint`基本类型不存在，则为`undefined`。
-- `BigUint64ArrayPrototype`：JavaScript内建`BigUint64Array`对象的原型，如果`BigUint64Array`类不存在，则为`undefined`。
-- `DataViewPrototype`：JavaScript内建`DataView`对象的原型，如果`DataView`类不存在，则为`undefined`。
-- `FinalizationRegistryPrototype`：JavaScript内建`FinalizationRegistry`对象的原型，如果`FinalizationRegistry`类不存在，则为`undefined`。
-- `Float32ArrayPrototype`：JavaScript内建`Float32Array`对象的原型，如果`Float32Array`类不存在，则为`undefined`。
-- `Float64ArrayPrototype`：JavaScript内建`Float64Array`对象的原型，如果`Float64Array`类不存在，则为`undefined`。
-- `Int16ArrayPrototype`：JavaScript内建`Int16Array`对象的原型，如果`Int16Array`类不存在，则为`undefined`。
-- `Int32ArrayPrototype`：JavaScript内建`Int32Array`对象的原型，如果`Int32Array`类不存在，则为`undefined`。
-- `Int8ArrayPrototype`：JavaScript内建`Int8Array`对象的原型，如果`Int8Array`类不存在，则为`undefined`。
-- `IntelSegmentIteratorPrototype`：JavaScript内建`Intl.SegmentIterator`对象的原型，如果`Intl.SegmentIterator`类不存在，则为`undefined`。
-- `InternalErrorPrototype`：JavaScript内建`InternalError`对象的原型，如果`InternalError`类不存在，则为`undefined`。
-- `IntlCollatorPrototype`：JavaScript内建`Intl.Collator`对象的原型，如果`Intl.Collator`类不存在，则为`undefined`。
-- `IntlDateTimeFormatPrototype`：JavaScript内建`Intl.DateTimeFormat`对象的原型，如果`Intl.DateTimeFormat`类不存在，则为`undefined`。
-- `IntlDisplayNamesPrototype`：JavaScript内建`Intl.DisplayNames`对象的原型，如果`Intl.DisplayNames`类不存在，则为`undefined`。
-- `IntlDurationFormatPrototype`：JavaScript内建`Intl.DurationFormat`对象的原型，如果`Intl.DurationFormat`类不存在，则为`undefined`。
-- `IntlListFormatPrototype`：JavaScript内建`Intl.ListFormat`对象的原型，如果`Intl.ListFormat`类不存在，则为`undefined`。
-- `IntlLocalePrototype`：JavaScript内建`Intl.Locale`对象的原型，如果`Intl.Locale`类不存在，则为`undefined`。
-- `IntlNumberFormatPrototype`：JavaScript内建`Intl.NumberFormat`对象的原型，如果`Intl.NumberFormat`类不存在，则为`undefined`。
-- `IntlPluralRulesPrototype`：JavaScript内建`Intl.PluralRules`对象的原型，如果`Intl.PluralRules`类不存在，则为`undefined`。
-- `IntlRelativeTimeFormatPrototype`：JavaScript内建`Intl.RelativeTimeFormat`对象的原型，如果`Intl.RelativeTimeFormat`类不存在，则为`undefined`。
-- `IntlSegmenterPrototype`：JavaScript内建`Intl.Segmenter`对象的原型，如果`Intl.Segmenter`类不存在，则为`undefined`。
-- `MapIteratorPrototype`：JavaScript内建`Map`迭代器对象的原型，如果`Map`迭代器不存在，则为`undefined`。
-- `MapPrototype`：JavaScript内建`Map`对象的原型，如果`Map`类不存在，则为`undefined`。
-- `PromisePrototype`：JavaScript内建`Promise`对象的原型，如果`Promise`类不存在，则为`undefined`。
-- `RegExpIteratorPrototype`：JavaScript内建`RegExp`迭代器对象的原型，
 
 ## <span id="why-not-instanceof">为何不使用`instanceof`</span>
 

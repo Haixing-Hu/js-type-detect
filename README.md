@@ -22,9 +22,6 @@ This project draws inspiration from the excellent [sindresorhus/is](https://gith
 
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Type Detection Functions](#type-detection)
-    - [Feature Detection Constants](#feature-detection)
-    - [Type Prototype Constants](#type-prototype)
 - [Why Not Use `instanceof`](#why-not-instanceof)
 - [Cross-Realm Type Detection](#cross-realm)
 - [Why `Proxy` Type Cannot be Detected](#why-no-proxy)
@@ -44,10 +41,12 @@ yarn add @qubit-ltd/type-detect
 ```
 ## <span id="usage">Usage</span>
 
-### <span id="type-detection">Type Detection Functions</span>
-
 The library provides the following functions for type detection:
 
+- `getTypeName(value): string`: gets the type name of a value. This is a utility function
+  that returns the name of the type of the given value. It handles special cases like null,
+  undefined, HTML elements, and properly identifies objects with custom `Symbol.toStringTag`
+  properties. It's the core function used by many type detection functions in this library.
 - `isArguments(value): boolean`: whether the specified value is the JavaScript
   built-in `arguments` object, i.e., an array-like object representing the
   arguments passed to a function.
@@ -80,15 +79,33 @@ The library provides the following functions for type detection:
   object, i.e., an instance of the `File`, `Blob`, `FileList`, `FileReader`, 
   or `FileReaderSync` class. This function will check for the availability of File API 
   features in the current environment before making the type determination.
+- `isFunction(value): boolean`: whether the specified value is a JavaScript
+  function object. Note that async functions are also considered function objects,
+  but generator functions are not. To detect generator functions, use the
+  `isGenerator(value)` function.
+- `isGenerator(value): boolean`: whether the specified value is a JavaScript
+  generator object or a generator function.
 - `isGlobalObject(value): boolean`: whether the specified value is the [global object].
+- `isHtmlElement(value): boolean`: whether the specified value is a JavaScript
+  DOM element. It checks for specific DOM element properties like 'innerHTML',
+  'ownerDocument', 'style', 'attributes', and 'nodeValue'.
 - `isIntl(value): boolean`: whether the specified value is a JavaScript
   built-in object under the `Intl` namespace.
 - `isIterator(value): boolean`: whether the specified value is an iterator
   object, i.e., an object with a `next()` method.
+- `isMap(value): boolean`: whether the specified value is a JavaScript
+  built-in `Map` object. This function works correctly across different JavaScript realms.
+- `isNonNullObject(value): boolean`: whether the specified value is a non-null
+  object, i.e., the value is of type 'object' and is not null.
 - `isNumber(value): boolean`: whether the specified value is a JavaScript
   built-in `number` primitive, or a `Number` object.
 - `isNumeric(value): boolean`: whether the specified value is a JavaScript
   built-in `number` primitive, or `bigint` primitive, or `Number` object.
+- `isPlainObject(value): boolean`: whether the specified value is a plain JavaScript
+  object. An object is considered plain if it's created by `{}`, `new Object()`, or
+  `Object.create(null)`, and doesn't have custom `Symbol.toStringTag` or `Symbol.iterator`.
+- `isSet(value): boolean`: whether the specified value is a JavaScript
+  built-in `Set` object. This function works correctly across different JavaScript realms.
 - `isString(value): boolean`: whether the specified value is a JavaScript
   built-in `string` primitive, or `String` object.
 - `isSymbol(value): boolean`: whether the specified value is a JavaScript
@@ -107,240 +124,6 @@ import { isTypedArray } from '@qubit-ltd/type-detect';
 
 function foo(value) {
   if (isTypedArray(value)) {
-    ...
-  } else {
-    ...
-  }
-}
-```
-
-### <span id="feature-detection">Feature Detection Constants</span>
-
-This library provides the following constants for feature detection:
-
-- `AGGREGATEERROR_EXISTS`: whether the JavaScript built-in class `AggregateError` exists.
-- `ARRAYBUFFER_EXISTS`: whether the JavaScript built-in class `ArrayBuffer` exists.
-- `ARRAY_ISARRAY_EXISTS`: whether the JavaScript built-in function `Array.isArray()` exists.
-- `ARRAY_ITERATOR_EXISTS`: whether the JavaScript built-in function 
-  `Array.prototype[Symbol.iterator]` exists.
-- `ASYNC_FUNCTION_EXISTS`: whether the JavaScript built-in async function exists.
-- `ATOMICS_EXISTS`: whether the JavaScript built-in object `Atomics` exists.
-- `BIGINT64ARRAY_EXISTS`: whether the JavaScript built-in class `BigInt64Array` exists.
-- `BIGINT_EXISTS`: whether the JavaScript built-in primitive `bigint` and 
-  built-in function `BigInt` exists.
-- `BIGUINT64ARRAY_EXISTS`: whether the JavaScript built-in class `BigUint64Array` exists.
-- `DATAVIEW_EXISTS`: whether the JavaScript built-in class `DataView` exists.
-- `FILE_LIST_EXISTS`: whether the JavaScript built-in class `FileList` exists.
-- `FILE_READER_EXISTS`: whether the JavaScript built-in class `FileReader` exists.
-- `FILE_READER_SYNC_EXISTS`: whether the JavaScript built-in class `FileReaderSync` exists. 
-  Note that this is only available in Web Workers.
-- `FINALIZATIONREGISTRY_EXISTS`: whether the JavaScript built-in class `FinalizationRegistry` exists.
-- `FLOAT32ARRAY_EXISTS`: whether the JavaScript built-in class `Float32Array` exists.
-- `FLOAT64ARRAY_EXISTS`: whether the JavaScript built-in class `Float64Array` exists.
-- `INT16ARRAY_EXISTS`: whether the JavaScript built-in class `Int16Array` exists.
-- `INT32ARRAY_EXISTS`: whether the JavaScript built-in class `Int32Array` exists.
-- `INT8ARRAY_EXISTS`: whether the JavaScript built-in class `Int8Array` exists.
-- `INTERNALERROR_EXISTS`: whether the JavaScript built-in class `InternalError` class
-  exists.
-- `INTL_COLLATOR_EXISTS`: whether the JavaScript built-in class `Intl.Collator` class
-  exists.
-- `INTL_DATETIMEFORMAT_EXISTS`: whether the JavaScript built-in class
-  `Intl.DateTimeFormat` class exists.
-- `INTL_DISPLAYNAMES_EXISTS`: whether the JavaScript built-in class `Intl.DisplayNames`
-  class exists.
-- `INTL_DURATIONFORMAT_EXISTS`: whether the JavaScript built-in class
-  `Intl.DurationFormat` class exists.
-- `INTL_EXISTS`: whether the JavaScript built-in `Intl` namespace exists.
-- `INTL_LISTFORMAT_EXISTS`: whether the JavaScript built-in class `Intl.ListFormat` exists.
-- `INTL_LOCALE_EXISTS`: whether the JavaScript built-in class `Intl.Locale` exists.
-- `INTL_NUMBERFORMAT_EXISTS`: whether the JavaScript built-in class `Intl.NumberFormat` exists.
-- `INTL_PLURALRULES_EXISTS`: whether the JavaScript built-in class `Intl.PluralRules` exists.
-- `INTL_RELATIVETIMEFORMAT_EXISTS`: whether the JavaScript built-in class 
-  `Intl.RelativeTimeFormat` exists.
-- `INTL_SEGMENTER_EXISTS`: whether the JavaScript built-in class `Intl.Segmenter` exists.
-- `INTL_SEGMENTER_ITERATOR_EXISTS`: whether the JavaScript built-in function
-  `Intl.Segmenter.prototype[Symbol.iterator]` exists.
-- `MAP_ENTRIES_EXISTS`: whether the JavaScript built-in function
-  `Map.prototype.entries()` exists.
-- `MAP_EXISTS`: whether the JavaScript built-in class `Map` exists.
-- `MAP_ITERATOR_EXISTS`: whether the JavaScript built-in function
-  `Map.prototype[Symbol.iterator]` exists.
-- `PROMISE_EXISTS`: whether the JavaScript built-in class `Promise` exists.
-- `PROXY_EXISTS`: whether the JavaScript built-in class `Proxy` exists.
-- `REFLECT_EXISTS`: whether the JavaScript built-in namespace `Reflect` exists.
-- `REGEXP_EXISTS`: whether the JavaScript built-in class `RegExp` exists.
-- `REGEXP_ITERATOR_EXISTS`: whether the JavaScript built-in function
-  `RegExp.prototype[Symbol.matchAll]` exists.
-- `SET_ENTRIES_EXISTS`: whether the JavaScript built-in function
-  `Set.prototype.entries()` exists.
-- `SET_EXISTS`: whether the JavaScript built-in class `Set` exists.
-- `SET_ITERATOR_EXISTS`: whether the JavaScript built-in function
-  `Set.prototype[Symbol.iterator]` exists.
-- `SHAREDARRAYBUFFER_EXISTS`: whether the JavaScript built-in class
-  `SharedArrayBuffer` exists.
-- `STRING_ITERATOR_EXISTS`: whether the JavaScript built-in function
-  `String.prototype[Symbol.iterator]` exists.
-- `SYMBOL_EXISTS`: whether the JavaScript built-in `Symbol` exists.
-- `SYMBOL_ITERATOR_EXISTS`: whether the JavaScript built-in function
-  `Symbol.prototype[Symbol.iterator]` exists.
-- `SYMBOL_MATCH_ALL_EXISTS`: whether the JavaScript built-in function
-  `Symbol.prototype[Symbol.matchAll]` exists.
-- `SYMBOL_TO_STRING_TAG_EXISTS`: whether the JavaScript built-in function
-  `Symbol.prototype[Symbol.toStringTag]` exists.
-- `UINT16ARRAY_EXISTS`: whether the JavaScript built-in class `Uint16Array` exists.
-- `UINT32ARRAY_EXISTS`: whether the JavaScript built-in class `Uint32Array` exists.
-- `UINT8ARRAY_EXISTS`: whether the JavaScript built-in class `Uint8Array` exists.
-- `UINT8CLAMPEDARRAY_EXISTS`: whether the JavaScript built-in class
-  `Uint8ClampedArray` exists.
-- `WEAKMAP_EXISTS`: whether the JavaScript built-in class `WeakMap` exists.
-- `WEAKREF_EXISTS`: whether the JavaScript built-in class `WeakRef` exists.
-- `WEAKSET_EXISTS`: whether the JavaScript built-in class `WeakSet` exists.
-
-The following code shows how to use these constants:
-```js
-import { WEAKMAP_EXISTS, FILE_READER_EXISTS } from '@qubit-ltd/type-detect';
-
-function foo(value) {
-  if (WEAKMAP_EXISTS) {
-    // Use WeakMap features
-    ...
-  } else {
-    // Fallback implementation
-    ...
-  }
-  
-  if (FILE_READER_EXISTS) {
-    // Use FileReader API
-    const reader = new FileReader();
-    ...
-  } else {
-    // Provide alternative for environments without FileReader
-    ...
-  }
-}
-```
-
-### <span id="type-prototype">Type Prototype Constants</span>
-
-This library provides the following constants for the prototypes of JavaScript
-built-in objects:
-
-- `AggregateErrorPrototype`: the prototype of the JavaScript built-in
-  `AggregateError` objects, or `undefined` if the `AggregateError` class does not
-  exist.
-- `ArrayBufferPrototype`: the prototype of the JavaScript built-in
-  `ArrayBuffer` objects, or `undefined` if the `ArrayBuffer` class does not exist.
-- `ArrayIteratorPrototype`: the prototype of the JavaScript built-in array
-   iterator objects, or `undefined` if the array iterator does not exist.
-- `BigInt64ArrayPrototype`: the prototype of the JavaScript built-in
-  `BigInt64Array` objects, or `undefined` if the `BigInt64Array` class does not
-  exist.
-- `BigIntPrototype`: the prototype of the JavaScript built-in `bigint` primitive,
-  or `undefined` if the `bigint` primitive does not exist.
-- `BigUint64ArrayPrototype`: the prototype of the JavaScript built-in
-  `BigUint64Array` objects, or `undefined` if the `BigUint64Array` class does not
-  exist.
-- `DataViewPrototype`: the prototype of the JavaScript built-in `DataView`
-  objects, or `undefined` if the `DataView` class does not exist.
-- `FinalizationRegistryPrototype`: the prototype of the JavaScript built-in
-  `FinalizationRegistry` objects, or `undefined` if the `FinalizationRegistry`
-  class does not exist.
-- `Float32ArrayPrototype`: the prototype of the JavaScript built-in
-  `Float32Array` objects, or `undefined` if the `Float32Array` class does not
-  exist.
-- `Float64ArrayPrototype`: the prototype of the JavaScript built-in
-  `Float64Array` objects, or `undefined` if the `Float64Array` class does not
-  exist.
-- `Int16ArrayPrototype`: the prototype of the JavaScript built-in
-  `Int16Array` objects, or `undefined` if the `Int16Array` class does not exist.
-- `Int32ArrayPrototype`: the prototype of the JavaScript built-in
-  `Int32Array` objects, or `undefined` if the `Int32Array` class does not exist.
-- `Int8ArrayPrototype`: the prototype of the JavaScript built-in
-  `Int8Array` objects, or `undefined` if the `Int8Array` class does not exist.
-- `IntelSegmentIteratorPrototype`: the prototype of the JavaScript built-in
-  `Intl.SegmentIterator` objects, or `undefined` if the `Intl.SegmentIterator`
-  class does not exist.
-- `InternalErrorPrototype`: the prototype of the JavaScript built-in
-  `InternalError` objects, or `undefined` if the `InternalError` class does not
-  exist.
-- `IntlCollatorPrototype`: the prototype of the JavaScript built-in
-  `Intl.Collator` objects, or `undefined` if the `Intl.Collator` class does not
-  exist.
-- `IntlDateTimeFormatPrototype`: the prototype of the JavaScript built-in
-  `Intl.DateTimeFormat` objects, or `undefined` if the `Intl.DateTimeFormat`
-  class does not exist.
-- `IntlDisplayNamesPrototype`: the prototype of the JavaScript built-in
-  `Intl.DisplayNames` objects, or `undefined` if the `Intl.DisplayNames` class
-  does not exist.
-- `IntlDurationFormatPrototype`: the prototype of the JavaScript built-in
-  `Intl.DurationFormat` objects, or `undefined` if the `Intl.DurationFormat`
-  class does not exist.
-- `IntlListFormatPrototype`: the prototype of the JavaScript built-in
-  `Intl.ListFormat` objects, or `undefined` if the `Intl.ListFormat` class does
-  not exist.
-- `IntlLocalePrototype`: the prototype of the JavaScript built-in
-  `Intl.Locale` objects, or `undefined` if the `Intl.Locale` class does not
-  exist.
-- `IntlNumberFormatPrototype`: the prototype of the JavaScript built-in
-  `Intl.NumberFormat` objects, or `undefined` if the `Intl.NumberFormat` class
-  does not exist.
-- `IntlPluralRulesPrototype`: the prototype of the JavaScript built-in
-  `Intl.PluralRules` objects, or `undefined` if the `Intl.PluralRules` class
-  does not exist.
-- `IntlRelativeTimeFormatPrototype`: the prototype of the JavaScript built-in
-  `Intl.RelativeTimeFormat` objects, or `undefined` if the
-  `Intl.RelativeTimeFormat` class does not exist.
-- `IntlSegmenterPrototype`: the prototype of the JavaScript built-in
-  `Intl.Segmenter` objects, or `undefined` if the `Intl.Segmenter` class does
-  not exist.
-- `MapIteratorPrototype`: the prototype of the JavaScript built-in `Map`
-  iterator objects, or `undefined` if the `Map` iterator does not exist.
-- `MapPrototype`: the prototype of the JavaScript built-in `Map` objects, or
-  `undefined` if the `Map` class does not exist.
-- `PromisePrototype`: the prototype of the JavaScript built-in `Promise`
-  objects, or `undefined` if the `Promise` class does not exist.
-- `RegExpIteratorPrototype`: the prototype of the JavaScript built-in
-  `RegExp` iterator objects, or `undefined` if the `RegExp` iterator does not
-  exist.
-- `RegExpPrototype`: the prototype of the JavaScript built-in `RegExp` objects,
-  or `undefined` if the `RegExp` class does not exist.
-- `SetIteratorPrototype`: the prototype of the JavaScript built-in `Set`
-  iterator objects, or `undefined` if the `Set` iterator does not exist.
-- `SetPrototype`: the prototype of the JavaScript built-in `Set` objects, or
-  `undefined` if the `Set` class does not exist.
-- `SharedArrayBufferPrototype`: the prototype of the JavaScript built-in
-  `SharedArrayBuffer` objects, or `undefined` if the `SharedArrayBuffer` class
-  does not exist.
-- `StringIteratorPrototype`: the prototype of the JavaScript built-in `String`
-  iterator objects, or `undefined` if the `String` iterator does not exist.
-- `SymbolPrototype`: the prototype of the JavaScript built-in `Symbol` primitives,
-  or `undefined` if the `Symbol` primitive does not exist.
-- `Uint16ArrayPrototype`: the prototype of the JavaScript built-in
-  `Uint16Array` objects, or `undefined` if the `Uint16Array` class does not
-  exist.
-- `Uint32ArrayPrototype`: the prototype of the JavaScript built-in
-  `Uint32Array` objects, or `undefined` if the `Uint32Array` class does not
-  exist.
-- `Uint8ArrayPrototype`: the prototype of the JavaScript built-in
-  `Uint8Array` objects, or `undefined` if the `Uint8Array` class does not
-  exist.
-- `Uint8ClampedArrayPrototype`: the prototype of the JavaScript built-in
-  `Uint8ClampedArray` objects, or `undefined` if the `Uint8ClampedArray` class
-  does not exist.
-- `WeakMapPrototype`: the prototype of the JavaScript built-in `WeakMap`
-  objects, or `undefined` if the `WeakMap` class does not exist.
-- `WeakRefPrototype`: the prototype of the JavaScript built-in `WeakRef`
-  objects, or `undefined` if the `WeakRef` class does not exist.
-- `WeakSetPrototype`: the prototype of the JavaScript built-in `WeakSet`
-  objects, or `undefined` if the `WeakSet` class does not exist.
-
-The following code shows how to use these constants:
-```js
-import { WeakMapPrototype } from '@qubit-ltd/type-detect';
-
-function foo(value) {
-  const proto = Object.getPrototypeOf(value);
-  if (proto === WeakMapPrototype) {
     ...
   } else {
     ...
