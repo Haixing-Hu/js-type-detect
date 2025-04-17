@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//    Copyright (c) 2022 - 2024.
+//    Copyright (c) 2022 - 2025.
 //    Haixing Hu, Qubit Co. Ltd.
 //
 //    All rights reserved.
@@ -8,21 +8,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Tests whether the specified value is a primitive `number`, or a built-in
- * `Number` object.
+ * Tests whether the specified value is a built-in `Map` object.
  *
- * @param {any} value
+ * @param value
  *     the specified value.
- * @returns {boolean}
- *     `true` if the specified value is a primitive `number`, or a built-in
- *     `Number` object; `false` otherwise.
- * @see isNumeric
- * @see isBigInt
+ * @return {boolean}
+ *     `true` if the specified value is a built-in `Map` object; `false` otherwise.
  * @author Haixing Hu
  * @see <a href=" https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
-function isNumber(value) {
-  return Object.prototype.toString.call(value) === '[object Number]';
+function isMap(value) {
+  return Object.prototype.toString.call(value) === '[object Map]';
 }
 
-export default isNumber;
+export default isMap;

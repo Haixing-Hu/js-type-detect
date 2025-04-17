@@ -6,11 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import {
-  WeakMapPrototype,
-  WeakRefPrototype,
-  WeakSetPrototype,
-} from './builtin-prototype';
 
 /**
  * Tests whether the specified value is a weak reference object, i.e., a
@@ -27,11 +22,10 @@ function isWeak(value) {
   if ((value === null) || (typeof value !== 'object')) {
     return false;
   }
-  const proto = Object.getPrototypeOf(value);
-  switch (proto) {
-    case WeakMapPrototype:                  // drop down
-    case WeakSetPrototype:                  // drop down
-    case WeakRefPrototype:
+  switch (Object.prototype.toString.call(value)) {
+    case '[object WeakMap]':        // drop down
+    case '[object WeakSet]':        // drop down
+    case '[object WeakRef]':        // drop down
       return true;
     default:
       return false;

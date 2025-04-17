@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 import { BIGINT_EXISTS, isNumeric } from '../src';
 
 /* eslint-disable no-undef */
@@ -65,4 +66,16 @@ describe('Test the `isNumeric()` function', () => {
       expect(isNumeric(BigInt(1))).toBe(true);
     });
   }
+  test('should works across realms', () => {
+    expect(isNumeric(runInNewContext('0'))).toBe(true);
+    expect(isNumeric(runInNewContext('1.2'))).toBe(true);
+    expect(isNumeric(runInNewContext('new Number(123)'))).toBe(true);
+    expect(isNumeric(runInNewContext('new Number(Infinity)'))).toBe(true);
+    expect(isNumeric(runInNewContext('false'))).toBe(false);
+    expect(isNumeric(runInNewContext('new Boolean(true)'))).toBe(false);
+    expect(isNumeric(runInNewContext('null'))).toBe(false);
+    expect(isNumeric(runInNewContext('undefined'))).toBe(false);
+    expect(isNumeric(runInNewContext('1n'))).toBe(true);
+    expect(isNumeric(runInNewContext('BigInt(123)'))).toBe(true);
+  });
 });

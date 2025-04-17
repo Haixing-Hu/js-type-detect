@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 import { isString } from '../src';
 
 /**
@@ -37,5 +38,9 @@ describe('Test the `isString()` function', () => {
   test('nullish values', () => {
     expect(isString(null)).toBe(false);
     expect(isString(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isString(runInNewContext('"abc"'))).toBe(true);
+    expect(isString(runInNewContext('new String("abc")'))).toBe(true);
   });
 });

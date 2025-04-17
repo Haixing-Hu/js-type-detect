@@ -6,14 +6,15 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isFile } from '../src';
+import { runInNewContext } from 'node:vm';
 import {
+  isFile,
   BLOB_EXISTS,
   FILE_EXISTS,
   FILE_LIST_EXISTS,
   FILE_READER_EXISTS,
   FILE_READER_SYNC_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -71,5 +72,11 @@ describe('Test the `isFile()` function', () => {
   it('should return false for non-File-related objects', () => {
     const obj = {};
     expect(isFile(obj)).toBe(false);
+  });
+
+  test('should works across realms', () => {
+    expect(isFile(runInNewContext('new WeakSet()'))).toBe(false);
+    // FIXME: no File in vm
+    // expect(isFile(runInNewContext('new File([\'\'], \'filename\')'))).toBe(true);
   });
 });

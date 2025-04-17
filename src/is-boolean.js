@@ -19,7 +19,7 @@
  * @author Haixing Hu
  */
 function isBoolean(value) {
-  return (typeof value === 'boolean') || (value instanceof Boolean);
+  return Object.prototype.toString.call(value) === '[object Boolean]';
 }
 
 export default isBoolean;

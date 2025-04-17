@@ -6,11 +6,13 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isTypedArray } from '../src';
+import { runInNewContext } from 'node:vm';
 import {
+  isTypedArray,
   BIGINT64ARRAY_EXISTS,
   BIGUINT64ARRAY_EXISTS,
-  FLOAT32ARRAY_EXISTS, FLOAT64ARRAY_EXISTS,
+  FLOAT32ARRAY_EXISTS,
+  FLOAT64ARRAY_EXISTS,
   INT16ARRAY_EXISTS,
   INT32ARRAY_EXISTS,
   INT8ARRAY_EXISTS,
@@ -18,7 +20,7 @@ import {
   UINT32ARRAY_EXISTS,
   UINT8ARRAY_EXISTS,
   UINT8CLAMPEDARRAY_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -96,5 +98,19 @@ describe('Test the `isTypedArray()` function', () => {
   test('nullish values', () => {
     expect(isTypedArray(null)).toBe(false);
     expect(isTypedArray(undefined)).toBe(false);
+  });
+
+  test('should works across realms', () => {
+    expect(isTypedArray(runInNewContext('new Int8Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Uint8Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Uint8ClampedArray(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Int16Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Uint16Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Int32Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Uint32Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new BigInt64Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new BigUint64Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Float32Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('new Float64Array(2)'))).toBe(true);
   });
 });

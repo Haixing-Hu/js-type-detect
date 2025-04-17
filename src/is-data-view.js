@@ -6,7 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { DataViewPrototype } from './builtin-prototype';
 
 /**
  * Tests whether the specified value is a data view object, i.e., an `DataView`
@@ -23,8 +22,7 @@ function isDataView(value) {
   if ((value === null) || (value === undefined)) {
     return false;
   }
-  const proto = Object.getPrototypeOf(value);
-  return (proto === DataViewPrototype);
+  return Object.prototype.toString.call(value) === '[object DataView]';
 }
 
 export default isDataView;

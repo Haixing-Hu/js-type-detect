@@ -6,10 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import {
-  WeakMapPrototype,
-  WeakSetPrototype,
-} from './builtin-prototype';
 
 /**
  * Tests whether the specified value is a built-in weak collection object, i.e., a
@@ -21,15 +17,15 @@ import {
  *     `true` if the specified value is a built-in weak collection object, i.e.,
  *     an `WeakMap` or a `WeakSet` object; `false` otherwise.
  * @author Haixing Hu
+ * @see <a href=" https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isWeakCollection(value) {
   if ((value === null) || (value === undefined)) {
     return false;
   }
-  const proto = Object.getPrototypeOf(value);
-  switch (proto) {
-    case WeakMapPrototype:        // drop down
-    case WeakSetPrototype:        // drop down
+  switch (Object.prototype.toString.call(value)) {
+    case '[object WeakMap]':        // drop down
+    case '[object WeakSet]':        // drop down
       return true;
     default:
       return false;

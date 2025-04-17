@@ -6,10 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import {
-  MapPrototype,
-  SetPrototype,
-} from './builtin-prototype';
 
 /**
  * Tests whether the specified value is a built-in collection object, i.e., a
@@ -21,15 +17,15 @@ import {
  *     `true` if the specified value is a built-in collection object, i.e., an
  *     `Map` or a `Set` object; `false` otherwise.
  * @author Haixing Hu
+ * @see <a href=" https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isCollection(value) {
   if ((value === null) || (value === undefined)) {
     return false;
   }
-  const proto = Object.getPrototypeOf(value);
-  switch (proto) {
-    case MapPrototype:        // drop down
-    case SetPrototype:        // drop down
+  switch (Object.prototype.toString.call(value)) {
+    case '[object Map]':        // drop down
+    case '[object Set]':        // drop down
       return true;
     default:
       return false;

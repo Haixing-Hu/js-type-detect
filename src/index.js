@@ -6,8 +6,9 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import getTypeName from './get-type-name';
 import GLOBAL_OBJECT from './global-object';
+import getObjectType from './get-object-type';
+import getTypeName from './get-type-name';
 import isArguments from './is-arguments';
 import isBigInt from './is-bigint';
 import isBoolean from './is-boolean';
@@ -24,13 +25,20 @@ import isFile from './is-file';
 import isFunction from './is-function';
 import isGenerator from './is-generator';
 import isGlobalObject from './is-global-object';
+import isHtmlElement from './is-html-element';
 import isIntl from './is-intl';
 import isIterator from './is-iterator';
+import isMap from './is-map';
+import isNonNullObject from './is-non-null-object';
 import isNumber from './is-number';
 import isNumeric from './is-numeric';
+import isObjectTypeName from './is-object-type-name';
+import isPlainObject from './is-plain-object';
+import isSet from './is-set';
 import isString from './is-string';
 import isSymbol from './is-symbol';
 import isTypedArray from './is-typed-array';
+import isTypedArrayTypeName from './is-typed-array-type-name';
 import isWeak from './is-weak';
 import isWeakCollection from './is-weak-collection';
 import {
@@ -169,8 +177,9 @@ import {
 } from './builtin-prototype';
 
 export {
-  getTypeName,
   GLOBAL_OBJECT,
+  getObjectType,
+  getTypeName,
   isArguments,
   isBigInt,
   isBoolean,
@@ -187,13 +196,20 @@ export {
   isFunction,
   isGenerator,
   isGlobalObject,
+  isHtmlElement,
   isIntl,
   isIterator,
+  isMap,
+  isNonNullObject,
   isNumber,
   isNumeric,
+  isObjectTypeName,
+  isPlainObject,
+  isSet,
   isString,
   isSymbol,
   isTypedArray,
+  isTypedArrayTypeName,
   isWeak,
   isWeakCollection,
   AGGREGATEERROR_EXISTS,

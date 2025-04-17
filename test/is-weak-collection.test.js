@@ -6,7 +6,12 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isWeakCollection, WEAKMAP_EXISTS, WEAKSET_EXISTS } from '../src';
+import { runInNewContext } from 'node:vm';
+import {
+  isWeakCollection,
+  WEAKMAP_EXISTS,
+  WEAKSET_EXISTS,
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -38,5 +43,9 @@ describe('Test the `isWeak()` function', () => {
   test('nullish values', () => {
     expect(isWeakCollection(null)).toBe(false);
     expect(isWeakCollection(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isWeakCollection(runInNewContext('new WeakSet()'))).toBe(true);
+    expect(isWeakCollection(runInNewContext('new WeakMap()'))).toBe(true);
   });
 });

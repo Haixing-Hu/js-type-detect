@@ -6,15 +6,14 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 import {
   isCollection,
-} from '../src';
-import {
   MAP_EXISTS,
   SET_EXISTS,
   WEAKMAP_EXISTS,
   WEAKSET_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -53,5 +52,9 @@ describe('Test the `isCollection()` function', () => {
   test('nullish values', () => {
     expect(isCollection(null)).toBe(false);
     expect(isCollection(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isCollection(runInNewContext('new Set()'))).toBe(true);
+    expect(isCollection(runInNewContext('new Map()'))).toBe(true);
   });
 });

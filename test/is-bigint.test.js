@@ -6,8 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isBigInt } from '../src';
-import { SYMBOL_EXISTS } from '../src/feature-detect';
+import { runInNewContext } from 'node:vm';
+import { isBigInt, SYMBOL_EXISTS } from '../src';
 
 /**
  * Unit test of the `isBigInt()` function.
@@ -47,5 +47,17 @@ describe('Test the `isString()` function', () => {
   });
   it('returns false for undefined', () => {
     expect(isBigInt(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isBigInt(runInNewContext('0'))).toBe(false);
+    expect(isBigInt(runInNewContext('1.2'))).toBe(false);
+    expect(isBigInt(runInNewContext('new Number(123)'))).toBe(false);
+    expect(isBigInt(runInNewContext('new Number(Infinity)'))).toBe(false);
+    expect(isBigInt(runInNewContext('false'))).toBe(false);
+    expect(isBigInt(runInNewContext('new Boolean(true)'))).toBe(false);
+    expect(isBigInt(runInNewContext('null'))).toBe(false);
+    expect(isBigInt(runInNewContext('undefined'))).toBe(false);
+    expect(isBigInt(runInNewContext('1n'))).toBe(true);
+    expect(isBigInt(runInNewContext('BigInt(123)'))).toBe(true);
   });
 });

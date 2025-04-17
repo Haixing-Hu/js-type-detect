@@ -21,14 +21,16 @@
  * @see isNumber
  * @see isBigInt
  * @author Haixing Hu
+ * @see <a href=" https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isNumeric(value) {
-  switch (typeof value) {
-    case 'number':
-    case 'bigint':
+  if ((value === null) || (value === undefined)) {
+    return false;
+  }
+  switch (Object.prototype.toString.call(value)) {
+    case '[object Number]':        // drop down
+    case '[object BigInt]':        // drop down
       return true;
-    case 'object':
-      return (value instanceof Number);
     default:
       return false;
   }

@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 //
 //    Copyright (c) 2022 - 2023.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -6,7 +7,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isBoolean } from '../src';
+import { isBoolean, isCollection } from '../src';
 
 /**
  * Unit test of the `isBoolean()` function.
@@ -37,5 +38,9 @@ describe('Test the `isBoolean()` function', () => {
   test('nullish values', () => {
     expect(isBoolean(null)).toBe(false);
     expect(isBoolean(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isBoolean(runInNewContext('true'))).toBe(true);
+    expect(isBoolean(runInNewContext('new Boolean(false)'))).toBe(true);
   });
 });

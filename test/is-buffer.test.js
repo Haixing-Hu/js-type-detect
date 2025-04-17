@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 //
 //    Copyright (c) 2022 - 2023.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -6,7 +7,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isBuffer } from '../src';
+import { isBuffer, isCollection } from '../src';
 import {
   ARRAYBUFFER_EXISTS,
   SHAREDARRAYBUFFER_EXISTS,
@@ -42,5 +43,9 @@ describe('Test the `isBuffer()` function', () => {
   test('nullish values', () => {
     expect(isBuffer(null)).toBe(false);
     expect(isBuffer(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isCollection(runInNewContext('new Set()'))).toBe(true);
+    expect(isCollection(runInNewContext('new Map()'))).toBe(true);
   });
 });

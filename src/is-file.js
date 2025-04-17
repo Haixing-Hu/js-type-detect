@@ -6,13 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import {
-  BLOB_EXISTS,
-  FILE_EXISTS,
-  FILE_LIST_EXISTS,
-  FILE_READER_EXISTS,
-  FILE_READER_SYNC_EXISTS,
-} from './feature-detect';
 
 /**
  * Tests whether the specified value is a JavaScript File API object.
@@ -28,11 +21,17 @@ import {
  * @author Haixing Hu
  */
 function isFile(value) {
-  return (FILE_EXISTS && (value instanceof File))
-    || (BLOB_EXISTS && (value instanceof Blob))
-    || (FILE_LIST_EXISTS && (value instanceof FileList))
-    || (FILE_READER_EXISTS && (value instanceof FileReader))
-    || (FILE_READER_SYNC_EXISTS && (value instanceof FileReaderSync));   // eslint-disable-line no-undef
+  const name = Object.prototype.toString.call(value);
+  switch (name) {
+    case '[object File]':
+    case '[object Blob]':
+    case '[object FileList]':
+    case '[object FileReader]':
+    case '[object FileReaderSync]':
+      return true;
+    default:
+      return false;
+  }
 }
 
 export default isFile;

@@ -6,7 +6,12 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isDataView, ARRAYBUFFER_EXISTS, DATAVIEW_EXISTS } from '../src';
+import { runInNewContext } from 'node:vm';
+import {
+  isDataView,
+  ARRAYBUFFER_EXISTS,
+  DATAVIEW_EXISTS,
+} from '../src';
 
 describe('isDataView', () => {
   if (ARRAYBUFFER_EXISTS && DATAVIEW_EXISTS) {
@@ -45,5 +50,9 @@ describe('isDataView', () => {
   });
   it('returns false for undefined', () => {
     expect(isDataView(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isDataView(runInNewContext('new WeakSet()'))).toBe(false);
+    expect(isDataView(runInNewContext('new DataView(new ArrayBuffer(8))'))).toBe(true);
   });
 });

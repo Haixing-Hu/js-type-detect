@@ -6,8 +6,8 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isSymbol } from '../src';
-import { SYMBOL_EXISTS } from '../src/feature-detect';
+import { runInNewContext } from 'node:vm';
+import { isSymbol, SYMBOL_EXISTS } from '../src';
 
 /**
  * Unit test of the `isString()` function.
@@ -47,5 +47,10 @@ describe('Test the `isSymbol()` function', () => {
   test('nullish values', () => {
     expect(isSymbol(null)).toBe(false);
     expect(isSymbol(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isSymbol(runInNewContext('new Set()'))).toBe(false);
+    expect(isSymbol(runInNewContext('new Map()'))).toBe(false);
+    expect(isSymbol(runInNewContext('Symbol(\'test\')'))).toBe(true);
   });
 });

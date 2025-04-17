@@ -1,4 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
+import isMatchObjectTypeToStringName
+  from './is-match-object-type-to-string-name';
 //
 //    Copyright (c) 2022 - 2024.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -6,19 +8,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import {
-  BigInt64ArrayPrototype,
-  BigUint64ArrayPrototype,
-  Float32ArrayPrototype,
-  Float64ArrayPrototype,
-  Int16ArrayPrototype,
-  Int32ArrayPrototype,
-  Int8ArrayPrototype,
-  Uint16ArrayPrototype,
-  Uint32ArrayPrototype,
-  Uint8ArrayPrototype,
-  Uint8ClampedArrayPrototype,
-} from './builtin-prototype';
+import isTypedArrayTypeName from './is-typed-array-type-name';
 
 /**
  * Tests whether the specified value is a typed-array.
@@ -28,28 +18,18 @@ import {
  * @return {boolean}
  *     `true` if the specified value is a typed-array; `false` otherwise.
  * @author Haixing Hu
+ * @see <a href=" https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isTypedArray(value) {
   if ((value === null) || (value === undefined)) {
     return false;
   }
-  const proto = Object.getPrototypeOf(value);
-  switch (proto) {
-    case Int8ArrayPrototype:                // drop down
-    case Uint8ArrayPrototype:               // drop down
-    case Uint8ClampedArrayPrototype:        // drop down
-    case Int16ArrayPrototype:               // drop down
-    case Uint16ArrayPrototype:              // drop down
-    case Int32ArrayPrototype:               // drop down
-    case Uint32ArrayPrototype:              // drop down
-    case BigInt64ArrayPrototype:            // drop down
-    case BigUint64ArrayPrototype:           // drop down
-    case Float32ArrayPrototype:             // drop down
-    case Float64ArrayPrototype:             // drop down
-      return true;
-    default:
-      return false;
+  const toStringValue = Object.prototype.toString.call(value);
+  if (!isMatchObjectTypeToStringName(toStringValue)) {
+    return false;
   }
+  const typeName = toStringValue.slice(8, -1);
+  return isTypedArrayTypeName(typeName);
 }
 
 export default isTypedArray;
