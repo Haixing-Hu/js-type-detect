@@ -17,7 +17,7 @@
  *     `true` if the specified value is a built-in weak collection object, i.e.,
  *     an `WeakMap` or a `WeakSet` object; `false` otherwise.
  * @author Haixing Hu
- * @see <a href=" https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isWeakCollection(value) {
   if ((value === null) || (value === undefined)) {

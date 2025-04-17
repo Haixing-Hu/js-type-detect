@@ -21,7 +21,7 @@
  * @see isNumber
  * @see isBigInt
  * @author Haixing Hu
- * @see <a href=" https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isNumeric(value) {
   if ((value === null) || (value === undefined)) {
