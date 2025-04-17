@@ -15,11 +15,54 @@
 
 - **跨域兼容性**：能够在不同的JavaScript域（iframe、窗口、工作线程）之间正确识别类型
 - **全面的类型检测**：提供30多个专门函数，精确检查JavaScript内置类型
+- **丰富的Web API支持**：检测300多种浏览器特定对象，包括DOM、HTML DOM、SVG DOM和CSSOM元素
 - **轻量级**：体积小，依赖少
 - **100%测试覆盖率**：全面测试确保在所有环境中的可靠性
 - **支持现代JavaScript**：兼容最新的ECMAScript特性和标准
 - **环境感知**：安全检查环境特定类型（DOM、CSSOM、文件API）
 - **健壮的检测方法**：使用对象内部特征而非不可靠的原型链检查
+
+## 全面的 Web API 类型检测
+
+本库提供了对浏览器特定对象类型的广泛支持，使其对 Web 应用程序特别有价值。类型检测涵盖以下主要 Web API 类别：
+
+### DOM API 支持
+该库可以识别核心[文档对象模型 (DOM)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)中的 50 多个 DOM API 接口，包括：
+
+- 核心元素：`Document`、`Node`、`Element`、`Text`
+- 事件：`Event`、`CustomEvent`
+- DOM 抽象：`Range`、`NodeList`、`HTMLCollection`
+- 解析工具：`DOMParser`
+- 现代 API：`MutationObserver`、`TextEncoder`/`TextDecoder`
+
+### HTML DOM 支持
+我们全面支持来自 [HTML DOM API](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API) 的 100 多种类型检测，包括：
+
+- 所有 HTML 元素：`HTMLDivElement`、`HTMLAnchorElement`、`HTMLImageElement` 等
+- 表单元素：`HTMLFormElement`、`HTMLInputElement`、`HTMLSelectElement`
+- 媒体元素：`HTMLVideoElement`、`HTMLAudioElement`
+- Canvas 接口：`CanvasRenderingContext2D`、`ImageBitmap`
+- 浏览器接口：`Window`、`Navigator`、`History`
+- 拖放接口：`DataTransfer`、`DragEvent`
+
+### SVG DOM 支持
+该库提供了来自 [SVG API](https://developer.mozilla.org/en-US/docs/Web/API/SVG_API) 的 100 多种类型检测，包括：
+
+- SVG 元素：`SVGSVGElement`、`SVGPathElement`、`SVGCircleElement`
+- 动画元素：`SVGAnimateElement`、`SVGAnimateTransformElement`
+- 滤镜元素：`SVGFilterElement` 和所有滤镜效果元素
+- 数据类型：`SVGLength`、`SVGTransform`、`SVGAnimatedNumber`
+
+### CSSOM 支持
+我们支持来自 [CSS 对象模型 (CSSOM)](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model) 的 70 多种类型检测，包括：
+
+- 核心接口：`CSS`、`CSSStyleDeclaration`、`CSSRule`、`StyleSheet`
+- 特定规则类型：`CSSStyleRule`、`CSSMediaRule`、`CSSKeyframesRule`
+- 字体接口：`FontFace`、`FontFaceSet`
+- 现代 CSS Typed OM：`CSSStyleValue`、`CSSUnitValue`、`CSSTransformValue`
+- 动画和过渡：`AnimationEvent`、`TransitionEvent`
+
+与许多主要关注 JavaScript 内置类型的类型检查库不同，[type-detect] 提供了这种广泛的浏览器对象检测，同时保持可靠的跨域兼容性和小巧的包大小。
 
 ## 与sindresorhus/is的比较
 
@@ -42,6 +85,11 @@
 
 - [安装](#installation)
 - [使用](#usage)
+- [全面的 Web API 类型检测](#全面的-web-api-类型检测)
+  - [DOM API 支持](#dom-api-支持)
+  - [HTML DOM 支持](#html-dom-支持)
+  - [SVG DOM 支持](#svg-dom-支持)
+  - [CSSOM 支持](#cssom-支持)
 - [为何不使用`instanceof`](#why-not-instanceof)
 - [跨域类型检测](#cross-realm)
 - [为何无法检测`Proxy`类型](#why-no-proxy)

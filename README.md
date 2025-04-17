@@ -18,11 +18,54 @@ If you want to get more detailed type information of a variable, you can use the
 
 - **Cross-realm compatibility**: Correctly identifies types across different JavaScript realms (iframes, windows, workers)
 - **Comprehensive type detection**: 30+ specialized functions for precise type checking of JavaScript built-ins
+- **Extensive Web API support**: Detects 300+ browser-specific objects, including DOM, HTML DOM, SVG DOM, and CSSOM elements
 - **Lightweight**: Small footprint with minimal dependencies
 - **100% test coverage**: Thorough testing ensures reliability in all environments
 - **Modern JavaScript support**: Compatible with the latest ECMAScript features and standards
 - **Environment awareness**: Safely checks for environment-specific types (DOM, CSSOM, File API)
 - **Robust detection methods**: Uses internal object characteristics rather than unreliable prototype checks
+
+## Comprehensive Web API Type Detection
+
+This library offers extensive support for detecting browser-specific object types, making it especially valuable for web applications. The type detection covers the following major web API categories:
+
+### DOM API Support
+The library can identify over 50 DOM API interfaces from the core [Document Object Model (DOM)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model), including:
+
+- Core elements: `Document`, `Node`, `Element`, `Text`
+- Events: `Event`, `CustomEvent`
+- DOM abstractions: `Range`, `NodeList`, `HTMLCollection` 
+- Parsing utilities: `DOMParser`
+- Modern APIs: `MutationObserver`, `TextEncoder`/`TextDecoder`
+
+### HTML DOM Support
+We support comprehensive detection of over 100 types from the [HTML DOM API](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API), including:
+
+- All HTML elements: `HTMLDivElement`, `HTMLAnchorElement`, `HTMLImageElement`, etc.
+- Form elements: `HTMLFormElement`, `HTMLInputElement`, `HTMLSelectElement`
+- Media elements: `HTMLVideoElement`, `HTMLAudioElement`
+- Canvas interfaces: `CanvasRenderingContext2D`, `ImageBitmap`
+- Browser interfaces: `Window`, `Navigator`, `History`
+- Drag and drop interfaces: `DataTransfer`, `DragEvent`
+
+### SVG DOM Support
+The library provides detection for over 100 types from the [SVG API](https://developer.mozilla.org/en-US/docs/Web/API/SVG_API), including:
+
+- SVG elements: `SVGSVGElement`, `SVGPathElement`, `SVGCircleElement`
+- Animation elements: `SVGAnimateElement`, `SVGAnimateTransformElement`
+- Filter elements: `SVGFilterElement` and all filter effect elements
+- Data types: `SVGLength`, `SVGTransform`, `SVGAnimatedNumber`
+
+### CSSOM Support
+We support detection for over 70 types from the [CSS Object Model (CSSOM)](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model), including:
+
+- Core interfaces: `CSS`, `CSSStyleDeclaration`, `CSSRule`, `StyleSheet`
+- Specific rule types: `CSSStyleRule`, `CSSMediaRule`, `CSSKeyframesRule`
+- Font interfaces: `FontFace`, `FontFaceSet`
+- Modern CSS Typed OM: `CSSStyleValue`, `CSSUnitValue`, `CSSTransformValue`
+- Animation and transition: `AnimationEvent`, `TransitionEvent`
+
+Unlike many type-checking libraries that focus primarily on JavaScript's built-in types, [type-detect] offers this extensive browser object detection while maintaining reliable cross-realm compatibility and a small package size.
 
 ## Comparison with sindresorhus/is
 
@@ -45,6 +88,11 @@ This project draws inspiration from the excellent [sindresorhus/is](https://gith
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Comprehensive Web API Type Detection](#comprehensive-web-api-type-detection)
+  - [DOM API Support](#dom-api-support)
+  - [HTML DOM Support](#html-dom-support)
+  - [SVG DOM Support](#svg-dom-support)
+  - [CSSOM Support](#cssom-support)
 - [Why Not Use `instanceof`](#why-not-instanceof)
 - [Cross-Realm Type Detection](#cross-realm)
 - [Why `Proxy` Type Cannot be Detected](#why-no-proxy)
@@ -222,7 +270,7 @@ test('should works across realms', () => {
 
 This cross-realm capability is crucial in modern web applications that frequently pass objects between window boundaries, iframes, or worker contexts. By using intrinsic characteristics of objects rather than their prototype chains, [type-detect] ensures consistent and reliable type detection in all JavaScript environments.
 
-## <span id="no-proxy">Why `Proxy` Type Cannot be Detected</span>
+## <span id="why-no-proxy">Why `Proxy` Type Cannot be Detected</span>
 
 One of the primary purposes of `Proxy` objects in JavaScript is to allow developers 
 to customize the behavior of object operations, acting as a delegate for another 
