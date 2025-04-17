@@ -6,9 +6,9 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { FONT_FACE_EXISTS } from '@qubit-ltd/type-detect';
 import { runInNewContext } from 'node:vm';
 import { isCssom } from '../src';
+import { FONT_FACE_EXISTS } from '../src/feature-detect';
 
 /* eslint-disable no-undef */
 
