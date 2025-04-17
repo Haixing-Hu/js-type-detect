@@ -27,6 +27,7 @@ import isFile from './is-file';
 import isFunction from './is-function';
 import isGenerator from './is-generator';
 import isGlobalObject from './is-global-object';
+import isHtmlDom from './is-html-dom';
 import isHtmlElement from './is-html-element';
 import isIntl from './is-intl';
 import isIterator from './is-iterator';
@@ -41,6 +42,7 @@ import isPromise from './is-promise';
 import isRegExp from './is-regexp';
 import isSet from './is-set';
 import isString from './is-string';
+import isSvgDom from './is-svg-dom';
 import isSymbol from './is-symbol';
 import isTypedArray from './is-typed-array';
 import isWeak from './is-weak';
@@ -68,6 +70,7 @@ export {
   isFunction,
   isGenerator,
   isGlobalObject,
+  isHtmlDom,
   isHtmlElement,
   isIntl,
   isIterator,
@@ -82,6 +85,7 @@ export {
   isRegExp,
   isSet,
   isString,
+  isSvgDom,
   isSymbol,
   isTypedArray,
   isWeak,

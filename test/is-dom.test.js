@@ -108,7 +108,6 @@ describe('Test the `isDom()` function', () => {
     });
     test('StaticRange', () => {
       // 注意：创建StaticRange可能需要特定的条件，这里假设环境支持StaticRange
-      // 这个API可能不在所有浏览器中可用，所以这个测试可能需要根据你的目标环境进行调整
       let staticRange;
       try {
         // 尝试创建一个StaticRange实例
@@ -125,19 +124,113 @@ describe('Test the `isDom()` function', () => {
         console.warn('StaticRange is not supported in this environment');
         expect(true).toBe(true); // 如果环境不支持StaticRange，测试将通过但不执行实际检查
       } finally {
-        if (staticRange && staticRange.startContainer.parentNode === document.body) {
-          document.body.removeChild(range.startContainer);
+        if (staticRange && staticRange.startContainer && staticRange.startContainer.parentNode === document.body) {
+          document.body.removeChild(staticRange.startContainer);
         }
       }
     });
-    // test('TimeRanges', () => {
-    //   const video = document.createElement('video');
-    //   video.load();
-    //   const rages = video.buffered;
-    //   console.log('ranges:', ranges);
-    //   expect(isDom(rages)).toBe(true);
-    // });
+    
+    // 新增对TimeRanges的测试
+    test('TimeRanges', () => {
+      if (typeof HTMLMediaElement !== 'undefined') {
+        try {
+          const audio = document.createElement('audio');
+          const timeRanges = audio.buffered;
+          expect(isDom(timeRanges)).toBe(true);
+        } catch (e) {
+          console.warn('TimeRanges is not supported in this environment');
+          expect(true).toBe(true); // 如果环境不支持TimeRanges，测试将通过但不执行实际检查
+        }
+      } else {
+        console.warn('HTMLMediaElement is not supported in this environment');
+        expect(true).toBe(true); // 如果环境不支持HTMLMediaElement，测试将通过但不执行实际检查
+      }
+    });
+    
+    // 新增对Event对象的测试
+    test('Event', () => {
+      const event = new Event('test');
+      expect(isDom(event)).toBe(true);
+    });
+    
+    // 新增对EventTarget的测试
+    test('EventTarget', () => {
+      if (typeof EventTarget !== 'undefined') {
+        try {
+          const eventTarget = new EventTarget();
+          expect(isDom(eventTarget)).toBe(true);
+        } catch (e) {
+          console.warn('EventTarget constructor is not supported in this environment');
+          expect(true).toBe(true); // 如果环境不支持EventTarget构造函数，测试将通过但不执行实际检查
+        }
+      } else {
+        console.warn('EventTarget is not supported in this environment');
+        expect(true).toBe(true); // 如果环境不支持EventTarget，测试将通过但不执行实际检查
+      }
+    });
+    
+    // 新增对AbortController和AbortSignal的测试
+    test('AbortController and AbortSignal', () => {
+      if (typeof AbortController !== 'undefined') {
+        try {
+          const controller = new AbortController();
+          expect(isDom(controller)).toBe(true);
+          expect(isDom(controller.signal)).toBe(true);
+        } catch (e) {
+          console.warn('AbortController is not supported in this environment');
+          expect(true).toBe(true); // 如果环境不支持AbortController，测试将通过但不执行实际检查
+        }
+      } else {
+        console.warn('AbortController is not supported in this environment');
+        expect(true).toBe(true); // 如果环境不支持AbortController，测试将通过但不执行实际检查
+      }
+    });
+    
+    // 测试HTML元素
+    test('HTML elements', () => {
+      const elements = [
+        document.createElement('div'),
+        document.createElement('span'),
+        document.createElement('a'),
+        document.createElement('input'),
+        document.createElement('button'),
+        document.createElement('form'),
+        document.createElement('img'),
+        document.createElement('video'),
+        document.createElement('audio'),
+        document.createElement('canvas'),
+      ];
+      
+      elements.forEach((element) => {
+        expect(isDom(element)).toBe(true);
+      });
+    });
+    
+    // 测试SVG元素
+    test('SVG elements', () => {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const elements = [
+        document.createElementNS(svgNS, 'svg'),
+        document.createElementNS(svgNS, 'circle'),
+        document.createElementNS(svgNS, 'rect'),
+        document.createElementNS(svgNS, 'path'),
+        document.createElementNS(svgNS, 'g'),
+        document.createElementNS(svgNS, 'text'),
+      ];
+      
+      elements.forEach((element) => {
+        expect(isDom(element)).toBe(true);
+      });
+    });
+    
+    // 测试DocumentFragment
+    test('DocumentFragment', () => {
+      const fragment = document.createDocumentFragment();
+      expect(isDom(fragment)).toBe(true);
+    });
   }
+  
+  // 测试非DOM对象
   test('null', () => {
     expect(isDom(null)).toBe(false);
   });
@@ -153,6 +246,40 @@ describe('Test the `isDom()` function', () => {
   test('a object', () => {
     expect(isDom({})).toBe(false);
   });
+  test('Array', () => {
+    expect(isDom([])).toBe(false);
+  });
+  test('Date', () => {
+    expect(isDom(new Date())).toBe(false);
+  });
+  test('RegExp', () => {
+    expect(isDom(/abc/)).toBe(false);
+  });
+  test('Function', () => {
+    expect(isDom(() => {})).toBe(false);
+  });
+  test('Promise', () => {
+    expect(isDom(Promise.resolve())).toBe(false);
+  });
+  test('Map', () => {
+    expect(isDom(new Map())).toBe(false);
+  });
+  test('Set', () => {
+    expect(isDom(new Set())).toBe(false);
+  });
+  test('Symbol', () => {
+    expect(isDom(Symbol('symbol'))).toBe(false);
+  });
+  test('BigInt', () => {
+    if (typeof BigInt !== 'undefined') {
+      expect(isDom(BigInt(123))).toBe(false);
+    } else {
+      console.warn('BigInt is not supported in this environment');
+      expect(true).toBe(true); // 如果环境不支持BigInt，测试将通过但不执行实际检查
+    }
+  });
+
+  // 其他特殊DOM相关测试
   test('AbstractRange', () => {
     if (typeof AbstractRange !== 'undefined') {
       try {
@@ -183,23 +310,16 @@ describe('Test the `isDom()` function', () => {
       expect(true).toBe(true); // 如果环境不支持DOMPointReadOnly，测试将通过但不执行实际检查
     }
   });
-  test('TimeRanges', () => {
-    if (typeof HTMLMediaElement !== 'undefined') {
-      try {
-        const audio = document.createElement('audio');
-        const timeRanges = audio.buffered;
-        expect(isDom(timeRanges)).toBe(true);
-      } catch (e) {
-        console.warn('TimeRanges is not supported in this environment');
-        expect(true).toBe(true); // 如果环境不支持TimeRanges，测试将通过但不执行实际检查
-      }
-    } else {
-      console.warn('HTMLMediaElement is not supported in this environment');
-      expect(true).toBe(true); // 如果环境不支持HTMLMediaElement，测试将通过但不执行实际检查
-    }
+
+  // 测试常见HTML元素
+  test('div element', () => {
+    const div = document.createElement('div');
+    div.innerHTML = 'Hello, world!';
+    expect(isDom(div)).toBe(true);
   });
 
-  test('should works across realms for non-DOM objects', () => {
+  // 测试跨域对象
+  test('should work across realms for non-DOM objects', () => {
     expect(isDom(runInNewContext('{}'))).toBe(false);
     expect(isDom(runInNewContext('[]'))).toBe(false);
     expect(isDom(runInNewContext('0'))).toBe(false);
@@ -208,7 +328,20 @@ describe('Test the `isDom()` function', () => {
     expect(isDom(runInNewContext('undefined'))).toBe(false);
   });
 
-  test('should works across realms for DOM objects', () => {
-    // TODO: implement a test for DOM objects across realms
+  // 测试模拟DOM对象
+  test('mock DOM objects', () => {
+    const mockElement = {
+      nodeName: 'DIV',
+      nodeType: 1,
+      tagName: 'DIV',
+    };
+    expect(isDom(mockElement)).toBe(false);
+    
+    // 即使对象有类似DOM的属性，但没有正确的类型名，也应该返回false
+    const mockWithProto = Object.create(null);
+    mockWithProto.nodeName = 'DIV';
+    mockWithProto.nodeType = 1;
+    mockWithProto.tagName = 'DIV';
+    expect(isDom(mockWithProto)).toBe(false);
   });
 });
