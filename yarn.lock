@@ -1400,13 +1400,13 @@ __metadata:
   linkType: hard
 
 "@eslint-community/eslint-utils@npm:^4.2.0":
-  version: 4.6.0
-  resolution: "@eslint-community/eslint-utils@npm:4.6.0"
+  version: 4.6.1
+  resolution: "@eslint-community/eslint-utils@npm:4.6.1"
   dependencies:
     eslint-visitor-keys: "npm:^3.4.3"
   peerDependencies:
     eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
-  checksum: 10c0/a64131c1b43021e3a84267f6011fd678a936718097c9be169c37a40ada2c7016bec7d6685ecc88112737d57733f36837bb90d9425ad48d2e2aa351d999d32443
+  checksum: 10c0/cdeb6f8fc33a83726357d7f736075cdbd6e79dc7ac4b00b15680f1111d0f33bda583e7fafa5937245a058cc66302dc47568bba57b251302dc74964d8e87f56d7
   languageName: node
   linkType: hard
 
@@ -1934,7 +1934,6 @@ __metadata:
     "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^16.0.1"
     "@rollup/plugin-terser": "npm:^0.4.4"
-    "@sindresorhus/is": "npm:^7.0.1"
     babel-jest: "npm:^29.7.0"
     check-es-version: "npm:^1.5.1"
     core-js: "npm:^3.41.0"
@@ -2221,13 +2220,6 @@ __metadata:
   version: 0.27.8
   resolution: "@sinclair/typebox@npm:0.27.8"
   checksum: 10c0/ef6351ae073c45c2ac89494dbb3e1f87cc60a93ce4cde797b782812b6f97da0d620ae81973f104b43c9b7eaa789ad20ba4f6a1359f1cc62f63729a55a7d22d4e
-  languageName: node
-  linkType: hard
-
-"@sindresorhus/is@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "@sindresorhus/is@npm:7.0.1"
-  checksum: 10c0/6d43a916d70d9b64066394c272883869b22faf21f4748aaf399c1b691ea704ea607d1668ff2eb5704e5be8809c4a7faafe16be048ce5e1a2ba6e8928b8e3461c
   languageName: node
   linkType: hard
 
@@ -7402,11 +7394,11 @@ __metadata:
   linkType: hard
 
 "tr46@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "tr46@npm:5.1.0"
+  version: 5.1.1
+  resolution: "tr46@npm:5.1.1"
   dependencies:
     punycode: "npm:^2.3.1"
-  checksum: 10c0/d761f7144e0cb296187674ef245c74f761e334d7cf25ca73ef60e4c72c097c75051031c093fa1a2fee04b904977b316716a7915854bcae8fb1a371746513cbe8
+  checksum: 10c0/ae270e194d52ec67ebd695c1a42876e0f19b96e4aca2ab464ab1d9d17dc3acd3e18764f5034c93897db73421563be27c70c98359c4501136a497e46deda5d5ec
   languageName: node
   linkType: hard
 
