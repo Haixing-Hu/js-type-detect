@@ -6,23 +6,13 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import TYPED_ARRAY_TYPE_NAMES from './typed-array-type-names';
+
 /**
  * The to string values of all built-in typed array objects.
  *
  * @type {string[]}
  */
-const TYPED_ARRAY_TO_STRING_VALUES = [
-  '[object Int8Array]',
-  '[object Uint8Array]',
-  '[object Uint8ClampedArray]',
-  '[object Int16Array]',
-  '[object Uint16Array]',
-  '[object Int32Array]',
-  '[object Uint32Array]',
-  '[object Float32Array]',
-  '[object Float64Array]',
-  '[object BigInt64Array]',
-  '[object BigUint64Array]',
-];
+const TYPED_ARRAY_TO_STRING_VALUES = TYPED_ARRAY_TYPE_NAMES.map((n) => `[object ${n}]`);
 
 export default TYPED_ARRAY_TO_STRING_VALUES;

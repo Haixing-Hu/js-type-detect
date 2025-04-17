@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 //
 //    Copyright (c) 2022 - 2023.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -6,7 +7,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 import { getGlobalObjectComplete } from './global-object-test-wrapper';
 
 describe('Test complete global object retrieval logic', () => {
@@ -72,5 +72,20 @@ describe('Test complete global object retrieval logic', () => {
     // 在 Node.js 环境中，这应该返回 global
     const result = handleErrorFallback(testObj);
     expect(result).toBe(global);
+  });
+
+  test('should work across different realms', () => {
+    const obj = runInNewContext('function getGlobalObject() {'
+      + ' if (typeof global !== \'undefined\') {\n'
+      + '   return global;\n'
+      + ' } else if (typeof window !== \'undefined\') {\n'
+      + '   return window;\n'
+      + ' } else if (typeof globalThis !== \'undefined\') {\n'
+      + '   return globalThis;\n'
+      + ' } else {'
+      + '   return undefined;\n'
+      + ' }\n'
+      + '}\n'
+      + 'getGlobalObject();');
   });
 });

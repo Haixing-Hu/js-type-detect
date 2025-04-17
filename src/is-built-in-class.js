@@ -50,7 +50,7 @@ import {
   WeakRefPrototype,
   WeakSetPrototype,
 } from './builtin-prototype';
-import BUILT_IN_CLASS_NAMES from './impl/built-in-class-names';
+import BUILT_IN_TYPE_NAMES from './impl/built-in-type-names';
 import GLOBAL_OBJECT_TO_STRING_VALUES
   from './impl/global-object-to-string-values';
 
@@ -96,7 +96,7 @@ function isBuiltInClass(Class) {
     }
     // 对于跨realm的情况，可以检测函数名称，但需要限制只有特定名称的才被识别为内置类
     const name = Class.name;
-    if (name && BUILT_IN_CLASS_NAMES.includes(name)) {
+    if (name && BUILT_IN_TYPE_NAMES.includes(name)) {
       try {
         // 进一步检查 prototype 是否匹配内置类特征
         const typeOfPrototype = Object.prototype.toString.call(Class.prototype);

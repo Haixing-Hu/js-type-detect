@@ -6,14 +6,15 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ERROR_TYPE_NAMES from './error-type-names';
-
 /**
- * The array of to string values for error objects.
+ * The array of type names for collection objects.
  *
  * @type {string[]}
  * @author Haixing Hu
  */
-const ERROR_TO_STRING_VALUES = ERROR_TYPE_NAMES.map((n) => `[object ${n}]`);
+const COLLECTION_TYPE_NAMES = [
+  'Map',
+  'Set',
+];
 
-export default ERROR_TO_STRING_VALUES;
+export default COLLECTION_TYPE_NAMES;

@@ -19,6 +19,11 @@ import isHtmlElement from './is-html-element';
  *     the type name of the value.
  */
 function getTypeName(value) {
+  if (value === null) {
+    return 'null';
+  } else if (value === undefined) {
+    return 'undefined';
+  }
   let typeName = '';
   if (hasToStringTag(value)) {
     // note that Generator and AsyncGenerator objects has defined its own
@@ -35,7 +40,7 @@ function getTypeName(value) {
     typeName = str.slice(8, -1).replace(/\s/g, '');
   }
   // for HTML elements, the type name is always 'HTMLElement'
-  if (/HTML\w+Element/.test(typeName) && isHtmlElement(value)) {
+  if ((typeName.startsWith('HTML') && typeName.endsWith('Element')) || isHtmlElement(value)) {
     return 'HTMLElement';
   }
   return fixTypeNameCompatibility(typeName);

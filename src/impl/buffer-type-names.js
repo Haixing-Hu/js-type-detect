@@ -6,14 +6,16 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ERROR_TYPE_NAMES from './error-type-names';
 
 /**
- * The array of to string values for error objects.
+ * The array of type names for buffer objects.
  *
  * @type {string[]}
  * @author Haixing Hu
  */
-const ERROR_TO_STRING_VALUES = ERROR_TYPE_NAMES.map((n) => `[object ${n}]`);
+const BUFFER_TYPE_NAMES = [
+  'ArrayBuffer',
+  'SharedArrayBuffer',
+];
 
-export default ERROR_TO_STRING_VALUES;
+export default BUFFER_TYPE_NAMES;

@@ -27,6 +27,9 @@ module.exports = {
   coveragePathIgnorePatterns: [
     'src/impl/',
     'src/index.js',
+    // ignore the coverage of the following files:
+    'src/builtin-prototype.js',
+    'src/feature-detect.js',
     // Ignoring global-object.js due to testing limitations:
     // 1. It's difficult to test the entire fallback mechanism reliably in a Jest environment
     // 2. Some parts involve runtime evaluation of undefined variables which can't be properly

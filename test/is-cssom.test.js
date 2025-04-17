@@ -7,10 +7,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import {
-  isCssom,
-  FONT_FACE_EXISTS,
-} from '../src';
+import { FONT_FACE_EXISTS, isCssom } from '../src';
 
 /* eslint-disable no-undef */
 
@@ -20,7 +17,7 @@ import {
  * @author Haixing Hu
  */
 describe('Test the `isCssom()` function', () => {
-  it('CSSRule', () => {
+  it('CSSStyleRule', () => {
     const styleElement = document.createElement('style');
     document.head.appendChild(styleElement);
     styleElement.sheet.insertRule('body {background: black;}', 0);
@@ -140,10 +137,11 @@ describe('Test the `isCssom()` function', () => {
 
   // 添加across realms测试
   test('should works across realms for non-CSSOM objects', () => {
-    expect(isCssom(runInNewContext('{}'))).toBe(false);
-    expect(isCssom(runInNewContext('[]'))).toBe(false);
+    expect(isCssom(runInNewContext('({ a: 1 })'))).toBe(false);
+    expect(isCssom(runInNewContext('({})'))).toBe(false);
     expect(isCssom(runInNewContext('0'))).toBe(false);
     expect(isCssom(runInNewContext('false'))).toBe(false);
+    expect(isCssom(runInNewContext('[]'))).toBe(false);
     expect(isCssom(runInNewContext('null'))).toBe(false);
     expect(isCssom(runInNewContext('undefined'))).toBe(false);
   });

@@ -6,14 +6,17 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ERROR_TYPE_NAMES from './error-type-names';
+import WEAK_COLLECTION_TYPE_NAMES from './weak-collection-type-names';
 
 /**
- * The array of to string values for error objects.
+ * The array of type names for weak reference objects.
  *
  * @type {string[]}
  * @author Haixing Hu
  */
-const ERROR_TO_STRING_VALUES = ERROR_TYPE_NAMES.map((n) => `[object ${n}]`);
+const WEAK_TYPE_NAMES = [
+  ...WEAK_COLLECTION_TYPE_NAMES,
+  'WeakRef',
+];
 
-export default ERROR_TO_STRING_VALUES;
+export default WEAK_TYPE_NAMES;

@@ -6,7 +6,6 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 import * as BuiltinPrototype from '../src/builtin-prototype';
 import * as FeatureDetect from '../src/feature-detect';
 
@@ -46,6 +45,7 @@ describe('Test the builtin-prototype.js', () => {
 
     // 测试原型对象是否正确导出
     Object.entries(prototypeMap).forEach(([featureFlag, prototypeVar]) => {
+      // eslint-disable-next-line import/namespace
       const featureExists = FeatureDetect[featureFlag];
       let expectedValue;
 
@@ -149,12 +149,15 @@ describe('Test the builtin-prototype.js', () => {
         expectedValue = undefined;
       }
 
+      // eslint-disable-next-line import/namespace
       expect(BuiltinPrototype[prototypeVar]).toBe(expectedValue);
 
       // 确保代码覆盖分支
       if (featureExists && expectedValue !== undefined) {
+        // eslint-disable-next-line import/namespace
         expect(BuiltinPrototype[prototypeVar]).not.toBeUndefined();
       } else {
+        // eslint-disable-next-line import/namespace
         expect(BuiltinPrototype[prototypeVar]).toBeUndefined();
       }
     });
@@ -170,15 +173,18 @@ describe('Test the builtin-prototype.js', () => {
 
     // 对于所有迭代器，进行测试
     iteratorMap.forEach(({ flag, proto, getter }) => {
+      // eslint-disable-next-line import/namespace
       const featureExists = FeatureDetect[flag];
       if (featureExists) {
         try {
           const expected = getter();
+          // eslint-disable-next-line import/namespace
           expect(BuiltinPrototype[proto]).toBe(expected);
         } catch (e) {
           console.warn(`无法获取 ${proto}，可能是环境不完全支持`);
         }
       } else {
+        // eslint-disable-next-line import/namespace
         expect(BuiltinPrototype[proto]).toBeUndefined();
       }
     });
@@ -236,27 +242,40 @@ describe('Test the builtin-prototype.js', () => {
 
     // 对于所有Intl对象，进行测试
     intlMap.forEach(({ flag, proto, global }) => {
+      // eslint-disable-next-line import/namespace
       const featureExists = FeatureDetect[flag];
       if (featureExists) {
         try {
           // 安全获取Intl对象的原型
           let expectedValue;
-          if (global === 'Intl.Collator') expectedValue = Intl.Collator.prototype;
-          else if (global === 'Intl.DateTimeFormat') expectedValue = Intl.DateTimeFormat.prototype;
-          else if (global === 'Intl.DisplayNames') expectedValue = Intl.DisplayNames.prototype;
-          else if (global === 'Intl.DurationFormat') expectedValue = Intl.DurationFormat.prototype;
-          else if (global === 'Intl.ListFormat') expectedValue = Intl.ListFormat.prototype;
-          else if (global === 'Intl.Locale') expectedValue = Intl.Locale.prototype;
-          else if (global === 'Intl.NumberFormat') expectedValue = Intl.NumberFormat.prototype;
-          else if (global === 'Intl.PluralRules') expectedValue = Intl.PluralRules.prototype;
-          else if (global === 'Intl.RelativeTimeFormat') expectedValue = Intl.RelativeTimeFormat.prototype;
-          else if (global === 'Intl.Segmenter') expectedValue = Intl.Segmenter.prototype;
-
+          if (global === 'Intl.Collator') {
+            expectedValue = Intl.Collator.prototype;
+          } else if (global === 'Intl.DateTimeFormat') {
+            expectedValue = Intl.DateTimeFormat.prototype;
+          } else if (global === 'Intl.DisplayNames') {
+            expectedValue = Intl.DisplayNames.prototype;
+          } else if (global === 'Intl.DurationFormat') {
+            expectedValue = Intl.DurationFormat.prototype;
+          } else if (global === 'Intl.ListFormat') {
+            expectedValue = Intl.ListFormat.prototype;
+          } else if (global === 'Intl.Locale') {
+            expectedValue = Intl.Locale.prototype;
+          } else if (global === 'Intl.NumberFormat') {
+            expectedValue = Intl.NumberFormat.prototype;
+          } else if (global === 'Intl.PluralRules') {
+            expectedValue = Intl.PluralRules.prototype;
+          } else if (global === 'Intl.RelativeTimeFormat') {
+            expectedValue = Intl.RelativeTimeFormat.prototype;
+          } else if (global === 'Intl.Segmenter') {
+            expectedValue = Intl.Segmenter.prototype;
+          }
+          // eslint-disable-next-line import/namespace
           expect(BuiltinPrototype[proto]).toBe(expectedValue);
         } catch (e) {
           console.warn(`无法获取 ${proto}，可能是环境不完全支持`);
         }
       } else {
+        // eslint-disable-next-line import/namespace
         expect(BuiltinPrototype[proto]).toBeUndefined();
       }
     });

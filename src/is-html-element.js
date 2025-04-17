@@ -35,7 +35,7 @@ function isHtmlElement(value) {
   if ((typeof value.nodeName) !== 'string') {
     return false;
   }
-  if (!isPlainObject(value)) {
+  if (isPlainObject(value)) {
     return false;
   }
   return DOM_PROPERTIES_TO_CHECK.every((property) => property in value);

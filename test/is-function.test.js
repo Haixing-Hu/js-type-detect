@@ -99,8 +99,7 @@ describe('Test the `isFunction()` function', () => {
   it('returns false for undefined', () => {
     expect(isFunction(undefined)).toBe(false);
   });
-  it.skip('should works across realms', () => {
-    expect(isFunction(runInNewContext('function foo() { return 42; }'))).toBe(true);
+  it('should works across realms for non-function', () => {
     expect(isFunction(runInNewContext('() => 42'))).toBe(true);
     expect(isFunction(runInNewContext('{}'))).toBe(false);
     expect(isFunction(runInNewContext('[]'))).toBe(false);
@@ -108,5 +107,23 @@ describe('Test the `isFunction()` function', () => {
     expect(isFunction(runInNewContext('false'))).toBe(false);
     expect(isFunction(runInNewContext('null'))).toBe(false);
     expect(isFunction(runInNewContext('undefined'))).toBe(false);
+  });
+  it('should works across realms for named function', () => {
+    expect(isFunction(runInNewContext('function foo() { return 42; }; foo'))).toBe(true);
+  });
+  it('should works across realms for unnamed function', () => {
+    expect(isFunction(runInNewContext('foo = function () { console.log(\'hello\'); }; foo'))).toBe(true);
+  });
+  it('should works across realms for array function', () => {
+    expect(isFunction(runInNewContext('foo = (x) => x + 1; foo'))).toBe(true);
+  });
+  it('should works across realms for named async function', () => {
+    expect(isFunction(runInNewContext('async function foo() { return 42; }; foo'))).toBe(true);
+  });
+  it('should works across realms for unnamed async function', () => {
+    expect(isFunction(runInNewContext('foo = async function () { console.log(\'hello\'); }; foo'))).toBe(true);
+  });
+  it('should works across realms for async array function', () => {
+    expect(isFunction(runInNewContext('foo = async (x) => x + 1; foo'))).toBe(true);
   });
 });

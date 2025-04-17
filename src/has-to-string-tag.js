@@ -19,7 +19,10 @@ import { SYMBOL_TO_STRING_TAG_EXISTS } from './feature-detect';
  * @author Haixing Hu
  */
 function hasToStringTag(obj) {
-  return (SYMBOL_TO_STRING_TAG_EXISTS) && (Symbol.toStringTag in obj);
+  return (SYMBOL_TO_STRING_TAG_EXISTS)
+    && (obj !== null)
+    && (typeof obj === 'object')
+    && (Symbol.toStringTag in obj);
 }
 
 export default hasToStringTag;

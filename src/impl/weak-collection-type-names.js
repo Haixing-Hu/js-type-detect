@@ -1,25 +1,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//    Copyright (c) 2022 - 2025.
+//    Copyright (c) 2022 - 2024.
 //    Haixing Hu, Qubit Co. Ltd.
 //
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 /**
- * The names of the primitive types in JavaScript.
+ * The array of type names for weak collection objects.
  *
  * @type {string[]}
+ * @author Haixing Hu
  */
-const PRIMITIVE_TYPE_NAMES = [
-  'null',
-  'undefined',
-  'string',
-  'number',
-  'bigint',
-  'boolean',
-  'symbol',
+const WEAK_COLLECTION_TYPE_NAMES = [
+  'WeakMap',
+  'WeakSet',
 ];
 
-export default PRIMITIVE_TYPE_NAMES;
+export default WEAK_COLLECTION_TYPE_NAMES;

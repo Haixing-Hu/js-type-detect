@@ -12,4 +12,15 @@ module.exports = {
   extends: [
     '@qubit-ltd/eslint-config',
   ],
+  globals: {
+    BigInt: 'readonly',
+    BigInt64Array: 'readonly',
+    BigUint64Array: 'readonly',
+    AggregateError: 'readonly',
+    InternalError: 'readonly',
+    SharedArrayBuffer: 'readonly',
+    WeakRef: 'readonly',
+    FinalizationRegistry: 'readonly',
+    globalThis: 'readonly',
+  },
 };

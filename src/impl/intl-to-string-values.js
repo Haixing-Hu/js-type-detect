@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import INTL_TYPE_NAMES from './intl-type-names';
 
 /**
  * The array of to string values for Intl objects.
@@ -13,17 +14,6 @@
  * @type {string[]}
  * @author Haixing Hu
  */
-const INTL_TO_STRING_VALUES = [
-  '[object Intl.Collator]',
-  '[object Intl.DateTimeFormat]',
-  '[object Intl.DisplayNames]',
-  '[object Intl.DurationFormat]',
-  '[object Intl.ListFormat]',
-  '[object Intl.Locale]',
-  '[object Intl.NumberFormat]',
-  '[object Intl.PluralRules]',
-  '[object Intl.RelativeTimeFormat]',
-  '[object Intl.Segmenter]',
-];
+const INTL_TO_STRING_VALUES = INTL_TYPE_NAMES.map((n) => `[object ${n}]`);
 
 export default INTL_TO_STRING_VALUES;

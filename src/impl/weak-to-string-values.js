@@ -6,8 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import WEAK_COLLECTION_TO_STRING_VALUES
-  from './weak-collection-to-string-values';
+import WEAK_TYPE_NAMES from './weak-type-names';
 
 /**
  * The array of to string values for weak reference objects.
@@ -15,9 +14,6 @@ import WEAK_COLLECTION_TO_STRING_VALUES
  * @type {string[]}
  * @author Haixing Hu
  */
-const WEAK_TO_STRING_VALUES = [
-  ...WEAK_COLLECTION_TO_STRING_VALUES,
-  '[object WeakRef]',
-];
+const WEAK_TO_STRING_VALUES = WEAK_TYPE_NAMES.map((n) => `[object ${n}]`);
 
 export default WEAK_TO_STRING_VALUES;

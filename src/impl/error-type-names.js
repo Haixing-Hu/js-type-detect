@@ -6,14 +6,22 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ERROR_TYPE_NAMES from './error-type-names';
-
 /**
- * The array of to string values for error objects.
+ * The array of type names for error objects.
  *
  * @type {string[]}
  * @author Haixing Hu
  */
-const ERROR_TO_STRING_VALUES = ERROR_TYPE_NAMES.map((n) => `[object ${n}]`);
+const ERROR_TYPE_NAMES = [
+  'Error',
+  'EvalError',
+  'RangeError',
+  'ReferenceError',
+  'SyntaxError',
+  'TypeError',
+  'URIError',
+  'AggregateError',
+  'InternalError',
+];
 
-export default ERROR_TO_STRING_VALUES;
+export default ERROR_TYPE_NAMES;

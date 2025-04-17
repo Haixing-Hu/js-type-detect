@@ -6,13 +6,14 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import FUNCTION_TYPE_NAMES from './function-type-names';
-
 /**
- * The to string values of all built-in functions.
+ * The type names of all built-in functions.
  *
  * @type {string[]}
  */
-const FUNCTION_TO_STRING_VALUES = FUNCTION_TYPE_NAMES.map((n) => `[object ${n}]`);
+const FUNCTION_TYPE_NAMES = [
+  'Function',
+  'AsyncFunction',
+];
 
-export default FUNCTION_TO_STRING_VALUES;
+export default FUNCTION_TYPE_NAMES;

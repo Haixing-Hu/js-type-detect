@@ -6,14 +6,16 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ERROR_TYPE_NAMES from './error-type-names';
 
 /**
- * The array of to string values for error objects.
+ * The array of type names for numeric values/objects.
  *
  * @type {string[]}
  * @author Haixing Hu
  */
-const ERROR_TO_STRING_VALUES = ERROR_TYPE_NAMES.map((n) => `[object ${n}]`);
+const NUMERIC_TYPE_NAMES = [
+  'Number',
+  'BigInt',
+];
 
-export default ERROR_TO_STRING_VALUES;
+export default NUMERIC_TYPE_NAMES;

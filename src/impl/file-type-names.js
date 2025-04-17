@@ -6,14 +6,18 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ERROR_TYPE_NAMES from './error-type-names';
-
 /**
- * The array of to string values for error objects.
+ * The array of type names for file objects.
  *
  * @type {string[]}
  * @author Haixing Hu
  */
-const ERROR_TO_STRING_VALUES = ERROR_TYPE_NAMES.map((n) => `[object ${n}]`);
+const FILE_TYPE_NAMES = [
+  'File',
+  'Blob',
+  'FileList',
+  'FileReader',
+  'FileReaderSync',
+];
 
-export default ERROR_TO_STRING_VALUES;
+export default FILE_TYPE_NAMES;

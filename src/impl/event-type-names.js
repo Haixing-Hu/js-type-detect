@@ -6,14 +6,24 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import ERROR_TYPE_NAMES from './error-type-names';
 
 /**
- * The array of to string values for error objects.
+ * The array of type names for event objects.
  *
  * @type {string[]}
  * @author Haixing Hu
  */
-const ERROR_TO_STRING_VALUES = ERROR_TYPE_NAMES.map((n) => `[object ${n}]`);
+const EVENT_TYPE_NAMES = [
+  'Event',
+  'MouseEvent',
+  'KeyboardEvent',
+  'InputEvent',
+  'UIEvent',
+  'CustomEvent',
+  'FocusEvent',
+  'TouchEvent',
+  'WheelEvent',
+  'DragEvent',
+];
 
-export default ERROR_TO_STRING_VALUES;
+export default EVENT_TYPE_NAMES;
