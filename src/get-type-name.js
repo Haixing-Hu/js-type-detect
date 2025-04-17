@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 import hasToStringTag from './has-to-string-tag';
 import fixTypeNameCompatibility from './impl/fix-type-name-compatibility';
-import isHtmlElement from './is-html-element';
 
 /**
  * Gets the type name of a value.
@@ -38,10 +37,6 @@ function getTypeName(value) {
   } else {
     const str = Object.prototype.toString.call(value);
     typeName = str.slice(8, -1).replace(/\s/g, '');
-  }
-  // for HTML elements, the type name is always 'HTMLElement'
-  if ((typeName.startsWith('HTML') && typeName.endsWith('Element')) || isHtmlElement(value)) {
-    return 'HTMLElement';
   }
   return fixTypeNameCompatibility(typeName);
 }

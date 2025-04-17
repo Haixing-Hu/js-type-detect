@@ -72,13 +72,13 @@ describe('Test the `getTypeName()` function', () => {
 
   it('properly identifies HTML elements', () => {
     const div = document.createElement('div');
-    expect(getTypeName(div)).toBe('HTMLElement');
+    expect(getTypeName(div)).toBe('HTMLDivElement');
 
     const span = document.createElement('span');
-    expect(getTypeName(span)).toBe('HTMLElement');
+    expect(getTypeName(span)).toBe('HTMLSpanElement');
 
     const input = document.createElement('input');
-    expect(getTypeName(input)).toBe('HTMLElement');
+    expect(getTypeName(input)).toBe('HTMLInputElement');
   });
 
   it('fixes type name compatibility issues: empty string', () => {
@@ -164,5 +164,10 @@ describe('Test the `getTypeName()` function', () => {
     const obj = {};
     // Should still return "Object" even if constructor.name is "Object"
     expect(getTypeName(obj)).toBe('Object');
+  });
+
+  it('handle window.document', () => {
+    const obj = window.document;
+    expect(getTypeName(obj)).toBe('Document');
   });
 });

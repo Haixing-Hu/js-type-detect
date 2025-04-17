@@ -19,40 +19,32 @@ describe('Test the `isSvgDom()` function', () => {
   // SVG DOM元素测试
   it('should handle SVG DOM elements', () => {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(svg)).toBe(false);
+    expect(isSvgDom(svg)).toBe(true);
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(circle)).toBe(false);
+    expect(isSvgDom(circle)).toBe(true);
 
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(rect)).toBe(false);
+    expect(isSvgDom(rect)).toBe(true);
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(path)).toBe(false);
+    expect(isSvgDom(path)).toBe(true);
   });
 
   it('should handle SVG gradient elements', () => {
     const linearGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(linearGradient)).toBe(false);
+    expect(isSvgDom(linearGradient)).toBe(true);
 
     const radialGradient = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(radialGradient)).toBe(false);
+    expect(isSvgDom(radialGradient)).toBe(true);
   });
 
   it('should handle SVG graphics elements', () => {
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(g)).toBe(false);
+    expect(isSvgDom(g)).toBe(true);
 
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isSvgDom(text)).toBe(false);
+    expect(isSvgDom(text)).toBe(true);
   });
 
   // 测试SVG相关数据类型

@@ -39,13 +39,16 @@ describe('Test the `isHtmlDom()` function', () => {
     expect(isHtmlDom(nodeList)).toBe(false);
   });
 
-  it('should handle document objects appropriately', () => {
-    // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
-    expect(isHtmlDom(window.document)).toBe(false);
+  it('should handle window.document objects appropriately', () => {
+    expect(isHtmlDom(window.document)).toBe(true);
+  });
 
+  it('should handle form objects appropriately', () => {
     const form = document.createElement('form');
     expect(isHtmlDom(form)).toBe(true);
+  });
 
+  it('should handle img objects appropriately', () => {
     const img = document.createElement('img');
     expect(isHtmlDom(img)).toBe(true);
   });
@@ -53,20 +56,22 @@ describe('Test the `isHtmlDom()` function', () => {
   it('should handle HTML Canvas element', () => {
     const canvas = document.createElement('canvas');
     expect(isHtmlDom(canvas)).toBe(true);
+  });
 
+  it.skip('should handle HTML Canvas contaxt element', () => {
     // JSDOM环境中getContext可能不可用，所以跳过这个测试
-    // const ctx = canvas.getContext('2d');
-    // expect(isHtmlDom(ctx)).toBe(true);
+    const ctx = canvas.getContext('2d');
+    expect(isHtmlDom(ctx)).toBe(true);
   });
 
   // SVG DOM元素测试
   it('should handle SVG elements appropriately', () => {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     // 根据测试结果，isHtmlDom对SVG元素返回true，这可能是预期行为
-    expect(isHtmlDom(svg)).toBe(true);
+    expect(isHtmlDom(svg)).toBe(false);
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    expect(isHtmlDom(circle)).toBe(true);
+    expect(isHtmlDom(circle)).toBe(false);
   });
 
   // 非DOM对象测试
