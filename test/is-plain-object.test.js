@@ -1,0 +1,49 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//    Copyright (c) 2022 - 2025.
+//    Haixing Hu, Qubit Co. Ltd.
+//
+//    All rights reserved.
+//
+////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
+import { isPlainObject } from '../src';
+
+/* eslint-disable no-undef */
+
+/**
+ * Unit test of the `isPlainObject()` function.
+ *
+ * @author Haixing Hu
+ */
+describe('Test the `isPlainObject()` function', () => {
+
+  test('should return false for null', () => {
+    expect(isPlainObject(null)).toBe(false);
+  });
+
+  test('should return false for undefined', () => {
+    expect(isPlainObject(undefined)).toBe(false);
+  });
+
+  test('should return true for plain objects', () => {
+    expect(isPlainObject({})).toBe(true);
+    expect(isPlainObject({ foo: 'bar' })).toBe(true);
+    expect(isPlainObject(Object.create(null))).toBe(true);
+    expect(isPlainObject(new Object())).toBe(true);
+  });
+
+  test('should return false for non-plain objects', () => {
+    expect(isPlainObject([1, 2, 3])).toBe(false);
+    expect(isPlainObject(new Date())).toBe(false);
+    expect(isPlainObject(new Map())).toBe(false);
+    expect(isPlainObject(new Set())).toBe(false);
+    expect(isPlainObject(Math)).toBe(false);
+    class Unicorn {}
+    expect(isPlainObject(new Unicorn())).toBe(false);
+  });
+
+  test('should works across realms', () => {
+    expect(isPlainObject(runInNewContext('({})'))).toBe(true);
+  });
+});
