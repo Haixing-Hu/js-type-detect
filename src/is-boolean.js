@@ -17,6 +17,7 @@
  *     `true` if the specified value is a primitive `boolean` or a built-in
  *     `Boolean` object; `false` otherwise.
  * @author Haixing Hu
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isBoolean(value) {
   return Object.prototype.toString.call(value) === '[object Boolean]';

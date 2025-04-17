@@ -87,7 +87,7 @@ describe('Test the `isGenerator()` function', () => {
   it('returns false for undefined', () => {
     expect(isGenerator(undefined)).toBe(false);
   });
-  
+
   test('should works across realms', () => {
     expect(isGenerator(runInNewContext(`
       (function* () {
@@ -95,7 +95,7 @@ describe('Test the `isGenerator()` function', () => {
         yield 'b';
       })()
     `))).toBe(true);
-    
+
     expect(isGenerator(runInNewContext(`
       function* gen() {
         yield 'a';
@@ -103,7 +103,7 @@ describe('Test the `isGenerator()` function', () => {
       }
       gen
     `))).toBe(false);
-    
+
     if (ASYNC_FUNCTION_EXISTS) {
       expect(isGenerator(runInNewContext(`
         (async function* () {
@@ -112,7 +112,7 @@ describe('Test the `isGenerator()` function', () => {
         })()
       `))).toBe(true);
     }
-    
+
     expect(isGenerator(runInNewContext('{}'))).toBe(false);
     expect(isGenerator(runInNewContext('[]'))).toBe(false);
     expect(isGenerator(runInNewContext('0'))).toBe(false);

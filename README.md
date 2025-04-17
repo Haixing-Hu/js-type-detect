@@ -14,6 +14,10 @@ compatible with the latest ECMAScript standards.
 If you want to get more detailed type information of a variable, you can use the
 [typeinfo] library, which is built on top of [type-detect].
 
+## Acknowledgments
+
+This project draws inspiration from the excellent [sindresorhus/is](https://github.com/sindresorhus/is) library created by Sindre Sorhus. We'd like to express our gratitude for his pioneering work in JavaScript type checking utilities.
+
 ## Table of Contents
 
 - [Installation](#installation)

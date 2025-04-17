@@ -50,7 +50,7 @@ describe('Test the `isEvent()` function', () => {
       // 验证isEvent是否正确返回false
       expect(isEvent(obj)).toBe(false);
     });
-    
+
     test('should works across realms for non-Event objects', () => {
       expect(isEvent(runInNewContext('{}'))).toBe(false);
       expect(isEvent(runInNewContext('[]'))).toBe(false);

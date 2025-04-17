@@ -17,7 +17,6 @@ import { isPlainObject } from '../src';
  * @author Haixing Hu
  */
 describe('Test the `isPlainObject()` function', () => {
-
   test('should return false for null', () => {
     expect(isPlainObject(null)).toBe(false);
   });
@@ -30,6 +29,7 @@ describe('Test the `isPlainObject()` function', () => {
     expect(isPlainObject({})).toBe(true);
     expect(isPlainObject({ foo: 'bar' })).toBe(true);
     expect(isPlainObject(Object.create(null))).toBe(true);
+    // eslint-disable-next-line no-new-object
     expect(isPlainObject(new Object())).toBe(true);
   });
 

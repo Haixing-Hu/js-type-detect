@@ -1,6 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-import isMatchObjectTypeToStringName
-  from './is-match-object-type-to-string-name';
 //
 //    Copyright (c) 2022 - 2024.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -8,7 +6,7 @@ import isMatchObjectTypeToStringName
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import isTypedArrayTypeName from './is-typed-array-type-name';
+import TYPED_ARRAY_TO_STRING_VALUES from './impl/typed-array-to-string-values';
 
 /**
  * Tests whether the specified value is a typed-array.
@@ -21,15 +19,8 @@ import isTypedArrayTypeName from './is-typed-array-type-name';
  * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isTypedArray(value) {
-  if ((value === null) || (value === undefined)) {
-    return false;
-  }
-  const toStringValue = Object.prototype.toString.call(value);
-  if (!isMatchObjectTypeToStringName(toStringValue)) {
-    return false;
-  }
-  const typeName = toStringValue.slice(8, -1);
-  return isTypedArrayTypeName(typeName);
+  const str = Object.prototype.toString.call(value);
+  return TYPED_ARRAY_TO_STRING_VALUES.includes(str);
 }
 
 export default isTypedArray;

@@ -7,6 +7,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+import NUMERIC_TO_STRING_VALUES from './impl/numeric-to-string-values';
+
 /**
  * Tests whether the specified value is a primitive `number`, or a primitive `bigint`,
  * or a built-in `Number` object.
@@ -24,16 +26,8 @@
  * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isNumeric(value) {
-  if ((value === null) || (value === undefined)) {
-    return false;
-  }
-  switch (Object.prototype.toString.call(value)) {
-    case '[object Number]':        // drop down
-    case '[object BigInt]':        // drop down
-      return true;
-    default:
-      return false;
-  }
+  const str = Object.prototype.toString.call(value);
+  return NUMERIC_TO_STRING_VALUES.includes(str);
 }
 
 export default isNumeric;

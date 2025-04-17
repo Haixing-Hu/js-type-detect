@@ -17,11 +17,9 @@
  *     `true` if the specified value is a data view object, i.e., an `DataView`
  *     object; `false` otherwise.
  * @author Haixing Hu
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isDataView(value) {
-  if ((value === null) || (value === undefined)) {
-    return false;
-  }
   return Object.prototype.toString.call(value) === '[object DataView]';
 }
 

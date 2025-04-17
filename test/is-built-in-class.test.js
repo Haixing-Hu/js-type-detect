@@ -8,32 +8,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
 import {
-  isBuiltInClass,
-  MAP_ENTRIES_EXISTS,
-  MapIteratorPrototype,
   AGGREGATEERROR_EXISTS,
-  INTERNALERROR_EXISTS,
-  MAP_EXISTS,
-  REGEXP_EXISTS,
-  SET_EXISTS,
-  INT8ARRAY_EXISTS,
-  UINT8ARRAY_EXISTS,
-  UINT8CLAMPEDARRAY_EXISTS,
-  INT16ARRAY_EXISTS,
-  UINT16ARRAY_EXISTS,
-  INT32ARRAY_EXISTS,
-  UINT32ARRAY_EXISTS,
+  ARRAYBUFFER_EXISTS,
+  ATOMICS_EXISTS,
   BIGINT64ARRAY_EXISTS,
+  BIGINT_EXISTS,
   BIGUINT64ARRAY_EXISTS,
+  DATAVIEW_EXISTS,
+  FINALIZATIONREGISTRY_EXISTS,
   FLOAT32ARRAY_EXISTS,
   FLOAT64ARRAY_EXISTS,
-  ARRAYBUFFER_EXISTS,
-  SHAREDARRAYBUFFER_EXISTS,
-  DATAVIEW_EXISTS,
-  PROMISE_EXISTS,
-  WEAKREF_EXISTS,
-  WEAKMAP_EXISTS,
-  WEAKSET_EXISTS,
+  INT16ARRAY_EXISTS,
+  INT32ARRAY_EXISTS,
+  INT8ARRAY_EXISTS,
+  INTERNALERROR_EXISTS,
   INTL_COLLATOR_EXISTS,
   INTL_DATETIMEFORMAT_EXISTS,
   INTL_DISPLAYNAMES_EXISTS,
@@ -44,18 +32,22 @@ import {
   INTL_PLURALRULES_EXISTS,
   INTL_RELATIVETIMEFORMAT_EXISTS,
   INTL_SEGMENTER_EXISTS,
-  MAP_ITERATOR_EXISTS,
-  SET_ITERATOR_EXISTS,
-  ARRAY_ITERATOR_EXISTS,
-  STRING_ITERATOR_EXISTS,
-  REGEXP_ITERATOR_EXISTS,
-  INTL_SEGMENTER_ITERATOR_EXISTS,
-  FINALIZATIONREGISTRY_EXISTS,
-  SYMBOL_EXISTS,
-  BIGINT_EXISTS,
-  ATOMICS_EXISTS,
-  REFLECT_EXISTS,
+  isBuiltInClass,
+  MAP_EXISTS,
+  PROMISE_EXISTS,
   PROXY_EXISTS,
+  REFLECT_EXISTS,
+  REGEXP_EXISTS,
+  SET_EXISTS,
+  SHAREDARRAYBUFFER_EXISTS,
+  SYMBOL_EXISTS,
+  UINT16ARRAY_EXISTS,
+  UINT32ARRAY_EXISTS,
+  UINT8ARRAY_EXISTS,
+  UINT8CLAMPEDARRAY_EXISTS,
+  WEAKMAP_EXISTS,
+  WEAKREF_EXISTS,
+  WEAKSET_EXISTS,
 } from '../src';
 
 /* eslint-disable no-undef, max-classes-per-file */
@@ -396,7 +388,7 @@ describe('Test the `isBuiltInClass()` function', () => {
       expect(isBuiltInClass(Proxy)).toBe(true);
     });
   }
-  
+
   test('should works across realms', () => {
     expect(isBuiltInClass(runInNewContext('Object'))).toBe(true);
     expect(isBuiltInClass(runInNewContext('Array'))).toBe(true);
@@ -408,11 +400,9 @@ describe('Test the `isBuiltInClass()` function', () => {
     expect(isBuiltInClass(runInNewContext('Error'))).toBe(true);
     expect(isBuiltInClass(runInNewContext('Math'))).toBe(true);
     expect(isBuiltInClass(runInNewContext('JSON'))).toBe(true);
-    
     // 测试自定义类
     expect(isBuiltInClass(runInNewContext('class Foo { constructor() { this.value = 0; } }'))).toBe(false);
     expect(isBuiltInClass(runInNewContext('(class { constructor() { this.value = 0; } })'))).toBe(false);
-    
     // 测试其他非内置类的值
     expect(isBuiltInClass(runInNewContext('{}'))).toBe(false);
     expect(isBuiltInClass(runInNewContext('[]'))).toBe(false);

@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import ERROR_TO_STRING_VALUES from './impl/error-to-string-values';
 
 /**
  * Tests whether the specified value is an instance of the built-in `Error`
@@ -19,18 +20,8 @@
  * @author Haixing Hu
  */
 function isError(value) {
-  if (value === null || value === undefined) {
-    return false;
-  }
-  const type = Object.prototype.toString.call(value);
-  return type === '[object Error]'
-      || type === '[object EvalError]'
-      || type === '[object RangeError]'
-      || type === '[object ReferenceError]'
-      || type === '[object SyntaxError]'
-      || type === '[object TypeError]'
-      || type === '[object URIError]'
-      || type === '[object AggregateError]';
+  const str = Object.prototype.toString.call(value);
+  return ERROR_TO_STRING_VALUES.includes(str) || (value instanceof Error); // support customized Error class
 }
 
 export default isError;

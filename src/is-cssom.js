@@ -18,6 +18,7 @@ import {
   STYLE_SHEET_EXISTS,
   STYLE_SHEET_LIST_EXISTS,
 } from './feature-detect';
+import CSSOM_TO_STRING_VALUES from './impl/cssom-to-string-values';
 
 /**
  * Determines whether the specified object is a CSSOM object.
@@ -26,27 +27,14 @@ import {
  *     The object to be checked.
  * @returns {boolean}
  *     `true` if the specified object is a CSSOM object; `false` otherwise.
+ * @author Haixing Hu
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isCssom(obj) {
-  if (obj === null || obj === undefined) {
-    return false;
-  }
-  // 使用 Object.prototype.toString.call() 进行跨realm检测
-  const type = Object.prototype.toString.call(obj);
-  if (type === '[object CSSRule]'
-      || type === '[object CSSRuleList]'
-      || type === '[object CSSStyleDeclaration]'
-      || type === '[object CSSStyleSheet]'
-      || type === '[object StyleSheet]'
-      || type === '[object StyleSheetList]'
-      || type === '[object FontFace]'
-      || type === '[object FontFaceSet]'
-      || type === '[object MediaList]'
-      || type === '[object MediaQueryList]'
-      || type === '[object Screen]') {
+  const str = Object.prototype.toString.call(obj);
+  if (CSSOM_TO_STRING_VALUES.includes(str)) {
     return true;
   }
-  // 保留原有的 instanceof 检查作为备用
   return (CSS_RULE_EXISTS && (obj instanceof CSSRule))
     || (CSS_RULE_LIST_EXISTS && (obj instanceof CSSRuleList))
     || (CSS_STYLE_DECLARATION_EXISTS && (obj instanceof CSSStyleDeclaration))

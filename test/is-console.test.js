@@ -42,7 +42,7 @@ describe('Test the `isConsole()` function', () => {
       expect(isConsole(console)).toBe(true);
     });
   }
-  
+
   test('should works across realms', () => {
     expect(isConsole(runInNewContext('console'))).toBe(true);
     expect(isConsole(runInNewContext('{}'))).toBe(false);

@@ -24,6 +24,7 @@ import {
   TIME_RANGES_EXISTS,
   TREE_WALKER_EXISTS,
 } from './feature-detect';
+import DOM_TO_STRING_VALUES from './impl/dom-to-string-values';
 
 /**
  * Determines whether the specified object is a DOM object.
@@ -32,35 +33,14 @@ import {
  *     The object to be checked.
  * @returns {boolean}
  *     `true` if the specified object is a DOM object; `false` otherwise.
+ * @author Haixing Hu
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isDom(obj) {
-  if (obj === null || obj === undefined) {
-    return false;
-  }
-  // 使用 Object.prototype.toString.call() 进行跨realm检测
-  const type = Object.prototype.toString.call(obj);
-  if (type === '[object Node]' 
-      || type === '[object HTMLCollection]'
-      || type === '[object NodeList]' 
-      || type === '[object NamedNodeMap]'
-      || type === '[object NodeIterator]' 
-      || type === '[object TreeWalker]'
-      || type === '[object AbstractRange]'
-      || type === '[object Range]'
-      || type === '[object StaticRange]'
-      || type === '[object MutationRecord]'
-      || type === '[object MutationObserver]'
-      || type === '[object DOMTokenList]'
-      || type === '[object DOMRect]'
-      || type === '[object DOMPointReadOnly]'
-      || type === '[object DOMParser]'
-      || type === '[object DOMImplementation]'
-      || type === '[object DOMException]'
-      || type === '[object TimeRanges]'
-      || type === '[object HTMLElement]') {
+  const str = Object.prototype.toString.call(obj);
+  if (DOM_TO_STRING_VALUES.includes(str)) {
     return true;
   }
-  // 保留原有的 instanceof 检查作为备用
   return (DOM_NODE_EXISTS && (obj instanceof Node))
     || (HTML_COLLECTION_EXISTS && (obj instanceof HTMLCollection))
     || (NODE_LIST_EXISTS && (obj instanceof NodeList))

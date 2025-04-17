@@ -7,6 +7,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import GLOBAL_OBJECT from './global-object';
+import GLOBAL_OBJECT_NAMES from './impl/global-object-names';
 
 /**
  * Tests whether the specified value is the global object.
@@ -21,47 +22,40 @@ function isGlobalObject(value) {
   if (value === null || value === undefined) {
     return false;
   }
-  // 检查是否是当前realm的全局对象
+  // check if value is the global object of the current realm
   if (value === GLOBAL_OBJECT) {
     return true;
   }
-  
-  // 使用对象表示法检测全局对象
-  const type = Object.prototype.toString.call(value);
-  // 在某些环境中，全局对象可能会表示为 [object global] 或 [object Window]
-  if (type === '[object global]' || type === '[object Window]') {
+  // use object notation to detect the global object
+  const str = Object.prototype.toString.call(value);
+  // in some environments, the global object may be represented as [object global] or [object Window]
+  if (GLOBAL_OBJECT_NAMES.includes(str)) {
     return true;
   }
-  
-  // 检查是否是其他realm的全局对象
+  // check if value is the global object of other realm
   try {
-    // 全局对象具有大量内置构造函数和对象
+    // the global object has many built-in constructors and objects
     if (typeof value === 'object' && value !== null) {
-      // 检查常见的全局对象属性和方法
-      const hasGlobalThis = 'globalThis' in value && value.globalThis === value;
-      const hasCommonGlobals = 
-            typeof value.Object === 'function' &&
-            typeof value.Array === 'function' &&
-            typeof value.String === 'function' &&
-            typeof value.Number === 'function' &&
-            typeof value.Boolean === 'function' &&
-            typeof value.Math === 'object' &&
-            typeof value.Date === 'function' &&
-            typeof value.JSON === 'object';
-      
-      // 检查常见的全局方法
-      const hasGlobalMethods =
-            typeof value.parseInt === 'function' &&
-            typeof value.parseFloat === 'function' &&
-            typeof value.isNaN === 'function' &&
-            typeof value.isFinite === 'function';
-      
+      // check common global object properties and methods
+      const hasGlobalThis = ('globalThis' in value) && (value.globalThis === value);
+      const hasCommonGlobals = (typeof value.Object === 'function')
+        && (typeof value.Array === 'function')
+        && (typeof value.String === 'function')
+        && (typeof value.Number === 'function')
+        && (typeof value.Boolean === 'function')
+        && (typeof value.Math === 'object')
+        && (typeof value.Date === 'function')
+        && (typeof value.JSON === 'object');
+      // check common global methods
+      const hasGlobalMethods = (typeof value.parseInt === 'function')
+        && (typeof value.parseFloat === 'function')
+        && (typeof value.isNaN === 'function')
+        && (typeof value.isFinite === 'function');
       return hasGlobalThis && hasCommonGlobals && hasGlobalMethods;
     }
   } catch (e) {
     return false;
   }
-  
   return false;
 }
 

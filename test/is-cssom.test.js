@@ -9,7 +9,7 @@
 import { runInNewContext } from 'node:vm';
 import {
   isCssom,
-  FONT_FACE_EXISTS
+  FONT_FACE_EXISTS,
 } from '../src';
 
 /* eslint-disable no-undef */

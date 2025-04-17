@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import FILE_TO_STRING_VALUES from './impl/file-to-string-values';
 
 /**
  * Tests whether the specified value is a JavaScript File API object.
@@ -19,19 +20,11 @@
  *     `true` if the specified value is a JavaScript File API object; `false`
  *     otherwise.
  * @author Haixing Hu
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isFile(value) {
-  const name = Object.prototype.toString.call(value);
-  switch (name) {
-    case '[object File]':
-    case '[object Blob]':
-    case '[object FileList]':
-    case '[object FileReader]':
-    case '[object FileReaderSync]':
-      return true;
-    default:
-      return false;
-  }
+  const str = Object.prototype.toString.call(value);
+  return FILE_TO_STRING_VALUES.includes(str);
 }
 
 export default isFile;

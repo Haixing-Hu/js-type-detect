@@ -97,7 +97,7 @@ describe('Test the `isIterator()` function', () => {
     expect(isIterator(null)).toBe(false);
     expect(isIterator(undefined)).toBe(false);
   });
-  
+
   test('should works across realms', () => {
     if (ARRAY_ITERATOR_EXISTS) {
       expect(isIterator(runInNewContext('[1, 2, 3].values()'))).toBe(true);
@@ -115,7 +115,7 @@ describe('Test the `isIterator()` function', () => {
     if (STRING_ITERATOR_EXISTS) {
       expect(isIterator(runInNewContext('"hello"[Symbol.iterator]()'))).toBe(true);
     }
-    
+
     expect(isIterator(runInNewContext('{}'))).toBe(false);
     expect(isIterator(runInNewContext('[]'))).toBe(false);
     expect(isIterator(runInNewContext('0'))).toBe(false);

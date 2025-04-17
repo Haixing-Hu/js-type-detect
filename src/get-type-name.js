@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+import fixTypeNameCompatibility from './fix-type-name-compatibility';
 //
 //    Copyright (c) 2022 - 2024.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -7,7 +8,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import hasToStringTag from './has-to-string-tag';
-import fixTypeNameCompatibility from './fix-type-name-compatibility';
+import isHtmlElement from './is-html-element';
 
 /**
  * Gets the type name of a value.
@@ -24,14 +25,18 @@ function getTypeName(value) {
     // Symbol.toStringTag property, so the following code will handle those cases.
     typeName = value[Symbol.toStringTag].replace(/\s/g, '');
   } else if (value.constructor
-    && (value.constructor.name !== undefined)
-    && (value.constructor.name !== null)
-    && (value.constructor.name !== 'Object')) {
+      && (value.constructor.name !== undefined)
+      && (value.constructor.name !== null)
+      && (value.constructor.name !== 'Object')) {
     // user defined class instance
     typeName = value.constructor.name;
   } else {
     const str = Object.prototype.toString.call(value);
     typeName = str.slice(8, -1).replace(/\s/g, '');
+  }
+  // for HTML elements, the type name is always 'HTMLElement'
+  if (/HTML\w+Element/.test(typeName) && isHtmlElement(value)) {
+    return 'HTMLElement';
   }
   return fixTypeNameCompatibility(typeName);
 }

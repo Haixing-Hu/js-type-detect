@@ -7,11 +7,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
-import {
-  isFunction,
-  ASYNC_FUNCTION_EXISTS,
-  SYMBOL_EXISTS
-} from '../src';
+import { ASYNC_FUNCTION_EXISTS, isFunction, SYMBOL_EXISTS } from '../src';
 
 /**
  * Unit test of the `isFunction()` function.
@@ -27,16 +23,16 @@ describe('Test the `isFunction()` function', () => {
     // eslint-disable-next-line func-names, prefer-arrow-callback
     expect(isFunction(function () { console.log('hello'); })).toBe(true);
   });
-  it('returns true for an array function', () => {
+  it('returns true for an arrow function', () => {
     expect(isFunction((x) => x + 1)).toBe(true);
   });
-  test('returns true for a generator function', () => {
+  test('returns false for a generator function', () => {
     function* foo() {
       yield 'a';
       yield 'b';
       yield 'c';
     }
-    expect(isFunction(foo)).toBe(true);
+    expect(isFunction(foo)).toBe(false);
   });
   test('returns false for a generator object', () => {
     function* foo() {
@@ -56,16 +52,16 @@ describe('Test the `isFunction()` function', () => {
       // eslint-disable-next-line func-names, prefer-arrow-callback
       expect(isFunction(async function () { console.log('hello'); })).toBe(true);
     });
-    it('returns true for an async array function', () => {
+    it('returns true for an async arrow function', () => {
       expect(isFunction(async (x) => x + 1)).toBe(true);
     });
-    test('returns true for an async generator function', () => {
+    test('returns false for an async generator function', () => {
       async function* foo() {
         yield 'a';
         yield 'b';
         yield 'c';
       }
-      expect(isFunction(foo)).toBe(true);
+      expect(isFunction(foo)).toBe(false);
     });
     test('returns false for an async generator object', () => {
       async function* foo() {

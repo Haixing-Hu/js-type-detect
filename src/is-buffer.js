@@ -6,10 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import {
-  ArrayBufferPrototype,
-  SharedArrayBufferPrototype,
-} from './builtin-prototype';
+import BUFFER_TO_STRING_VALUES from './impl/buffer-to-string-values.js';
 
 /**
  * Tests whether the specified value is a buffer object, i.e., an `ArrayBuffer`
@@ -21,25 +18,11 @@ import {
  *     `true` if the specified value is a buffer object, i.e., an `ArrayBuffer`
  *     or a `SharedBuffer` object; `false` otherwise.
  * @author Haixing Hu
+ * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isBuffer(value) {
-  if ((value === null) || (value === undefined)) {
-    return false;
-  }
-  // 先使用 Object.prototype.toString.call() 检测以支持跨realm
-  const type = Object.prototype.toString.call(value);
-  if (type === '[object ArrayBuffer]' || type === '[object SharedArrayBuffer]') {
-    return true;
-  }
-  // 保留原有的原型链判断作为备用
-  const proto = Object.getPrototypeOf(value);
-  switch (proto) {
-    case ArrayBufferPrototype:              // drop down
-    case SharedArrayBufferPrototype:        // drop down
-      return true;
-    default:
-      return false;
-  }
+  const str = Object.prototype.toString.call(value);
+  return BUFFER_TO_STRING_VALUES.includes(str);
 }
 
 export default isBuffer;

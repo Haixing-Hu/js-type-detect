@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import COLLECTION_TO_STRING_VALUES from './impl/collection-to-string-values';
 
 /**
  * Tests whether the specified value is a built-in collection object, i.e., a
@@ -20,16 +21,8 @@
  * @see <a href="https://github.com/sindresorhus/is/tree/main?tab=readme-ov-file#why-not-just-use-instanceof-instead-of-this-package">Why not just use instanceof instead of this package?</a>
  */
 function isCollection(value) {
-  if ((value === null) || (value === undefined)) {
-    return false;
-  }
-  switch (Object.prototype.toString.call(value)) {
-    case '[object Map]':        // drop down
-    case '[object Set]':        // drop down
-      return true;
-    default:
-      return false;
-  }
+  const str = Object.prototype.toString.call(value);
+  return COLLECTION_TO_STRING_VALUES.includes(str);
 }
 
 export default isCollection;

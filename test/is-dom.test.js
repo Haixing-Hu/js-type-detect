@@ -8,11 +8,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 import { runInNewContext } from 'node:vm';
 import {
-  isDom,
   DOM_NODE_EXISTS,
   DOM_PARSER_EXISTS,
   DOM_POINT_READONLY_EXISTS,
   DOM_RECT_EXISTS,
+  isDom,
 } from '../src';
 
 /* eslint-disable no-undef */
@@ -198,8 +198,7 @@ describe('Test the `isDom()` function', () => {
       expect(true).toBe(true); // 如果环境不支持HTMLMediaElement，测试将通过但不执行实际检查
     }
   });
-  
-  // 添加across realms测试
+
   test('should works across realms for non-DOM objects', () => {
     expect(isDom(runInNewContext('{}'))).toBe(false);
     expect(isDom(runInNewContext('[]'))).toBe(false);
@@ -207,5 +206,9 @@ describe('Test the `isDom()` function', () => {
     expect(isDom(runInNewContext('false'))).toBe(false);
     expect(isDom(runInNewContext('null'))).toBe(false);
     expect(isDom(runInNewContext('undefined'))).toBe(false);
+  });
+
+  test('should works across realms for DOM objects', () => {
+    // TODO: implement a test for DOM objects across realms
   });
 });

@@ -11,6 +11,10 @@
 
 如果你想获取变量的更详细的类型信息，可以使用 [typeinfo] 库，它是基于 [type-detect] 构建的。
 
+## 致谢
+
+本项目参考了由 Sindre Sorhus 创建的优秀库 [sindresorhus/is](https://github.com/sindresorhus/is)。我们在此对他在 JavaScript 类型检查工具方面的开创性工作表示感谢。
+
 ## 目录
 
 - [安装](#installation)

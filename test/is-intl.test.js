@@ -92,7 +92,7 @@ describe('Test the `isIntl()` function', () => {
     expect(isIntl(null)).toBe(false);
     expect(isIntl(undefined)).toBe(false);
   });
-  
+
   test('should works across realms', () => {
     if (INTL_COLLATOR_EXISTS) {
       expect(isIntl(runInNewContext('new Intl.Collator("zh")'))).toBe(true);
@@ -103,7 +103,7 @@ describe('Test the `isIntl()` function', () => {
     if (INTL_DATETIMEFORMAT_EXISTS) {
       expect(isIntl(runInNewContext('new Intl.DateTimeFormat("zh")'))).toBe(true);
     }
-    
+
     expect(isIntl(runInNewContext('{}'))).toBe(false);
     expect(isIntl(runInNewContext('[]'))).toBe(false);
     expect(isIntl(runInNewContext('0'))).toBe(false);
