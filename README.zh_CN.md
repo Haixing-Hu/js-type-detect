@@ -11,6 +11,29 @@
 
 如果你想获取变量的更详细的类型信息，可以使用 [typeinfo] 库，它是基于 [type-detect] 构建的。
 
+## 亮点特性
+
+- **跨域兼容性**：能够在不同的JavaScript域（iframe、窗口、工作线程）之间正确识别类型
+- **全面的类型检测**：提供30多个专门函数，精确检查JavaScript内置类型
+- **轻量级**：体积小，依赖少
+- **100%测试覆盖率**：全面测试确保在所有环境中的可靠性
+- **支持现代JavaScript**：兼容最新的ECMAScript特性和标准
+- **环境感知**：安全检查环境特定类型（DOM、CSSOM、文件API）
+- **健壮的检测方法**：使用对象内部特征而非不可靠的原型链检查
+
+## 与sindresorhus/is的比较
+
+虽然[sindresorhus/is](https://github.com/sindresorhus/is)是一个优秀的类型检查库，也是本项目的灵感来源，但`type-detect`在以下几个方面有所不同：
+
+- **Apache 2.0许可证**：对企业和商业应用更加宽松
+- **专门的检测函数**：更细粒度的类型检查（如`isWeakCollection`、`isGenerator`、`isNumeric`）
+- **更强的跨域支持**：对跨域兼容性进行了广泛测试
+- **注重DOM和浏览器API**：增强了对浏览器特定对象的检测（文件API、CSSOM、DOM元素）
+- **核心函数架构**：所有类型检查都基于中央`getTypeName`函数，保持一致性
+- **详细文档**：提供关于跨域检测和限制（如Proxy检测）的详细解释
+
+这两个库都是类型检查的优秀选择，`type-detect`更加注重浏览器环境和专门的JavaScript类型检测。
+
 ## 致谢
 
 本项目参考了由 Sindre Sorhus 创建的优秀库 [sindresorhus/is](https://github.com/sindresorhus/is)。我们在此对他在 JavaScript 类型检查工具方面的开创性工作表示感谢。
@@ -46,7 +69,9 @@ yarn add @qubit-ltd/type-detect
   属性的对象。它是本库中许多类型检测函数使用的核心功能。
 - `isArguments(value): boolean`：指定值是否为 JavaScript 内建的 `arguments` 对象，
   即一个类似数组的对象，表示传递给函数的参数。
+- `isArray(value): boolean`：指定值是否为 JavaScript 内建的数组。
 - `isBigInt(value): boolean`：指定值是否为 JavaScript 内建的 `bigint` 基本类型。
+- `isBlob(value): boolean`：指定值是否为 JavaScript 内建的 `Blob` 对象。
 - `isBoolean(value): boolean`：指定值是否为 JavaScript 内建的 `boolean` 基本类型或 `Boolean` 对象。
 - `isBuffer(value): boolean`：指定值是否为 JavaScript 内建的 `ArrayBuffer` 或 `SharedArrayBuffer` 对象。
 - `isBuiltInClass(Class): boolean`：指定类是否为 JavaScript 内建类。
@@ -55,6 +80,7 @@ yarn add @qubit-ltd/type-detect
 - `isConsole(value): boolean`：指定值是否为 JavaScript 内建的 `console` 对象。
 - `isCssom(value): boolean`：指定值是否为 JavaScript 内建的 `CSSOM` 对象。
 - `isDataView(value): boolean`：指定值是否为 JavaScript 内建的 `DataView` 对象。
+- `isDate(value): boolean`：指定值是否为 JavaScript 内建的 `Date` 对象。
 - `isDom(value): boolean`：指定值是否为 JavaScript 内建的 DOM 对象。
 - `isError(value): boolean`：指定值是否为 JavaScript 内建的 `Error` 类或其子类的实例。
 - `isEvent(value): boolean`：指定值是否为 JavaScript 内建的事件对象，即 JavaScript 内建的 `Event` 类或其子类的实例。
@@ -75,6 +101,13 @@ yarn add @qubit-ltd/type-detect
 - `isPlainObject(value): boolean`：指定值是否为纯 JavaScript 对象。如果对象是通过 `{}`、`new Object()`
   或 `Object.create(null)` 创建的，并且没有自定义的 `Symbol.toStringTag` 或 `Symbol.iterator`，
   则被认为是纯对象。
+- `isPrimitive(value): boolean`：指定值是否为 JavaScript 基本值。基本值是不是对象且没有方法的值。
+  在 JavaScript 中，有 7 种基本数据类型：string、number、bigint、boolean、undefined、symbol 和 null。
+- `isPrimitiveWrapper(value): boolean`：指定值是否为 JavaScript 基本包装对象。
+  基本包装对象是基本数据类型的对象形式。在 JavaScript 中，有 5 种基本包装类型：String 对象、
+  Number 对象、BigInt 对象、Boolean 对象和 Symbol 对象。
+- `isPromise(value): boolean`：指定值是否为 JavaScript 内建的 `Promise` 对象。
+- `isRegExp(value): boolean`：指定值是否为 JavaScript 内建的 `RegExp` 对象。
 - `isSet(value): boolean`：指定值是否为 JavaScript 内建的 `Set` 对象。此函数可以正确地跨不同的 JavaScript 领域工作。
 - `isString(value): boolean`：指定值是否为 JavaScript 内建的 `string` 基本类型或 `String` 对象。
 - `isSymbol(value): boolean`：指定值是否为 JavaScript 内建的 `Symbol` 基本类型。

@@ -254,6 +254,10 @@ describe('Test the `isBuiltInClass()` function', () => {
       expect(isBuiltInClass(InternalError)).toBe(true);
     });
   }
+  test('customized error', () => {
+    class MyError extends Error {}
+    expect(isBuiltInClass(MyError)).toBe(false);
+  });
   if (MAP_EXISTS) {
     test('Map', () => {
       expect(isBuiltInClass(Map)).toBe(true);
