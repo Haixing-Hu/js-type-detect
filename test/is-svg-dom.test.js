@@ -29,7 +29,7 @@ describe('Test the `isSvgDom()` function', () => {
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
     expect(isSvgDom(rect)).toBe(false);
-    
+
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
     expect(isSvgDom(path)).toBe(false);
@@ -39,7 +39,7 @@ describe('Test the `isSvgDom()` function', () => {
     const linearGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
     // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
     expect(isSvgDom(linearGradient)).toBe(false);
-    
+
     const radialGradient = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
     // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
     expect(isSvgDom(radialGradient)).toBe(false);
@@ -49,7 +49,7 @@ describe('Test the `isSvgDom()` function', () => {
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
     expect(isSvgDom(g)).toBe(false);
-    
+
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
     expect(isSvgDom(text)).toBe(false);
@@ -70,7 +70,7 @@ describe('Test the `isSvgDom()` function', () => {
       console.warn('SVGTransform is not supported in this environment');
       expect(true).toBe(true); // 如果环境不支持，测试将通过但不执行实际检查
     }
-    
+
     if (typeof SVGPoint !== 'undefined') {
       try {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -90,20 +90,20 @@ describe('Test the `isSvgDom()` function', () => {
   it('returns false for HTML elements', () => {
     const div = document.createElement('div');
     expect(isSvgDom(div)).toBe(false);
-    
+
     const span = document.createElement('span');
     expect(isSvgDom(span)).toBe(false);
-    
+
     const input = document.createElement('input');
     expect(isSvgDom(input)).toBe(false);
   });
 
   it('returns false for HTML DOM objects', () => {
     expect(isSvgDom(window.document)).toBe(false);
-    
+
     const collection = document.getElementsByTagName('div');
     expect(isSvgDom(collection)).toBe(false);
-    
+
     const nodeList = document.querySelectorAll('div');
     expect(isSvgDom(nodeList)).toBe(false);
   });
@@ -144,4 +144,4 @@ describe('Test the `isSvgDom()` function', () => {
     };
     expect(isSvgDom(mockElement)).toBe(false);
   });
-}); 
+});

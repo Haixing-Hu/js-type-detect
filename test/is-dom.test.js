@@ -129,7 +129,7 @@ describe('Test the `isDom()` function', () => {
         }
       }
     });
-    
+
     // 新增对TimeRanges的测试
     test('TimeRanges', () => {
       if (typeof HTMLMediaElement !== 'undefined') {
@@ -146,13 +146,13 @@ describe('Test the `isDom()` function', () => {
         expect(true).toBe(true); // 如果环境不支持HTMLMediaElement，测试将通过但不执行实际检查
       }
     });
-    
+
     // 新增对Event对象的测试
     test('Event', () => {
       const event = new Event('test');
       expect(isDom(event)).toBe(true);
     });
-    
+
     // 新增对EventTarget的测试
     test('EventTarget', () => {
       if (typeof EventTarget !== 'undefined') {
@@ -168,7 +168,7 @@ describe('Test the `isDom()` function', () => {
         expect(true).toBe(true); // 如果环境不支持EventTarget，测试将通过但不执行实际检查
       }
     });
-    
+
     // 新增对AbortController和AbortSignal的测试
     test('AbortController and AbortSignal', () => {
       if (typeof AbortController !== 'undefined') {
@@ -185,7 +185,7 @@ describe('Test the `isDom()` function', () => {
         expect(true).toBe(true); // 如果环境不支持AbortController，测试将通过但不执行实际检查
       }
     });
-    
+
     // 测试HTML元素
     test('HTML elements', () => {
       const elements = [
@@ -200,12 +200,12 @@ describe('Test the `isDom()` function', () => {
         document.createElement('audio'),
         document.createElement('canvas'),
       ];
-      
+
       elements.forEach((element) => {
         expect(isDom(element)).toBe(true);
       });
     });
-    
+
     // 测试SVG元素
     test('SVG elements', () => {
       const svgNS = 'http://www.w3.org/2000/svg';
@@ -217,19 +217,19 @@ describe('Test the `isDom()` function', () => {
         document.createElementNS(svgNS, 'g'),
         document.createElementNS(svgNS, 'text'),
       ];
-      
+
       elements.forEach((element) => {
         expect(isDom(element)).toBe(true);
       });
     });
-    
+
     // 测试DocumentFragment
     test('DocumentFragment', () => {
       const fragment = document.createDocumentFragment();
       expect(isDom(fragment)).toBe(true);
     });
   }
-  
+
   // 测试非DOM对象
   test('null', () => {
     expect(isDom(null)).toBe(false);
@@ -336,7 +336,7 @@ describe('Test the `isDom()` function', () => {
       tagName: 'DIV',
     };
     expect(isDom(mockElement)).toBe(false);
-    
+
     // 即使对象有类似DOM的属性，但没有正确的类型名，也应该返回false
     const mockWithProto = Object.create(null);
     mockWithProto.nodeName = 'DIV';

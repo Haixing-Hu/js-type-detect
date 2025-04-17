@@ -33,7 +33,7 @@ describe('Test the `isCssom()` function', () => {
     document.head.appendChild(styleElement);
     styleElement.sheet.insertRule('body {background: black;}', 0);
     const cssRuleList = styleElement.sheet.cssRules;
-    
+
     // 在某些环境中CSSRuleList可能不被正确识别
     try {
       expect(isCssom(cssRuleList)).toBe(true);
@@ -42,7 +42,7 @@ describe('Test the `isCssom()` function', () => {
       // 确保测试不会因为环境问题而失败
       expect(cssRuleList).toBeDefined();
     }
-    
+
     document.head.removeChild(styleElement);
   });
 
@@ -198,7 +198,7 @@ describe('Test the `isCssom()` function', () => {
     }
   });
 
-  // 事件相关测试 
+  // 事件相关测试
   it('TransitionEvent', () => {
     if (typeof TransitionEvent !== 'undefined') {
       try {
@@ -248,7 +248,7 @@ describe('Test the `isCssom()` function', () => {
     expect(isCssom(123)).toBe(false);
     expect(isCssom(true)).toBe(false);
     expect(isCssom(Symbol('test'))).toBe(false);
-    
+
     // 对象类型
     expect(isCssom({})).toBe(false);
     expect(isCssom([])).toBe(false);
@@ -256,7 +256,7 @@ describe('Test the `isCssom()` function', () => {
     expect(isCssom(new Map())).toBe(false);
     expect(isCssom(new Set())).toBe(false);
     expect(isCssom(() => {})).toBe(false);
-    
+
     // DOM对象
     expect(isCssom(document)).toBe(false);
     expect(isCssom(document.createElement('div'))).toBe(false);

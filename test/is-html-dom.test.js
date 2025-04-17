@@ -42,10 +42,10 @@ describe('Test the `isHtmlDom()` function', () => {
   it('should handle document objects appropriately', () => {
     // 在JSDOM环境中可能返回false，实际浏览器中可能返回true
     expect(isHtmlDom(window.document)).toBe(false);
-    
+
     const form = document.createElement('form');
     expect(isHtmlDom(form)).toBe(true);
-    
+
     const img = document.createElement('img');
     expect(isHtmlDom(img)).toBe(true);
   });
@@ -53,7 +53,7 @@ describe('Test the `isHtmlDom()` function', () => {
   it('should handle HTML Canvas element', () => {
     const canvas = document.createElement('canvas');
     expect(isHtmlDom(canvas)).toBe(true);
-    
+
     // JSDOM环境中getContext可能不可用，所以跳过这个测试
     // const ctx = canvas.getContext('2d');
     // expect(isHtmlDom(ctx)).toBe(true);
@@ -64,7 +64,7 @@ describe('Test the `isHtmlDom()` function', () => {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     // 根据测试结果，isHtmlDom对SVG元素返回true，这可能是预期行为
     expect(isHtmlDom(svg)).toBe(true);
-    
+
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     expect(isHtmlDom(circle)).toBe(true);
   });
