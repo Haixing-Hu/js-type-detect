@@ -21,6 +21,8 @@ If you want to get more detailed type information of a variable, you can use the
     - [Type Detection Functions](#type-detection)
     - [Feature Detection Constants](#feature-detection)
     - [Type Prototype Constants](#type-prototype)
+- [Why Not Use `instanceof`](#why-not-instanceof)
+- [Cross-Realm Type Detection](#cross-realm)
 - [Why `Proxy` Type Cannot be Detected](#why-no-proxy)
 - [Test Coverage](#test-coverage)
 - [Contributing](#contributing)
@@ -341,6 +343,56 @@ function foo(value) {
   }
 }
 ```
+
+## <span id="why-not-instanceof">Why Not Use `instanceof`</span>
+
+While `instanceof` is a built-in JavaScript operator that appears to be a simple solution for type checking, it has several significant limitations that make it unsuitable for reliable type detection:
+
+1. **Cross-realm incompatibility**: The `instanceof` operator fails when objects are created in different JavaScript realms (e.g., from iframes, across window boundaries, or from vm contexts). This is because `instanceof` checks if the prototype chain of an object contains the prototype property of a constructor, but constructors from different realms have different prototype objects.
+
+2. **Prototype chain manipulation**: Since prototype chains can be modified at runtime, `instanceof` checks can be spoofed or broken, leading to unreliable results.
+
+3. **Primitive values**: `instanceof` doesn't work as expected with primitive values. For example, `"string" instanceof String` returns `false` even though it's clearly a string.
+
+4. **Subclass issues**: When dealing with subclasses, `instanceof` will return `true` for both the subclass and parent class, which may not be the exact type information you need.
+
+This library takes a more robust approach by using various techniques to detect types reliably, such as examining internal properties, using `Symbol.toStringTag`, and checking the object's structure and behavior, which work consistently across different execution contexts.
+
+## <span id="cross-realm">Cross-Realm Type Detection</span>
+
+A JavaScript "realm" is essentially an isolated execution environment with its own global object and set of built-in objects. Realms can exist in various forms:
+
+- Different frames (iframes) in a browser
+- Different windows in a browser
+- Worker threads (Web Workers, Service Workers)
+- Separate execution contexts created via APIs like Node.js's `vm` module
+
+When objects are passed between realms, they maintain their behavior but lose their direct prototype chain connection to constructors in the receiving realm. This means traditional type checking with `instanceof` fails across realm boundaries.
+
+For example:
+
+```js
+// In main realm
+const mainArray = new Array();
+console.log(mainArray instanceof Array); // true
+
+// In iframe or vm context (different realm)
+const frameArray = iframe.contentWindow.Array();
+console.log(frameArray instanceof Array); // false - because it's a different Array constructor!
+```
+
+The [type-detect] library solves this problem by using techniques that work reliably across realm boundaries. As demonstrated in our test suite, the library's functions correctly identify types regardless of where they were created:
+
+```js
+// From is-typed-array.test.js
+test('should works across realms', () => {
+  expect(isTypedArray(runInNewContext('new Int8Array(2)'))).toBe(true);
+  expect(isTypedArray(runInNewContext('new Uint8Array(2)'))).toBe(true);
+  // ...and other typed arrays
+});
+```
+
+This cross-realm capability is crucial in modern web applications that frequently pass objects between window boundaries, iframes, or worker contexts. By using intrinsic characteristics of objects rather than their prototype chains, [type-detect] ensures consistent and reliable type detection in all JavaScript environments.
 
 ## <span id="no-proxy">Why `Proxy` Type Cannot be Detected</span>
 

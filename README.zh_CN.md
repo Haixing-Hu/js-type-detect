@@ -18,6 +18,8 @@
     - [类型检测函数](#type-detection)
     - [特性检测常量](#feature-detection)
     - [类型原型常量](#type-prototype)
+- [为何不使用`instanceof`](#why-not-instanceof)
+- [跨域类型检测](#cross-realm)
 - [为何无法检测`Proxy`类型](#why-no-proxy)
 - [测试覆盖率](#test-coverage)
 - [贡献](#contributing)
@@ -193,6 +195,56 @@ function foo(value) {
 - `MapPrototype`：JavaScript内建`Map`对象的原型，如果`Map`类不存在，则为`undefined`。
 - `PromisePrototype`：JavaScript内建`Promise`对象的原型，如果`Promise`类不存在，则为`undefined`。
 - `RegExpIteratorPrototype`：JavaScript内建`RegExp`迭代器对象的原型，
+
+## <span id="why-not-instanceof">为何不使用`instanceof`</span>
+
+虽然`instanceof`是JavaScript内置的运算符，看起来是一种简单的类型检测解决方案，但它存在几个显著的局限性，使其不适合可靠的类型检测：
+
+1. **跨域不兼容**：当对象在不同的JavaScript域（realm）中创建时（例如，来自iframe、跨窗口边界或来自vm上下文），`instanceof`运算符会失效。这是因为`instanceof`检查对象的原型链是否包含构造函数的原型属性，但来自不同域的构造函数具有不同的原型对象。
+
+2. **原型链操作**：由于原型链可以在运行时修改，`instanceof`检查可能被欺骗或破坏，导致结果不可靠。
+
+3. **原始值问题**：`instanceof`对原始值不能按预期工作。例如，`"string" instanceof String`返回`false`，尽管它显然是一个字符串。
+
+4. **子类问题**：在处理子类时，`instanceof`对子类和父类都会返回`true`，这可能不是您需要的确切类型信息。
+
+本库采用更健壮的方法来可靠地检测类型，如检查内部属性、使用`Symbol.toStringTag`以及检查对象的结构和行为，这些方法在不同的执行上下文中都能一致地工作。
+
+## <span id="cross-realm">跨域类型检测</span>
+
+JavaScript中的"域"（realm）本质上是一个隔离的执行环境，具有自己的全局对象和一组内置对象。域可以以各种形式存在：
+
+- 浏览器中的不同框架（iframe）
+- 浏览器中的不同窗口
+- 工作线程（Web Workers、Service Workers）
+- 通过API如Node.js的`vm`模块创建的单独执行上下文
+
+当对象在域之间传递时，它们保持其行为，但失去了与接收域中构造函数的直接原型链连接。这意味着跨域边界的传统类型检查如`instanceof`会失败。
+
+例如：
+
+```js
+// 在主域中
+const mainArray = new Array();
+console.log(mainArray instanceof Array); // true
+
+// 在iframe或vm上下文（不同域）中
+const frameArray = iframe.contentWindow.Array();
+console.log(frameArray instanceof Array); // false - 因为它是一个不同的Array构造函数！
+```
+
+[type-detect]库通过使用在域边界上可靠工作的技术解决了这个问题。正如我们的测试套件所示，无论创建位置，库的函数都能正确识别类型：
+
+```js
+// 来自is-typed-array.test.js
+test('should works across realms', () => {
+  expect(isTypedArray(runInNewContext('new Int8Array(2)'))).toBe(true);
+  expect(isTypedArray(runInNewContext('new Uint8Array(2)'))).toBe(true);
+  // ...以及其他类型化数组
+});
+```
+
+这种跨域能力在现代Web应用程序中至关重要，因为它们经常在窗口边界、iframe或工作者上下文之间传递对象。通过使用对象的内在特性而不是它们的原型链，[type-detect]确保在所有JavaScript环境中进行一致且可靠的类型检测。
 
 ## <span id="why-no-proxy">为何无法检测`Proxy`类型</span>
 
