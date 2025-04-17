@@ -7,7 +7,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-import fixTypeNameCompatibility from '../src/fix-type-name-compatibility';
+import fixTypeNameCompatibility from '../src/impl/fix-type-name-compatibility';
 
 describe('Test the `fixTypeNameCompatibility()` function', () => {
   test('should handle empty string (anonymous class in ES6)', () => {

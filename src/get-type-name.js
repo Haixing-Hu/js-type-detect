@@ -1,5 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-import fixTypeNameCompatibility from './fix-type-name-compatibility';
 //
 //    Copyright (c) 2022 - 2024.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -8,6 +7,7 @@ import fixTypeNameCompatibility from './fix-type-name-compatibility';
 //
 ////////////////////////////////////////////////////////////////////////////////
 import hasToStringTag from './has-to-string-tag';
+import fixTypeNameCompatibility from './impl/fix-type-name-compatibility';
 import isHtmlElement from './is-html-element';
 
 /**
