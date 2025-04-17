@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 import { isArguments } from '../src';
 
 /* eslint-disable no-undef */
@@ -68,5 +69,18 @@ describe('Test the `isArguments()` function', () => {
   test('nullish values', () => {
     expect(isArguments(null)).toBe(false);
     expect(isArguments(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    const createArgsInAnotherRealm = runInNewContext(`
+      function getArguments() { return arguments; }
+      getArguments('a', 'b', 'c');
+    `);
+    expect(isArguments(createArgsInAnotherRealm)).toBe(true);
+    expect(isArguments(runInNewContext('{}'))).toBe(false);
+    expect(isArguments(runInNewContext('[]'))).toBe(false);
+    expect(isArguments(runInNewContext('0'))).toBe(false);
+    expect(isArguments(runInNewContext('false'))).toBe(false);
+    expect(isArguments(runInNewContext('null'))).toBe(false);
+    expect(isArguments(runInNewContext('undefined'))).toBe(false);
   });
 });

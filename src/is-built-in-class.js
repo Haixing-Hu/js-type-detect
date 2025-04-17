@@ -78,12 +78,59 @@ function isBuiltInClass(Class) {
   if (Class === undefined || Class === null) {
     return false;
   }
+  
+  // 处理跨realm的内置特殊对象
+  if (Object.prototype.toString.call(Class) === '[object Math]' 
+      || Object.prototype.toString.call(Class) === '[object JSON]'
+      || Object.prototype.toString.call(Class) === '[object Atomics]'
+      || Object.prototype.toString.call(Class) === '[object Reflect]') {
+    return true;
+  }
+  
+  // 自定义类检测，如果函数被定义在用户代码中，则不是内置类
+  if (typeof Class === 'function') {
+    const funcName = Function.prototype.toString.call(Class);
+    
+    // 检测是否是class关键字定义的类
+    if (funcName.startsWith('class ')) {
+      // 只有内置类在严格模式下不会以"class "开头
+      return false;
+    }
+    
+    // 对于跨realm的情况，可以检测函数名称，但需要限制只有特定名称的才被识别为内置类
+    const name = Class.name;
+    if (name && [
+      'Object', 'Array', 'Boolean', 'Number', 'String', 'Date', 'RegExp',
+      'Function', 'Error', 'EvalError', 'RangeError', 'ReferenceError',
+      'SyntaxError', 'TypeError', 'URIError', 'AggregateError', 'Map', 'Set',
+      'WeakMap', 'WeakSet', 'WeakRef', 'Promise', 'BigInt', 'Symbol',  
+      'Int8Array', 'Uint8Array', 'Uint8ClampedArray', 'Int16Array', 'Uint16Array',
+      'Int32Array', 'Uint32Array', 'Float32Array', 'Float64Array', 'BigInt64Array',
+      'BigUint64Array', 'ArrayBuffer', 'SharedArrayBuffer', 'DataView', 'Proxy',
+      'Intl.Collator', 'Intl.DateTimeFormat', 'Intl.DisplayNames', 'Intl.DurationFormat',
+      'Intl.ListFormat', 'Intl.Locale', 'Intl.NumberFormat', 'Intl.PluralRules',
+      'Intl.RelativeTimeFormat', 'Intl.Segmenter', 'FinalizationRegistry'
+    ].includes(name)) {
+      try {
+        // 进一步检查 prototype 是否匹配内置类特征
+        const typeOfPrototype = Object.prototype.toString.call(Class.prototype);
+        if (typeOfPrototype.includes('[object')) {
+          return true;
+        }
+      } catch (e) {
+        // 忽略错误
+      }
+    }
+  }
+  
   if (typeof Class !== 'function') {
     return (Class === Math)
       || (Class === JSON)
       || (Class === Atomics)
       || (Class === Reflect);
   }
+  
+  // 使用原型链检查
   switch (Class.prototype) {
     case Object.prototype:                  // drop down
     case Array.prototype:                   // drop down

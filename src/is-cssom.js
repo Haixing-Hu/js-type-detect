@@ -28,6 +28,25 @@ import {
  *     `true` if the specified object is a CSSOM object; `false` otherwise.
  */
 function isCssom(obj) {
+  if (obj === null || obj === undefined) {
+    return false;
+  }
+  // 使用 Object.prototype.toString.call() 进行跨realm检测
+  const type = Object.prototype.toString.call(obj);
+  if (type === '[object CSSRule]'
+      || type === '[object CSSRuleList]'
+      || type === '[object CSSStyleDeclaration]'
+      || type === '[object CSSStyleSheet]'
+      || type === '[object StyleSheet]'
+      || type === '[object StyleSheetList]'
+      || type === '[object FontFace]'
+      || type === '[object FontFaceSet]'
+      || type === '[object MediaList]'
+      || type === '[object MediaQueryList]'
+      || type === '[object Screen]') {
+    return true;
+  }
+  // 保留原有的 instanceof 检查作为备用
   return (CSS_RULE_EXISTS && (obj instanceof CSSRule))
     || (CSS_RULE_LIST_EXISTS && (obj instanceof CSSRuleList))
     || (CSS_STYLE_DECLARATION_EXISTS && (obj instanceof CSSStyleDeclaration))

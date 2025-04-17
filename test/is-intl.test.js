@@ -6,8 +6,9 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isIntl } from '../src';
+import { runInNewContext } from 'node:vm';
 import {
+  isIntl,
   INTL_COLLATOR_EXISTS,
   INTL_DATETIMEFORMAT_EXISTS,
   INTL_DISPLAYNAMES_EXISTS,
@@ -18,7 +19,7 @@ import {
   INTL_PLURALRULES_EXISTS,
   INTL_RELATIVETIMEFORMAT_EXISTS,
   INTL_SEGMENTER_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -90,5 +91,24 @@ describe('Test the `isIntl()` function', () => {
   test('nullish values', () => {
     expect(isIntl(null)).toBe(false);
     expect(isIntl(undefined)).toBe(false);
+  });
+  
+  test('should works across realms', () => {
+    if (INTL_COLLATOR_EXISTS) {
+      expect(isIntl(runInNewContext('new Intl.Collator("zh")'))).toBe(true);
+    }
+    if (INTL_NUMBERFORMAT_EXISTS) {
+      expect(isIntl(runInNewContext('new Intl.NumberFormat("zh")'))).toBe(true);
+    }
+    if (INTL_DATETIMEFORMAT_EXISTS) {
+      expect(isIntl(runInNewContext('new Intl.DateTimeFormat("zh")'))).toBe(true);
+    }
+    
+    expect(isIntl(runInNewContext('{}'))).toBe(false);
+    expect(isIntl(runInNewContext('[]'))).toBe(false);
+    expect(isIntl(runInNewContext('0'))).toBe(false);
+    expect(isIntl(runInNewContext('false'))).toBe(false);
+    expect(isIntl(runInNewContext('null'))).toBe(false);
+    expect(isIntl(runInNewContext('undefined'))).toBe(false);
   });
 });

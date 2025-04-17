@@ -6,6 +6,7 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 import { isGlobalObject, GLOBAL_OBJECT, SYMBOL_EXISTS, BIGINT_EXISTS } from '../src';
 
 /**
@@ -51,5 +52,18 @@ describe('Test the `isGlobalObject()` function', () => {
   });
   it('returns false for undefined', () => {
     expect(isGlobalObject(undefined)).toBe(false);
+  });
+  
+  test('should works across realms', () => {
+    // 在另一个执行上下文中，globalThis是那个上下文的全局对象
+    const anotherGlobalThis = runInNewContext('globalThis');
+    expect(isGlobalObject(anotherGlobalThis)).toBe(true);
+    
+    expect(isGlobalObject(runInNewContext('{}'))).toBe(false);
+    expect(isGlobalObject(runInNewContext('[]'))).toBe(false);
+    expect(isGlobalObject(runInNewContext('0'))).toBe(false);
+    expect(isGlobalObject(runInNewContext('false'))).toBe(false);
+    expect(isGlobalObject(runInNewContext('null'))).toBe(false);
+    expect(isGlobalObject(runInNewContext('undefined'))).toBe(false);
   });
 });

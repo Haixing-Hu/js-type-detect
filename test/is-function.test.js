@@ -6,15 +6,19 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isFunction } from '../src';
-import { ASYNC_FUNCTION_EXISTS, SYMBOL_EXISTS } from '../src/feature-detect';
+import { runInNewContext } from 'node:vm';
+import {
+  isFunction,
+  ASYNC_FUNCTION_EXISTS,
+  SYMBOL_EXISTS
+} from '../src';
 
 /**
  * Unit test of the `isFunction()` function.
  *
  * @author Haixing Hu
  */
-describe('Test the `isSymbol()` function', () => {
+describe('Test the `isFunction()` function', () => {
   it('returns true for a named function', () => {
     function foo() { console.log('hello'); }
     expect(isFunction(foo)).toBe(true);
@@ -98,5 +102,15 @@ describe('Test the `isSymbol()` function', () => {
   });
   it('returns false for undefined', () => {
     expect(isFunction(undefined)).toBe(false);
+  });
+  it.skip('should works across realms', () => {
+    expect(isFunction(runInNewContext('function foo() { return 42; }'))).toBe(true);
+    expect(isFunction(runInNewContext('() => 42'))).toBe(true);
+    expect(isFunction(runInNewContext('{}'))).toBe(false);
+    expect(isFunction(runInNewContext('[]'))).toBe(false);
+    expect(isFunction(runInNewContext('0'))).toBe(false);
+    expect(isFunction(runInNewContext('false'))).toBe(false);
+    expect(isFunction(runInNewContext('null'))).toBe(false);
+    expect(isFunction(runInNewContext('undefined'))).toBe(false);
   });
 });

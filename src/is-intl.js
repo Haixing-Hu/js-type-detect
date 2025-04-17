@@ -34,6 +34,21 @@ function isIntl(value) {
   if ((value === null) || (value === undefined)) {
     return false;
   }
+  // 先使用 Object.prototype.toString.call() 检测以支持跨realm
+  const type = Object.prototype.toString.call(value);
+  if (type === '[object Intl.Collator]'
+      || type === '[object Intl.DateTimeFormat]'
+      || type === '[object Intl.DisplayNames]'
+      || type === '[object Intl.DurationFormat]'
+      || type === '[object Intl.ListFormat]'
+      || type === '[object Intl.Locale]'
+      || type === '[object Intl.NumberFormat]'
+      || type === '[object Intl.PluralRules]'
+      || type === '[object Intl.RelativeTimeFormat]'
+      || type === '[object Intl.Segmenter]') {
+    return true;
+  }
+  // 保留原有的原型链判断作为备用
   const proto = Object.getPrototypeOf(value);
   switch (proto) {
     case IntlCollatorPrototype:             // drop down

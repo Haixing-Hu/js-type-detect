@@ -6,12 +6,11 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 import {
   isBuiltInClass,
   MAP_ENTRIES_EXISTS,
   MapIteratorPrototype,
-} from '../src';
-import {
   AGGREGATEERROR_EXISTS,
   INTERNALERROR_EXISTS,
   MAP_EXISTS,
@@ -57,7 +56,7 @@ import {
   ATOMICS_EXISTS,
   REFLECT_EXISTS,
   PROXY_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef, max-classes-per-file */
 
@@ -397,4 +396,29 @@ describe('Test the `isBuiltInClass()` function', () => {
       expect(isBuiltInClass(Proxy)).toBe(true);
     });
   }
+  
+  test('should works across realms', () => {
+    expect(isBuiltInClass(runInNewContext('Object'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('Array'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('String'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('Number'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('Boolean'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('Date'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('RegExp'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('Error'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('Math'))).toBe(true);
+    expect(isBuiltInClass(runInNewContext('JSON'))).toBe(true);
+    
+    // 测试自定义类
+    expect(isBuiltInClass(runInNewContext('class Foo { constructor() { this.value = 0; } }'))).toBe(false);
+    expect(isBuiltInClass(runInNewContext('(class { constructor() { this.value = 0; } })'))).toBe(false);
+    
+    // 测试其他非内置类的值
+    expect(isBuiltInClass(runInNewContext('{}'))).toBe(false);
+    expect(isBuiltInClass(runInNewContext('[]'))).toBe(false);
+    expect(isBuiltInClass(runInNewContext('0'))).toBe(false);
+    expect(isBuiltInClass(runInNewContext('false'))).toBe(false);
+    expect(isBuiltInClass(runInNewContext('null'))).toBe(false);
+    expect(isBuiltInClass(runInNewContext('undefined'))).toBe(false);
+  });
 });

@@ -6,12 +6,13 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
+import { runInNewContext } from 'node:vm';
 import { isConsole } from '../src';
 
 /* eslint-disable no-undef */
 
 /**
- * Unit test of the `isCssom()` function.
+ * Unit test of the `isConsole()` function.
  *
  * @author Haixing Hu
  */
@@ -41,4 +42,14 @@ describe('Test the `isConsole()` function', () => {
       expect(isConsole(console)).toBe(true);
     });
   }
+  
+  test('should works across realms', () => {
+    expect(isConsole(runInNewContext('console'))).toBe(true);
+    expect(isConsole(runInNewContext('{}'))).toBe(false);
+    expect(isConsole(runInNewContext('[]'))).toBe(false);
+    expect(isConsole(runInNewContext('0'))).toBe(false);
+    expect(isConsole(runInNewContext('false'))).toBe(false);
+    expect(isConsole(runInNewContext('null'))).toBe(false);
+    expect(isConsole(runInNewContext('undefined'))).toBe(false);
+  });
 });

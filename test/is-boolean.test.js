@@ -1,5 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-import { runInNewContext } from 'node:vm';
 //
 //    Copyright (c) 2022 - 2023.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -7,7 +6,8 @@ import { runInNewContext } from 'node:vm';
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isBoolean, isCollection } from '../src';
+import { runInNewContext } from 'node:vm';
+import { isBoolean } from '../src';
 
 /**
  * Unit test of the `isBoolean()` function.
@@ -41,6 +41,14 @@ describe('Test the `isBoolean()` function', () => {
   });
   test('should works across realms', () => {
     expect(isBoolean(runInNewContext('true'))).toBe(true);
+    expect(isBoolean(runInNewContext('false'))).toBe(true);
     expect(isBoolean(runInNewContext('new Boolean(false)'))).toBe(true);
+    expect(isBoolean(runInNewContext('new Boolean(true)'))).toBe(true);
+    expect(isBoolean(runInNewContext('{}'))).toBe(false);
+    expect(isBoolean(runInNewContext('[]'))).toBe(false);
+    expect(isBoolean(runInNewContext('0'))).toBe(false);
+    expect(isBoolean(runInNewContext('"true"'))).toBe(false);
+    expect(isBoolean(runInNewContext('null'))).toBe(false);
+    expect(isBoolean(runInNewContext('undefined'))).toBe(false);
   });
 });

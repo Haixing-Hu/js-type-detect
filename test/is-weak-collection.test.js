@@ -16,11 +16,11 @@ import {
 /* eslint-disable no-undef */
 
 /**
- * Unit test of the `isWeak()` function.
+ * Unit test of the `isWeakCollection()` function.
  *
  * @author Haixing Hu
  */
-describe('Test the `isWeak()` function', () => {
+describe('Test the `isWeakCollection()` function', () => {
   if (WEAKMAP_EXISTS) {
     test('WeakMap', () => {
       expect(isWeakCollection(new WeakMap())).toBe(true);
@@ -47,5 +47,13 @@ describe('Test the `isWeak()` function', () => {
   test('should works across realms', () => {
     expect(isWeakCollection(runInNewContext('new WeakSet()'))).toBe(true);
     expect(isWeakCollection(runInNewContext('new WeakMap()'))).toBe(true);
+    expect(isWeakCollection(runInNewContext('new Set()'))).toBe(false);
+    expect(isWeakCollection(runInNewContext('new Map()'))).toBe(false);
+    expect(isWeakCollection(runInNewContext('{}'))).toBe(false);
+    expect(isWeakCollection(runInNewContext('[]'))).toBe(false);
+    expect(isWeakCollection(runInNewContext('0'))).toBe(false);
+    expect(isWeakCollection(runInNewContext('false'))).toBe(false);
+    expect(isWeakCollection(runInNewContext('null'))).toBe(false);
+    expect(isWeakCollection(runInNewContext('undefined'))).toBe(false);
   });
 });

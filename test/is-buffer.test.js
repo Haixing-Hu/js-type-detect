@@ -1,5 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-import { runInNewContext } from 'node:vm';
 //
 //    Copyright (c) 2022 - 2023.
 //    Haixing Hu, Qubit Co. Ltd.
@@ -7,11 +6,12 @@ import { runInNewContext } from 'node:vm';
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isBuffer, isCollection } from '../src';
+import { runInNewContext } from 'node:vm';
 import {
   ARRAYBUFFER_EXISTS,
+  isBuffer,
   SHAREDARRAYBUFFER_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -45,7 +45,17 @@ describe('Test the `isBuffer()` function', () => {
     expect(isBuffer(undefined)).toBe(false);
   });
   test('should works across realms', () => {
-    expect(isCollection(runInNewContext('new Set()'))).toBe(true);
-    expect(isCollection(runInNewContext('new Map()'))).toBe(true);
+    if (ARRAYBUFFER_EXISTS) {
+      expect(isBuffer(runInNewContext('new ArrayBuffer(2)'))).toBe(true);
+    }
+    if (SHAREDARRAYBUFFER_EXISTS) {
+      expect(isBuffer(runInNewContext('new SharedArrayBuffer(2)'))).toBe(true);
+    }
+    expect(isBuffer(runInNewContext('{}'))).toBe(false);
+    expect(isBuffer(runInNewContext('[]'))).toBe(false);
+    expect(isBuffer(runInNewContext('0'))).toBe(false);
+    expect(isBuffer(runInNewContext('false'))).toBe(false);
+    expect(isBuffer(runInNewContext('null'))).toBe(false);
+    expect(isBuffer(runInNewContext('undefined'))).toBe(false);
   });
 });

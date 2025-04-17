@@ -54,5 +54,12 @@ describe('isDataView', () => {
   test('should works across realms', () => {
     expect(isDataView(runInNewContext('new WeakSet()'))).toBe(false);
     expect(isDataView(runInNewContext('new DataView(new ArrayBuffer(8))'))).toBe(true);
+    expect(isDataView(runInNewContext('{}'))).toBe(false);
+    expect(isDataView(runInNewContext('[]'))).toBe(false);
+    expect(isDataView(runInNewContext('0'))).toBe(false);
+    expect(isDataView(runInNewContext('false'))).toBe(false);
+    expect(isDataView(runInNewContext('null'))).toBe(false);
+    expect(isDataView(runInNewContext('undefined'))).toBe(false);
+    expect(isDataView(runInNewContext('new ArrayBuffer(8)'))).toBe(false);
   });
 });

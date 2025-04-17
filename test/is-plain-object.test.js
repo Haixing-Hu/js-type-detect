@@ -45,5 +45,18 @@ describe('Test the `isPlainObject()` function', () => {
 
   test('should works across realms', () => {
     expect(isPlainObject(runInNewContext('({})'))).toBe(true);
+    expect(isPlainObject(runInNewContext('({foo: "bar"})'))).toBe(true);
+    expect(isPlainObject(runInNewContext('Object.create(null)'))).toBe(true);
+    expect(isPlainObject(runInNewContext('new Object()'))).toBe(true);
+    expect(isPlainObject(runInNewContext('[]'))).toBe(false);
+    expect(isPlainObject(runInNewContext('new Date()'))).toBe(false);
+    expect(isPlainObject(runInNewContext('new Map()'))).toBe(false);
+    expect(isPlainObject(runInNewContext('new Set()'))).toBe(false);
+    expect(isPlainObject(runInNewContext('Math'))).toBe(false);
+    expect(isPlainObject(runInNewContext('class Unicorn {}; new Unicorn()'))).toBe(false);
+    expect(isPlainObject(runInNewContext('0'))).toBe(false);
+    expect(isPlainObject(runInNewContext('false'))).toBe(false);
+    expect(isPlainObject(runInNewContext('null'))).toBe(false);
+    expect(isPlainObject(runInNewContext('undefined'))).toBe(false);
   });
 });

@@ -6,11 +6,12 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isGenerator } from '../src';
+import { runInNewContext } from 'node:vm';
 import {
+  isGenerator,
   ASYNC_FUNCTION_EXISTS,
   SYMBOL_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /**
  * Unit test of the `isGenerator()` function.
@@ -85,5 +86,38 @@ describe('Test the `isGenerator()` function', () => {
   });
   it('returns false for undefined', () => {
     expect(isGenerator(undefined)).toBe(false);
+  });
+  
+  test('should works across realms', () => {
+    expect(isGenerator(runInNewContext(`
+      (function* () {
+        yield 'a';
+        yield 'b';
+      })()
+    `))).toBe(true);
+    
+    expect(isGenerator(runInNewContext(`
+      function* gen() {
+        yield 'a';
+        yield 'b';
+      }
+      gen
+    `))).toBe(false);
+    
+    if (ASYNC_FUNCTION_EXISTS) {
+      expect(isGenerator(runInNewContext(`
+        (async function* () {
+          yield await Promise.resolve('a');
+          yield await Promise.resolve('b');
+        })()
+      `))).toBe(true);
+    }
+    
+    expect(isGenerator(runInNewContext('{}'))).toBe(false);
+    expect(isGenerator(runInNewContext('[]'))).toBe(false);
+    expect(isGenerator(runInNewContext('0'))).toBe(false);
+    expect(isGenerator(runInNewContext('false'))).toBe(false);
+    expect(isGenerator(runInNewContext('null'))).toBe(false);
+    expect(isGenerator(runInNewContext('undefined'))).toBe(false);
   });
 });

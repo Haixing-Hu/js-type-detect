@@ -6,8 +6,9 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isIterator } from '../src';
+import { runInNewContext } from 'node:vm';
 import {
+  isIterator,
   MAP_ITERATOR_EXISTS,
   SET_ITERATOR_EXISTS,
   ARRAY_ITERATOR_EXISTS,
@@ -15,7 +16,7 @@ import {
   STRING_ITERATOR_EXISTS,
   REGEXP_ITERATOR_EXISTS,
   INTL_SEGMENTER_ITERATOR_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -95,5 +96,31 @@ describe('Test the `isIterator()` function', () => {
   test('nullish values', () => {
     expect(isIterator(null)).toBe(false);
     expect(isIterator(undefined)).toBe(false);
+  });
+  
+  test('should works across realms', () => {
+    if (ARRAY_ITERATOR_EXISTS) {
+      expect(isIterator(runInNewContext('[1, 2, 3].values()'))).toBe(true);
+      expect(isIterator(runInNewContext('[1, 2, 3][Symbol.iterator]()'))).toBe(true);
+    }
+    if (MAP_ITERATOR_EXISTS) {
+      expect(isIterator(runInNewContext('new Map().entries()'))).toBe(true);
+      expect(isIterator(runInNewContext('new Map().keys()'))).toBe(true);
+      expect(isIterator(runInNewContext('new Map().values()'))).toBe(true);
+    }
+    if (SET_ITERATOR_EXISTS) {
+      expect(isIterator(runInNewContext('new Set().entries()'))).toBe(true);
+      expect(isIterator(runInNewContext('new Set().values()'))).toBe(true);
+    }
+    if (STRING_ITERATOR_EXISTS) {
+      expect(isIterator(runInNewContext('"hello"[Symbol.iterator]()'))).toBe(true);
+    }
+    
+    expect(isIterator(runInNewContext('{}'))).toBe(false);
+    expect(isIterator(runInNewContext('[]'))).toBe(false);
+    expect(isIterator(runInNewContext('0'))).toBe(false);
+    expect(isIterator(runInNewContext('false'))).toBe(false);
+    expect(isIterator(runInNewContext('null'))).toBe(false);
+    expect(isIterator(runInNewContext('undefined'))).toBe(false);
   });
 });

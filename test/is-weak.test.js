@@ -55,5 +55,13 @@ describe('Test the `isWeak()` function', () => {
     expect(isWeak(runInNewContext('new WeakSet()'))).toBe(true);
     expect(isWeak(runInNewContext('new WeakMap()'))).toBe(true);
     expect(isWeak(runInNewContext('x = {}; new WeakRef(x)'))).toBe(true);
+    expect(isWeak(runInNewContext('new Set()'))).toBe(false);
+    expect(isWeak(runInNewContext('new Map()'))).toBe(false);
+    expect(isWeak(runInNewContext('{}'))).toBe(false);
+    expect(isWeak(runInNewContext('[]'))).toBe(false);
+    expect(isWeak(runInNewContext('0'))).toBe(false);
+    expect(isWeak(runInNewContext('false'))).toBe(false);
+    expect(isWeak(runInNewContext('null'))).toBe(false);
+    expect(isWeak(runInNewContext('undefined'))).toBe(false);
   });
 });

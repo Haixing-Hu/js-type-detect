@@ -6,11 +6,12 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isError } from '../src';
+import { runInNewContext } from 'node:vm';
 import {
+  isError,
   AGGREGATEERROR_EXISTS,
   INTERNALERROR_EXISTS,
-} from '../src/feature-detect';
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -67,5 +68,16 @@ describe('Test the `isError()` function', () => {
   test('nullish values', () => {
     expect(isError(null)).toBe(false);
     expect(isError(undefined)).toBe(false);
+  });
+  test('should works across realms', () => {
+    expect(isError(runInNewContext('new Error()'))).toBe(true);
+    expect(isError(runInNewContext('new TypeError("test")'))).toBe(true);
+    expect(isError(runInNewContext('new SyntaxError("test")'))).toBe(true);
+    expect(isError(runInNewContext('{}'))).toBe(false);
+    expect(isError(runInNewContext('[]'))).toBe(false);
+    expect(isError(runInNewContext('0'))).toBe(false);
+    expect(isError(runInNewContext('false'))).toBe(false);
+    expect(isError(runInNewContext('null'))).toBe(false);
+    expect(isError(runInNewContext('undefined'))).toBe(false);
   });
 });

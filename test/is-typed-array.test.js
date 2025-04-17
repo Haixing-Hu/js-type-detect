@@ -112,5 +112,12 @@ describe('Test the `isTypedArray()` function', () => {
     expect(isTypedArray(runInNewContext('new BigUint64Array(2)'))).toBe(true);
     expect(isTypedArray(runInNewContext('new Float32Array(2)'))).toBe(true);
     expect(isTypedArray(runInNewContext('new Float64Array(2)'))).toBe(true);
+    expect(isTypedArray(runInNewContext('{}'))).toBe(false);
+    expect(isTypedArray(runInNewContext('[]'))).toBe(false);
+    expect(isTypedArray(runInNewContext('new ArrayBuffer(8)'))).toBe(false);
+    expect(isTypedArray(runInNewContext('0'))).toBe(false);
+    expect(isTypedArray(runInNewContext('false'))).toBe(false);
+    expect(isTypedArray(runInNewContext('null'))).toBe(false);
+    expect(isTypedArray(runInNewContext('undefined'))).toBe(false);
   });
 });

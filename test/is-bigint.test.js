@@ -14,7 +14,7 @@ import { isBigInt, SYMBOL_EXISTS } from '../src';
  *
  * @author Haixing Hu
  */
-describe('Test the `isString()` function', () => {
+describe('Test the `isBigInt()` function', () => {
   it('returns true for a bigint', () => {
     expect(isBigInt(123n)).toBe(true);
   });

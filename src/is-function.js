@@ -17,7 +17,25 @@
  * @author Haixing Hu
  */
 function isFunction(value) {
-  return (typeof value === 'function');
+  // 直接类型检查，最常见的情况
+  if (typeof value === 'function') {
+    return true;
+  }
+  
+  // 处理空值
+  if (value === null || value === undefined) {
+    return false;
+  }
+  
+  try {
+    // 跨realm检测
+    const type = Object.prototype.toString.call(value);
+    return type === '[object Function]' 
+        || type === '[object AsyncFunction]'
+        || type === '[object GeneratorFunction]';
+  } catch (e) {
+    return false;
+  }
 }
 
 export default isFunction;

@@ -6,8 +6,11 @@
 //    All rights reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////
-import { isCssom } from '../src';
-import { FONT_FACE_EXISTS } from '../src/feature-detect';
+import { runInNewContext } from 'node:vm';
+import {
+  isCssom,
+  FONT_FACE_EXISTS
+} from '../src';
 
 /* eslint-disable no-undef */
 
@@ -133,5 +136,15 @@ describe('Test the `isCssom()` function', () => {
       console.warn('window.screen is not supported in this environment');
       expect(true).toBe(true); // 如果环境不支持window.screen，测试将通过但不执行实际检查
     }
+  });
+
+  // 添加across realms测试
+  test('should works across realms for non-CSSOM objects', () => {
+    expect(isCssom(runInNewContext('{}'))).toBe(false);
+    expect(isCssom(runInNewContext('[]'))).toBe(false);
+    expect(isCssom(runInNewContext('0'))).toBe(false);
+    expect(isCssom(runInNewContext('false'))).toBe(false);
+    expect(isCssom(runInNewContext('null'))).toBe(false);
+    expect(isCssom(runInNewContext('undefined'))).toBe(false);
   });
 });

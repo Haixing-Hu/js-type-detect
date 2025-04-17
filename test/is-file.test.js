@@ -76,6 +76,12 @@ describe('Test the `isFile()` function', () => {
 
   test('should works across realms', () => {
     expect(isFile(runInNewContext('new WeakSet()'))).toBe(false);
+    expect(isFile(runInNewContext('{}'))).toBe(false);
+    expect(isFile(runInNewContext('[]'))).toBe(false);
+    expect(isFile(runInNewContext('0'))).toBe(false);
+    expect(isFile(runInNewContext('false'))).toBe(false);
+    expect(isFile(runInNewContext('null'))).toBe(false);
+    expect(isFile(runInNewContext('undefined'))).toBe(false);
     // FIXME: no File in vm
     // expect(isFile(runInNewContext('new File([\'\'], \'filename\')'))).toBe(true);
   });

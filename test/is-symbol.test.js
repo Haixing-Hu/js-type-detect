@@ -10,7 +10,7 @@ import { runInNewContext } from 'node:vm';
 import { isSymbol, SYMBOL_EXISTS } from '../src';
 
 /**
- * Unit test of the `isString()` function.
+ * Unit test of the `isSymbol()` function.
  *
  * @author Haixing Hu
  */
@@ -52,5 +52,14 @@ describe('Test the `isSymbol()` function', () => {
     expect(isSymbol(runInNewContext('new Set()'))).toBe(false);
     expect(isSymbol(runInNewContext('new Map()'))).toBe(false);
     expect(isSymbol(runInNewContext('Symbol(\'test\')'))).toBe(true);
+    expect(isSymbol(runInNewContext('{}'))).toBe(false);
+    expect(isSymbol(runInNewContext('[]'))).toBe(false);
+    expect(isSymbol(runInNewContext('0'))).toBe(false);
+    expect(isSymbol(runInNewContext('false'))).toBe(false);
+    expect(isSymbol(runInNewContext('null'))).toBe(false);
+    expect(isSymbol(runInNewContext('undefined'))).toBe(false);
+    if (SYMBOL_EXISTS) {
+      expect(isSymbol(runInNewContext('Symbol.for("test")'))).toBe(true);
+    }
   });
 });

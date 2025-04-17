@@ -56,5 +56,13 @@ describe('Test the `isCollection()` function', () => {
   test('should works across realms', () => {
     expect(isCollection(runInNewContext('new Set()'))).toBe(true);
     expect(isCollection(runInNewContext('new Map()'))).toBe(true);
+    expect(isCollection(runInNewContext('new WeakMap()'))).toBe(false);
+    expect(isCollection(runInNewContext('new WeakSet()'))).toBe(false);
+    expect(isCollection(runInNewContext('[]'))).toBe(false);
+    expect(isCollection(runInNewContext('{}'))).toBe(false);
+    expect(isCollection(runInNewContext('0'))).toBe(false);
+    expect(isCollection(runInNewContext('false'))).toBe(false);
+    expect(isCollection(runInNewContext('null'))).toBe(false);
+    expect(isCollection(runInNewContext('undefined'))).toBe(false);
   });
 });

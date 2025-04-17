@@ -19,7 +19,18 @@
  * @author Haixing Hu
  */
 function isError(value) {
-  return (value instanceof Error);
+  if (value === null || value === undefined) {
+    return false;
+  }
+  const type = Object.prototype.toString.call(value);
+  return type === '[object Error]'
+      || type === '[object EvalError]'
+      || type === '[object RangeError]'
+      || type === '[object ReferenceError]'
+      || type === '[object SyntaxError]'
+      || type === '[object TypeError]'
+      || type === '[object URIError]'
+      || type === '[object AggregateError]';
 }
 
 export default isError;
