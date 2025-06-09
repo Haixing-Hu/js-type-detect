@@ -1,6 +1,6 @@
 {
   "name": "@qubit-ltd/type-detect",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "A JavaScript library for detecting common types",
   "author": "Haixing Hu",
   "license": "Apache-2.0",
@@ -73,6 +73,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "babel-jest": "^29.7.0",
     "check-es-version": "^1.5.1",
+    "clean-jsdoc-theme": "^4.3.0",
     "core-js": "^3.41.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.1",
